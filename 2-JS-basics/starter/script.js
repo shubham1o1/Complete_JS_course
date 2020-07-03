@@ -548,3 +548,66 @@ for (var i = john.length - 1 ; i>= 0 ; i--){
     console.log(john[i]);
 }
 */
+
+/*******************************
+* CODING CHALLENGE 5
+*/
+
+/*
+var bill_info = {
+    bill : [124,48,268,180],
+    tips:[],
+    total : [],
+    calcTip: function(){
+        for(var i = 0; i<this.bill.length; i++){
+            if(this.bill[i]<50){
+                this.tips[i] = this.bill[i] * 0.2;
+            } else if(this.bill[i]>= 50 && this.bill[i] <= 200){
+                this.tips[i] = this.bill[i]*0.15;
+            } else{
+                this.tips[i] = this.bill[i]*0.1;
+            }
+            this.total[i] = this.tips[i] + this.bill[i];
+        }
+    }
+}
+
+bill_info.calcTip();
+console.log(bill_info.bill);
+console.log(bill_info.tips);
+console.log(bill_info.total);
+
+
+var marks_bill_info = {
+    bill : [77,375,110,45],
+    tips:[],
+    total : [],
+    calcTip: function(){
+        for(var i = 0; i<this.bill.length; i++){
+            if(this.bill[i]<100){
+                this.tips[i] = this.bill[i] * 0.1;
+            } else if(this.bill[i]>= 100 && this.bill[i] <= 300){
+                this.tips[i] = this.bill[i]*0.25;
+            } else{
+                this.tips[i] = this.bill[i]*0.3;
+            }
+            this.total[i] = this.tips[i] + this.bill[i];
+        }
+    }
+}
+
+function avgTips(tips){
+    var sum = 0;
+    for(var i = 0; i<tips.length; i++){
+        sum += tips[i];
+    }
+    return sum/tips.length;
+}
+
+marks_bill_info.calcTip()
+console.log('bills:' + marks_bill_info.bill);
+console.log('tips: ' + marks_bill_info.tips);
+console.log('total:' + marks_bill_info.total);
+
+console.log('average tip: '+avgTips(marks_bill_info.tips));
+*/

@@ -228,10 +228,13 @@ yearsUntilRetirement(1912, 'jane');
 ```
 
 ### Function expression and declaration: 
+- To declare a function, it must start with ```function name()```, just like a variable declaration must start with ```var```. 
+- A function declaration tells the JavaScript engine about a function’s name, return type, and parameters. 
 - Expression always yeilds some value
 ```js
-whatDoYouDo('teacher', 'John') // this function call is also an expression
-// because some immediate value is yielded it is an expression
+whatDoYouDo('teacher', 'John') 
+// this function call is also an expression
+// because some immediate value is yielded
 "John teaches kids how to code"
 
 ```
@@ -239,7 +242,7 @@ whatDoYouDo('teacher', 'John') // this function call is also an expression
 ```js
 
 //function declaration
-// function whatDoYouDo(jo, firstName) {}
+// function whatDoYouDo(jo, firstName) {...}
 
 //function expression
 var whatDoYouDo = function (job, firstName){
@@ -382,3 +385,8 @@ for (var i = john.length - 1 ; i>= 0 ; i--){
     console.log(john[i]);
 }
 ```
+
+### Javascript versions (ES5, ES6/ES2015 and ES6+)
+
+- ES 5 all browser support
+- ES 6 and + not all browser support
