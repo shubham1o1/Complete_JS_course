@@ -21,11 +21,15 @@ Person.prototype.calculateAge = function () {
   console.log(2020 - this.yearOfBirth);
 };
 
-// john object instantiation
+//object instantiation
 var john = new Person("John", 1990, "teacher");
-console.log(john.lastName);
-
-john.calculateAge();
-
 var jane = new Person("Jane", 1969, "Designer");
 var mark = new Person("Mark", 1948, "retired");
+
+john.calculateAge();
+jane.calculateAge();
+mark.calculateAge();
+
+console.log(john.lastName);
+console.log(jane.lastName);
+console.log(mark.lastName);

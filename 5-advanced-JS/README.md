@@ -162,3 +162,65 @@ Person.prototype.lastName = "Smith";
 var john = new Person("John", 1990, "teacher");
 console.log(john.lastName); // Smith
 ```
+
+## The Prototype Chain in the Console:
+
+### Checking prototype Chain in Browser:
+
+- Go to the console and type jane
+- Review for jane:
+
+```js
+var Person = function (name, yearOfBirth, job) {
+  this.name = name;
+  this.yearOfBirth = yearOfBirth;
+  this.job = job;
+};
+Person.prototype.lastName = "Smith";
+
+Person.prototype.calculateAge = function () {
+  console.log(2020 - this.yearOfBirth);
+};
+
+var jane = new Person("Jane", 1969, "Designer");
+```
+
+- What console showed:
+  ![prototype](notes-images/janeprototype.png)
+
+- Similarly for `Person.prototype` we have the following result:
+  ![person-prototype](notes-images/personprototype.png)
+
+- Also we can observe:
+
+```console
+john.__proto__ === Person.prototype
+true
+```
+
+- prototype of john is the prototype of Person function constructor
+- We can also observe the proto inside of proto which is the prototype of Object object which is ancestor of all other objects.
+- SO we can also use the object's methods
+
+### Testing object functions:
+
+```console
+john.hasOwnProperty('job')
+true
+john.hasOwnProperty('lastName')
+false
+
+john instanceof Person
+true
+```
+
+- here lastName is not john's own property so it is false
+- job is john own property so `hasOwnProperty` returns true
+- instanceof operator checks whether john is person's instance
+
+### Almost everything is an object:
+
+- Checking out arrays as an object:
+  ![array as an object](notes-images/arrayasobject.png)
+- We can see all the methods and properties of array data type here. We can also see parent prototype formed with a prototype chain.
+- All these methods of Arrays are stored in their prototype.
