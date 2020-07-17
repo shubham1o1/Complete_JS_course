@@ -74,3 +74,91 @@ var jane = {
 - The prototype property of an object is where we put methods and properties that we want other objects to inherit;
 - The Constructor’s prototype property is NOT the prototype of the Constructor itself, it’s the prototype of ALL instances that are created through it;
 - When a certain method (or property) is called, the search starts in the object itself, and if it cannot be found, the search moves on to the object’s prototype. This con&nues un&l the method is found: prototype chain.
+
+## Creating Objects Function Constructors:
+
+### Using a function Constructor to create a blueprint:
+
+```js
+//function constructor
+var Person = function (name, yearOfBirth, job) {
+  this.name = name;
+  this.yearOfBirth = yearOfBirth;
+  this.job = job;
+};
+
+// john object instantiation
+var john = new Person("John", 1990, "teacher");
+```
+
+#### Process (The Legend of new operator :D ) :
+
+- `new` operator creates a brand new empty object.
+- then Constructor function ( Person in our case) is called
+- Calling a function creates a new executioin context which also has a this variable.
+- In regular function call the this variable points to the global object, so the new operator takes care of that and creates a this variable that points to a new empty object.
+- When we set the name, birth and job properties that is similar to setting them right on our new empty object.
+- If the constructor doesn't return anything then the result is an empty object created by new operator that is assigned to the variable.
+- Finally the this variable is able to assign the value to the object that we instantiated.
+
+### Adding function to the constructor:
+
+```js
+var Person = function (name, yearOfBirth, job) {
+  this.name = name;
+  this.yearOfBirth = yearOfBirth;
+  this.job = job;
+  this.calculateAge = function () {
+    console.log(2020 - this.yearOfBirth);
+  };
+};
+
+// john object instantiation
+var john = new Person("John", 1990, "teacher");
+
+john.calculateAge();
+```
+
+- logs `30`
+
+### Adding other objects:
+
+```console
+> jane
+> Person {name: "Jane", yearOfBirth: 1969, job: "Designer", calculateAge: ƒ}
+> jane.calculateAge()
+> script.js:14 51
+```
+
+### Inheritance :
+
+- All the methods and properties that have to inherited should be added in prototype property.
+- This is how we do it :
+
+```js
+var Person = function (name, yearOfBirth, job) {
+  this.name = name;
+  this.yearOfBirth = yearOfBirth;
+  this.job = job;
+  // this.calculateAge = function () {
+  //   console.log(2020 - this.yearOfBirth);
+  // };
+};
+
+Person.prototype.calculateAge = function () {
+  console.log(2020 - this.yearOfBirth);
+};
+
+// john object instantiation
+var john = new Person("John", 1990, "teacher");
+
+john.calculateAge(); // 30
+```
+
+- Although it is not that common, we can also add properties to prototype
+
+```js
+Person.prototype.lastName = "Smith";
+var john = new Person("John", 1990, "teacher");
+console.log(john.lastName); // Smith
+```
