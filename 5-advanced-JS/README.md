@@ -224,3 +224,56 @@ true
   ![array as an object](notes-images/arrayasobject.png)
 - We can see all the methods and properties of array data type here. We can also see parent prototype formed with a prototype chain.
 - All these methods of Arrays are stored in their prototype.
+
+## Creating Objects with Object.create method
+
+- Another way to create object that inherit from the prototype using `Object.create` method will be discussed here.
+- We'll first define an object that will later act as a prototype for creating new object.
+
+### Here is the example code:
+
+```js
+var personProto = {
+  calculateAge: function () {
+    console.log(2020 - this.yearOfBirth);
+  },
+};
+
+var john = Object.create(personProto);
+john.name = "John";
+john.yearOfBirth = 2001;
+john.job = "teacher";
+```
+
+#### Person Prototype:
+
+![object create prototype person](notes-images/personProto.png)
+
+#### John Prototype:
+
+![object create prototype john](notes-images/johnproto.png)
+
+### Alternative way of creating property:
+
+- We pass value in a rather eccentric way as a second argument to the create function.
+- value (key) and value literal pair is passed
+
+```js
+var jane = Object.create(personProto, {
+  name: { value: "Jane" },
+  yearOfBirth: { value: 1969 },
+  job: { value: "designer" },
+});
+```
+
+#### Difference between john and jane:
+
+![John and Jane](notes-images/jnj.png)
+
+- As we can see, john and jane may have different approaches, but their prototype is same.
+
+### Difference between object.create and function constructor:
+
+- Former creates an object that inherits directly from the prototype that we pass into the first argument.
+- The latter is a constructor with a prototype property which the new object inherits.
+- One benefit of Object.create is that we can explicitly specify which object we are going to inherit.
