@@ -58,7 +58,7 @@ var jane = Object.create(personProto, {
 
 /////////////////////////////////////////////////////////////////
 //////////////////   Primitives vs objects   ////////////////////
-
+/*
 // Primitives
 var a = 23;
 var b = a;
@@ -93,3 +93,50 @@ function change(a, b) {
 change(age, obj);
 console.log(age); // 27
 console.log(obj.city); // San Francisco
+*/
+
+/////////////////////////////////////////////////////////////////
+//         Functions are also Objects in JavaScript            //
+/////////////////////////////////////////////////////////////////
+
+var years = [1990, 1966, 1937, 2005, 1998];
+
+// Generic Function
+function arrayCalc(arr, fn) {
+  var arrResult = [];
+  for (var i = 0; i < arr.length; i++) {
+    arrResult.push(fn(arr[i]));
+  }
+  return arrResult;
+}
+
+// Callback functions : passed as argument to general function
+function calculateAge(el) {
+  return 2020 - el;
+}
+
+function isFullAge(el) {
+  return el >= 18;
+}
+
+function maxHeartRate(el) {
+  if (el >= 18 && el <= 81) {
+    return Math.round(206.9 - 0.67 * el);
+  } else {
+    return -1;
+  }
+}
+
+console.log(years); // (5) [1990, 1966, 1937, 2005, 1998]
+
+// Calculating the age with arrayCalc and calculateAge
+ageArr = arrayCalc(years, calculateAge);
+console.log(ageArr); // (5) [30, 54, 83, 15, 22]
+
+// Calculating the age with arrayCalc and isFullAge
+var fullAges = arrayCalc(ageArr, isFullAge);
+console.log(fullAges); // (5) [true, true, true, false, true]
+
+// Calculating the age with arrayCalc and maxHeartRate
+var rates = arrayCalc(ageArr, maxHeartRate);
+console.log(rates); // (5) [187, 171, -1, -1, 192]

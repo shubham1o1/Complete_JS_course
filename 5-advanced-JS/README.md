@@ -327,3 +327,66 @@ change(age, obj);
 console.log(age); // 27
 console.log(obj.city); // San Francisco
 ```
+
+## First Class Functions Passing Functions as Arguments:
+
+- Functions are also objects in JavaScript
+- With functions we can also do the same thing that we can do with objects
+
+### Functions are also Objects in JavaScript: (First Class Functions)
+
+- A function is an instance of the Object type;
+- A function behaves like any other object;
+- We can store functions in a variable;
+- We can pass a function as an argument to another function;
+- We can return a function from a function.
+
+### A demo exampe of passing function as an argument:
+
+- We want to perform calculation based on the value of the array:
+- We could write a huge calculation function or follow an alternative approach
+- We pass an array to a function and that function returns an array after calculation, but we also pass the function using which the called function must make the calculation:
+
+```js
+var years = [1990, 1966, 1937, 2005, 1998];
+
+// Generic Function
+function arrayCalc(arr, fn) {
+  var arrResult = [];
+  for (var i = 0; i < arr.length; i++) {
+    arrResult.push(fn(arr[i]));
+  }
+  return arrResult;
+}
+
+// Callback functions : passed as argument to general function
+function calculateAge(el) {
+  return 2020 - el;
+}
+
+function isFullAge(el) {
+  return el >= 18;
+}
+
+function maxHeartRate(el) {
+  if (el >= 18 && el <= 81) {
+    return Math.round(206.9 - 0.67 * el);
+  } else {
+    return -1;
+  }
+}
+
+console.log(years); // (5) [1990, 1966, 1937, 2005, 1998]
+
+// Calculating the age with arrayCalc and calculateAge
+ageArr = arrayCalc(years, calculateAge);
+console.log(ageArr); // (5) [30, 54, 83, 15, 22]
+
+// Calculating the age with arrayCalc and isFullAge
+var fullAges = arrayCalc(ageArr, isFullAge);
+console.log(fullAges); // (5) [true, true, true, false, true]
+
+// Calculating the age with arrayCalc and maxHeartRate
+var rates = arrayCalc(ageArr, maxHeartRate);
+console.log(rates); // (5) [187, 171, -1, -1, 192]
+```
