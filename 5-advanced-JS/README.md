@@ -277,3 +277,53 @@ var jane = Object.create(personProto, {
 - Former creates an object that inherits directly from the prototype that we pass into the first argument.
 - The latter is a constructor with a prototype property which the new object inherits.
 - One benefit of Object.create is that we can explicitly specify which object we are going to inherit.
+
+## Primitives vs Objects:
+
+- **Primitives**: Numbers, boolean, strings, undefined and null
+- Variable containing primitive hold the value inside the variable itself
+- Variable associated with the object do not contain the object but instead they contain reference to the place in the memory where the object sits/stored. Sort of like pointer
+
+### Example Code:
+
+```js
+var a = 23;
+var b = a;
+
+a = 46;
+console.log(a, b); // 46 23
+
+var obj1 = {
+  name: "john",
+  age: 26,
+};
+
+var obj2 = obj1;
+
+obj1.age = 30;
+
+console.log(obj1.age + " " + obj2.age); // 30 30
+```
+
+### With Function and its scope of an object:
+
+- When we pass primitive to a function a simple copy is created but when we pass a object, a reference is only passed.
+- Changing object inside changes its original value.
+
+```js
+// Functions
+var age = 27;
+var obj = {
+  name: "Jonas",
+  city: "Lisbon",
+};
+
+function change(a, b) {
+  a = 30;
+  b.city = "San Fransisco";
+}
+
+change(age, obj);
+console.log(age); // 27
+console.log(obj.city); // San Francisco
+```
