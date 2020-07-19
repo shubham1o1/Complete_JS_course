@@ -219,7 +219,7 @@ retirementUS(1990); // 36 years left until retirement.
 retirementGermany(1990); // 35 years left until retirement.
 retirementIceland(1990); // 37 years left until retirement.
 
-*/
+
 
 ///---ASSIGNMENT(Section 9's Function in new way, only one inner function)---///
 
@@ -243,3 +243,113 @@ var teacherQuestion = interviewQuestion("teacher");
 teacherQuestion("jane"); // What subject do you teach jane ?
 
 interviewQuestion("designer")("mark"); //mark can you please explain what UX design is?
+*/
+
+/////////////////////////////////////////////////////////////////
+//                   Bind, Call and Apply                      //
+/////////////////////////////////////////////////////////////////
+
+var john = {
+  name: "John",
+  age: 28,
+  job: "teacher",
+  presentation: function (style, timeOfDay) {
+    if (style === "formal") {
+      console.log(
+        "Good " +
+          timeOfDay +
+          ", Ladies and gentlemen! I'm " +
+          this.name +
+          ", I'm a " +
+          this.job +
+          " and I'm " +
+          this.age +
+          " years old."
+      );
+    } else if (style === "friendly") {
+      console.log(
+        "Hey! What's up? I'm " +
+          this.name +
+          ", I'm a " +
+          this.job +
+          " and I'm " +
+          this.age +
+          " years old. Have a nice " +
+          timeOfDay +
+          "."
+      );
+    }
+  },
+};
+
+var emily = {
+  name: "Emily",
+  age: 35,
+  job: "designer",
+};
+
+john.presentation("formal", "morning"); // Good morning, Ladies and gentlemen! I'm John, I'm a teacher and I'm 28 years old.
+
+john.presentation.call(emily, "friendly", "afternoon"); // Hey! What's up? I'm Emily, I'm a designer and I'm 35 years old. Have a nice afternoon.
+
+john.presentation("formal", "evening"); // Good evening, Ladies and gentlemen! I'm John, I'm a teacher and I'm 28 years old.
+
+john.presentation.apply(emily, ["friendly", "afternoon"]); // Hey! What's up? I'm Emily, I'm a designer and I'm 35 years old. Have a nice afternoon.
+
+// bind method:
+
+// Not setting timeofday
+var johnFriendly = john.presentation.bind(john, "friendly");
+
+// setting the remaining argument:
+johnFriendly("morning"); // Hey! What's up? I'm John, I'm a teacher and I'm 28 years old. Have a nice morning.
+
+johnFriendly("night"); // Hey! What's up? I'm John, I'm a teacher and I'm 28 years old. Have a nice night.
+
+var emilyFormal = john.presentation.bind(emily, "formal");
+emilyFormal("evening"); // Good evening, Ladies and gentlemen! I'm Emily, I'm a designer and I'm 35 years old.
+
+//
+//
+////
+//////
+////////
+///////////
+//////////
+
+// Real life eg for bind:
+var years = [1990, 1966, 1937, 2005, 1998];
+
+// Generic Function
+function arrayCalc(arr, fn) {
+  var arrResult = [];
+  for (var i = 0; i < arr.length; i++) {
+    arrResult.push(fn(arr[i]));
+  }
+  return arrResult;
+}
+
+// Callback functions : passed as argument to general function
+function calculateAge(el) {
+  return 2020 - el;
+}
+
+// function isFullAge(el) {
+//   return el >= 18;
+// }
+
+// we want to create a variable full age
+function isFullAge(limit, el) {
+  return el >= limit;
+}
+
+var ages = arrayCalc(years, calculateAge);
+
+// isFullAge has two arguments but arrayCalc can use it with only one argument as fn function is called with only one argument.
+
+// soln: pass fullAge with limit already preset using bind
+
+var fullAgeJapan = arrayCalc(ages, isFullAge.bind(this, 20));
+// arrayCalc gets a copy of the fullAge function with this as this and 20 as limit
+console.log(ages); // (5) [30, 54, 83, 15, 22]
+console.log(fullAgeJapan); //(5) [true, true, true, false, true]

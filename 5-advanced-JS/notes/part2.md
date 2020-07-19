@@ -239,3 +239,106 @@ interviewQuestion("designer")("mark"); //mark can you please explain what UX des
 
 - `interviewQuestion("designer");` returns an anonynomous function and assigns to `designerQuestion`.
 - We call `designerQuestion` with "john" argument. And then the execution context will close in over the variable object of the function that we had before. It will close in the variable(`job`) that we defined in the parent function.
+
+## Bind, Call and Apply methods:
+
+- Function are special objects and just like array object, function also get a set of method which they inherit from function constructor object.
+- These method allow us to call a function and set the `this` variable manually
+
+### A Simple Example:
+
+```js
+var john = {
+  name: "John",
+  age: 28,
+  job: "teacher",
+  presentation: function (style, timeOfDay) {
+    if (style === "formal") {
+      console.log(
+        "Good " +
+          timeOfDay +
+          ", Ladies and gentlemen! I'm " +
+          this.name +
+          ", I'm a " +
+          this.job +
+          " and I'm " +
+          this.age +
+          " years old."
+      );
+    } else if (style === "friendly") {
+      console.log(
+        "Hey! What's up? I'm " +
+          this.name +
+          ", I'm a " +
+          this.job +
+          " and I'm " +
+          this.age +
+          " years old. Have a nice " +
+          timeOfDay +
+          "."
+      );
+    }
+  },
+};
+
+var emily = {
+  name: "Emily",
+  age: 35,
+  job: "designer",
+};
+
+john.presentation("formal", "morning"); // Good morning, Ladies and gentlemen! I'm John, I'm a teacher and I'm 28 years old.
+```
+
+- Suppose we want to call presentation method for emily. How do we do that? You use the `call()` method.
+- the first argument of the call method is always to set the **this** variable.
+
+```js
+john.presentation.call(emily, "friendly", "afternoon"); // Hey! What's up? I'm Emily, I'm a designer and I'm 35 years old. Have a nice afternoon.
+```
+
+- SO now the this variable in presentation function will point to emily and the this.job in presentation will be the value of emily's job and not john's job.
+
+- **This is called method borrowing**, we borrowed john's method and set the this variable of presentation function to point to the emily object.
+- When you again call the method, this is switched to john:
+
+```js
+john.presentation("formal", "evening"); // Good evening, Ladies and gentlemen! I'm John, I'm a teacher and I'm 28 years old.
+```
+
+### The apply method:
+
+- Accepts Argument as an array, otherwise similar to call method.
+- there are only two arguments : this and array(of arguments)
+
+```js
+john.presentation.apply(emily, ["friendly", "afternoon"]); // Hey! What's up? I'm Emily, I'm a designer and I'm 35 years old. Have a nice afternoon.
+```
+
+- With the `apply()` method, you can write a method that can be used on different objects.
+
+### The bind method:
+
+- Also allows us to set the this variables explicitly
+- Bind doesn't immediately call a function but creates a copy of the function that we can store somewhere.
+- It can be extremely useful to create functions with preset arguments.
+
+```js
+// Not setting timeofday
+var johnFriendly = john.presentation.bind(john, "friendly");
+
+// setting the remaining argument:
+johnFriendly("morning");
+
+johnFriendly("night"); // Hey! What's up? I'm John, I'm a teacher and I'm 28 years old. Have a nice night.
+```
+
+#### Carrying:
+
+- Process of pre-setting arguments
+- Bind lets us do that.
+
+```js
+var emilyFormal = john.presentation.bind(emily, "formal");
+emilyFormal("evening"); // Good evening, Ladies and gentlemen! I'm Emily, I'm a designer and I'm 35 years old.
+```
