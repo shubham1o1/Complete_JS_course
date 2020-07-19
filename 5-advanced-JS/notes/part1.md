@@ -327,3 +327,5 @@ change(age, obj);
 console.log(age); // 27
 console.log(obj.city); // San Francisco
 ```
+
+## Here's the link to part 2: [part 2 link](part2.md)
