@@ -146,7 +146,7 @@ console.log(rates); // (5) [187, 171, -1, -1, 192]
 /////////////////////////////////////////////////////////////////
 //         First Class Functions returning Functions           //
 /////////////////////////////////////////////////////////////////
-
+/*
 function interviewQuestion(job) {
   if (job == "designer") {
     // anonynomous function (doesn't have name)
@@ -172,3 +172,74 @@ var designerQuestion = interviewQuestion("designer");
 designerQuestion("john"); // john, can you please explain what UX design is?
 
 interviewQuestion("teacher")("Mark"); //What subject do you teach Mark ?
+
+*/
+
+/////////////////////////////////////////////////////////////////
+//      Immediately Invoked Function Expressioins (IIFE):      //
+/////////////////////////////////////////////////////////////////
+/*
+function game() {
+  var score = Math.random() * 10;
+  console.log(score >= 5);
+}
+game(); //true
+
+(function () {
+  var score = Math.random() * 10;
+  console.log(score >= 5);
+})(); // true
+
+// console.log(score);
+// script.js:193 Uncaught ReferenceError: score is not defined
+
+(function (goodluck) {
+  var score = Math.random() * 10;
+  console.log(score >= 5 - goodluck);
+})(5); // true
+*/
+
+/////////////////////////////////////////////////////////////////
+//                          CLOSURES                           //
+/////////////////////////////////////////////////////////////////
+/*
+function retirement(retirementAge) {
+  var a = " years left until retirement.";
+  return function (yearOfBirth) {
+    var age = 2020 - yearOfBirth;
+    console.log(retirementAge - age + a);
+  };
+}
+
+var retirementUS = retirement(66);
+var retirementGermany = retirement(65);
+var retirementIceland = retirement(67);
+
+retirementUS(1990); // 36 years left until retirement.
+retirementGermany(1990); // 35 years left until retirement.
+retirementIceland(1990); // 37 years left until retirement.
+
+*/
+
+///---ASSIGNMENT(Section 9's Function in new way, only one inner function)---///
+
+function interviewQuestion(job) {
+  return function (name) {
+    if (job === "teacher") {
+      console.log("What subject do you teach " + name + " ?");
+    } else if (job === "designer") {
+      console.log(name + ", can you please explain what UX design is?");
+    } else {
+      console.log("Hello " + name + ", what do you do?");
+    }
+  };
+}
+
+// this variable is now a function, similar to function expression
+var designerQuestion = interviewQuestion("designer");
+designerQuestion("john"); // john can you please explain what UX design is?
+
+var teacherQuestion = interviewQuestion("teacher");
+teacherQuestion("jane"); // What subject do you teach jane ?
+
+interviewQuestion("designer")("mark"); //mark can you please explain what UX design is?
