@@ -96,9 +96,10 @@ console.log(obj.city); // San Francisco
 */
 
 /////////////////////////////////////////////////////////////////
-//         Functions are also Objects in JavaScript            //
+//    First Class Functions Passing Functions as Arguments     //
 /////////////////////////////////////////////////////////////////
 
+/*
 var years = [1990, 1966, 1937, 2005, 1998];
 
 // Generic Function
@@ -140,3 +141,34 @@ console.log(fullAges); // (5) [true, true, true, false, true]
 // Calculating the age with arrayCalc and maxHeartRate
 var rates = arrayCalc(ageArr, maxHeartRate);
 console.log(rates); // (5) [187, 171, -1, -1, 192]
+*/
+
+/////////////////////////////////////////////////////////////////
+//         First Class Functions returning Functions           //
+/////////////////////////////////////////////////////////////////
+
+function interviewQuestion(job) {
+  if (job == "designer") {
+    // anonynomous function (doesn't have name)
+    return function (name) {
+      console.log(name + ", can you please explain what UX design is?");
+    };
+  } else if (job == "teacher") {
+    return function (name) {
+      console.log("What subject do you teach " + name + " ?");
+    };
+  } else {
+    return function (name) {
+      console.log("Hello " + name + ", what do you do?");
+    };
+  }
+}
+
+// this variable is now a function, similar to function expression
+var teacherQuestion = interviewQuestion("teacher");
+teacherQuestion("john"); // What subject do you teach john ?
+
+var designerQuestion = interviewQuestion("designer");
+designerQuestion("john"); // john, can you please explain what UX design is?
+
+interviewQuestion("teacher")("Mark"); //What subject do you teach Mark ?

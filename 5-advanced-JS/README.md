@@ -390,3 +390,45 @@ console.log(fullAges); // (5) [true, true, true, false, true]
 var rates = arrayCalc(ageArr, maxHeartRate);
 console.log(rates); // (5) [187, 171, -1, -1, 192]
 ```
+
+## First Class Functions Returning Functions:
+
+- We are going to create a function that creates different sets of questio for different jobs.
+- For each job we'll return a function that builds string using the person's name as an input.
+
+```js
+function interviewQuestion(job) {
+  if (job == "designer") {
+    // anonynomous function (doesn't have name)
+    return function (name) {
+      console.log(name + ", can you please explain what UX design is?");
+    };
+  } else if (job == "teacher") {
+    return function (name) {
+      console.log("What subject do you teach " + name + " ?");
+    };
+  } else {
+    return function (name) {
+      console.log("Hello " + name + ", what do you do?");
+    };
+  }
+}
+
+// this variable is now a function, similar to function expression
+var teacherQuestion = interviewQuestion("teacher");
+teacherQuestion(); // What subject do you teach john ?
+
+var designerQuestion = interviewQuestion("designer");
+designerQuestion("john"); // john, can you please explain what UX design is?
+```
+
+- This is possible because first class function are objects and we are returning an object
+
+### Alternate way:
+
+```js
+interviewQuestion("teacher")("Mark"); //What subject do you teach Mark ?
+```
+
+- this works because it is evaluated from left to right.
+- interviewQuestion creates An anonymous function for teacher and it is called with an argument of mark
