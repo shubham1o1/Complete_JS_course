@@ -1,5 +1,7 @@
 # Part 2:
 
+link to part 1: [part 1](part1.md)
+
 ## First Class Functions Passing Functions as Arguments:
 
 - Functions are also objects in JavaScript
@@ -183,7 +185,8 @@ retirement(66)(1990); // 36 years left until retirement.
 
 - An inner function always has access to the variables and parameters of its outer function, even after the outer function has returned.
 - Working:
-  ![closure mechanism](notes-images/closuresworking.png)
+
+![closure mechanism](notes-images/closuresworking.png)
 
 - Since the inner function is still in stack it's parent function Variable Object remains in the scope chain long after the parent function has completed its execution.
 - The current execution context has closed-in on the outer variable object, so it can use it. That is why it is called closure.
@@ -319,7 +322,7 @@ john.presentation.apply(emily, ["friendly", "afternoon"]); // Hey! What's up? I'
 
 ### The bind method:
 
-- Also allows us to set the this variables explicitly
+- Also allows us to set the `this` variables explicitly
 - Bind doesn't immediately call a function but creates a copy of the function that we can store somewhere.
 - It can be extremely useful to create functions with preset arguments.
 
@@ -342,3 +345,5 @@ johnFriendly("night"); // Hey! What's up? I'm John, I'm a teacher and I'm 28 yea
 var emilyFormal = john.presentation.bind(emily, "formal");
 emilyFormal("evening"); // Good evening, Ladies and gentlemen! I'm Emily, I'm a designer and I'm 35 years old.
 ```
+
+- **Preseting Argument** : When setting less argument than required, it is set in the order from left to right.

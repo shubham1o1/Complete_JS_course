@@ -95,7 +95,7 @@ var john = new Person("John", 1990, "teacher");
 
 - `new` operator creates a brand new empty object.
 - then Constructor function ( Person in our case) is called
-- Calling a function creates a new executioin context which also has a this variable.
+- Calling a function creates a new execution context which also has a this variable.
 - In regular function call the this variable points to the global object, so the new operator takes care of that and creates a this variable that points to a new empty object.
 - When we set the name, birth and job properties that is similar to setting them right on our new empty object.
 - If the constructor doesn't return anything then the result is an empty object created by new operator that is assigned to the variable.
@@ -121,18 +121,22 @@ john.calculateAge();
 
 - logs `30`
 
+- Checking in browser :
+
+![john prototype](notes-images/johnprototype.png)
+
 ### Adding other objects:
 
 ```console
 > jane
 > Person {name: "Jane", yearOfBirth: 1969, job: "Designer", calculateAge: ƒ}
 > jane.calculateAge()
-> script.js:14 51
+> 51
 ```
 
 ### Inheritance :
 
-- All the methods and properties that have to inherited should be added in prototype property.
+- All the methods and properties that can be inherited should be added in prototype property.
 - This is how we do it :
 
 ```js
@@ -186,10 +190,12 @@ var jane = new Person("Jane", 1969, "Designer");
 ```
 
 - What console showed:
-  ![prototype](notes-images/janeprototype.png)
+
+![prototype](notes-images/janeprototype.png)
 
 - Similarly for `Person.prototype` we have the following result:
-  ![person-prototype](notes-images/personprototype.png)
+
+![person-prototype](notes-images/personprototype.png)
 
 - Also we can observe:
 
@@ -221,7 +227,9 @@ true
 ### Almost everything is an object:
 
 - Checking out arrays as an object:
+
   ![array as an object](notes-images/arrayasobject.png)
+
 - We can see all the methods and properties of array data type here. We can also see parent prototype formed with a prototype chain.
 - All these methods of Arrays are stored in their prototype.
 

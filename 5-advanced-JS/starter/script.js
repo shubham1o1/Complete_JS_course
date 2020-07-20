@@ -248,7 +248,7 @@ interviewQuestion("designer")("mark"); //mark can you please explain what UX des
 /////////////////////////////////////////////////////////////////
 //                   Bind, Call and Apply                      //
 /////////////////////////////////////////////////////////////////
-
+/*
 var john = {
   name: "John",
   age: 28,
@@ -353,3 +353,76 @@ var fullAgeJapan = arrayCalc(ages, isFullAge.bind(this, 20));
 // arrayCalc gets a copy of the fullAge function with this as this and 20 as limit
 console.log(ages); // (5) [30, 54, 83, 15, 22]
 console.log(fullAgeJapan); //(5) [true, true, true, false, true]
+*/
+
+/////////////////////////////////////////////////////////////////
+//                    Coding Challenge 7                       //
+/////////////////////////////////////////////////////////////////
+/*
+(function () {
+  var score = 0;
+  var Question = function (question, answer, correctanswer) {
+    this.question = question;
+    this.answer = answer;
+    this.correctanswer = correctanswer;
+    this.logQuestions = function () {
+      console.log(question);
+      for (var i = 0; i < this.answer.length; i++) {
+        console.log(i + 1 + ". " + this.answer[i]);
+      }
+      var userchoice = parsInt(prompt("Enter the answer"));
+      this.checkanswer(userchoice);
+    };
+    this.checkanswer = function (userchoice) {
+      if (userchoice == this.correctanswer) {
+        console.log("Correct!");
+        score++;
+        console.log("Score: " + score);
+        askQuestion(questionset);
+      } else if (userchoice === "exit") {
+        console.log("thanks! your score : " + score);
+        score = 0;
+      } else {
+        console.log("Wrong! your score : " + score);
+        askQuestion(questionset);
+      }
+    };
+  };
+
+  var nameQuestion = new Question(
+    "What is the teacher's name?",
+    ["John", "Mary", "Jane", "Jonas"],
+    4
+  );
+
+  var buddhaQuestion = new Question(
+    "Where was buddha Born?",
+    ["Lumbini", "Gaya", "Solu", "Deonia"],
+    1
+  );
+  var everestQuestion = new Question(
+    "Where is Mt. Everest?",
+    ["Lumbini", "Gaya", "Solu", "Deonia"],
+    3
+  );
+  var shubhamQuestion = new Question(
+    "Where did shubham study?",
+    ["Lumbini", "Gaya", "Solu", "Deonia"],
+    4
+  );
+
+  var questionset = [
+    nameQuestion,
+    buddhaQuestion,
+    everestQuestion,
+    shubhamQuestion,
+  ];
+
+  function askQuestion(questionset) {
+    rand = Math.floor(Math.random() * 4) + 1;
+    questionset[rand].logQuestions();
+  }
+
+  askQuestion(questionset);
+})();
+*/
