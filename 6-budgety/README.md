@@ -451,3 +451,85 @@ var data = {
 ```
 
 - array of income and expenses contains all the incomes and expenses which is contained by allItems object which is then contained by data object. The idea is to keep data within a single object as much as possible instead of having a lot of random variables floating around.
+
+## Adding a New Item To Our Budget Controller:
+
+- Use the user input data to create a new item in budget controller data stucture
+
+### Content:
+
+- How to avoid conflicts in our data structures
+- How and why to pass data from one module to another
+
+### Adding a new item into our data structure:
+
+- Return an object with all the public methods of budget controller:
+- We'll check the type argument and create the object accordingly
+
+```js
+  ...............................
+
+  return {
+    addItem: function (type, des, val) {
+      var newItem;
+
+      // Create new ID
+      if (data.allItems[type].length > 0) {
+        // Increment ID by adding to the last element's ID
+        // (a default property of array.)
+        // last elements avoids the duplication
+        ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+      } else {
+        ID = 0;
+      }
+
+      // Create new item based on 'inc' or 'exp' type
+      if (type === "exp") {
+        newItem = new Expense(ID, des, val);
+      } else if (type === "inc") {
+        newItem = new Income(ID, des, val);
+      }
+
+      // Push it into our data structure
+      data.allItems[type].push(newItem);
+
+      // Return the new element
+      return newItem;
+    },
+
+    testing: function () {
+      console.log(data);
+    },
+  };
+})();
+```
+
+- We will call the `addItem()` from the main `controller`
+
+```js
+// Global APP Controller
+var controller = (function (budgetCtrl, UICtrl) {
+  ....................
+  var ctrlAddItem = function () {
+    // Declare Variables
+    var input, newItem;
+
+    // 1. Get the field Input Data
+    input = UICtrl.getinput();
+
+    // 2. Add the item to the budget Controller
+    newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+  };
+  ..................
+})(budgetController, UIController);
+```
+
+- Controller reads the input using UIController's `getInput()` and saves them to object using budgetController's `addItem()`
+- `addItem()` closes in the budgetController's data
+
+### How data are stored:
+
+![adding items](notes-images/addingItem.png)
+
+- I added a expense data by description asdfasd and value 123 and id is initialized to 0. This data is accessible from the testing function of budgetController
+- We can also see the addition in expense array while income array and total arrays are empty since we haven't added the value for them.
