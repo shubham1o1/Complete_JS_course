@@ -533,3 +533,200 @@ var controller = (function (budgetCtrl, UICtrl) {
 
 - I added a expense data by description asdfasd and value 123 and id is initialized to 0. This data is accessible from the testing function of budgetController
 - We can also see the addition in expense array while income array and total arrays are empty since we haven't added the value for them.
+
+## Adding a New Item to the UI
+
+- The object that we create is going to be added to the UI in this section.
+- There is going to be DOM Manipulations
+
+### Contents:
+
+- A technique for adding big chunks of HTML into the DOM
+- How to replace parts of strings
+- How to do DOM manipulation using the inserAdjacentHTML method.
+
+### UIController gets a new public method:
+
+- This function will create HTML string with placeholder text
+- Replace the placeholder text with some actual data
+- Insert the html into the dom
+
+```js
+    addListItem: function (obj, type) {
+      // Create HTML string with placeholder text
+      // Replace the placeholder text with some actual data
+      // Insert the html into the dom
+    },
+```
+
+### Calling from the controller:
+
+- from the callback function
+
+```js
+// Callback Function
+var ctrlAddItem = function () {
+  // call here
+};
+```
+
+### HTML place holder example:
+
+- For income:
+
+```html
+<div class="item clearfix" id="income-0">
+  <div class="item__description">Salary</div>
+  <div class="right clearfix">
+    <div class="item__value">+ 2,100.00</div>
+    <div class="item__delete">
+      <button class="item__delete--btn">
+        <i class="ion-ios-close-outline"></i>
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+- For expense:
+
+```html
+<div class="item clearfix" id="expense-0">
+  <div class="item__description">Apartment rent</div>
+  <div class="right clearfix">
+    <div class="item__value">- 900.00</div>
+    <div class="item__percentage">21%</div>
+    <div class="item__delete">
+      <button class="item__delete--btn">
+        <i class="ion-ios-close-outline"></i>
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+- The Percentage is added in expense and the id of course is different
+
+### Using single quote:
+
+- so that start of string and end is by single quote
+- Any double quote is not regarded as end of string rather a part of string
+
+```js
+// Create HTML string with placeholder text
+if (type === "inc") {
+  html =
+    '<div class="item clearfix" id="income-%id%"><div class = "item__description" >%description%</div><div class="right clearfix"><div class="item__value">%value%</div>  <div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+} else if (type === "exp") {
+  html =
+    '<div class="item clearfix" id="expense-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__percentage">21%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>';
+}
+```
+
+- Here we have used %id%, %value% and %description% as a placeholder so it can be easily replaced
+
+### Replacing the placeholder:
+
+- We are using the inbuilt replace function:
+
+```js
+// Replace the placeholder text with some actual data
+newHtml = html.replace("%id%", obj.id);
+newHtml = newhtml.replace("%value%", obj.value);
+newHtml = newhtml.replace("%description%", obj.description);
+```
+
+### Insert the HTML into the DOM:
+
+- First select an element from our web page.
+- Then insert html next to that element
+- We are going to use the `insertAdjectHTML()` method for this task.
+
+#### Syntax
+
+`element.insertAdjacentHTML(position, text);`
+
+- ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML
+
+**position**
+
+- A DOMString representing the position relative to the element; must be one of the following strings:
+- `'beforebegin'`: Before the element itself.
+- `'afterbegin'`: Just inside the element, before its first child.
+- `'beforeend'`: Just inside the element, after its last child.
+- `'afterend'`: After the element itself.
+
+**text**
+
+- The string to be parsed as HTML or XML and inserted into the tree.
+
+**visualization for `<p></p>` element**:
+
+```html
+<!-- beforebegin -->
+<p>
+  <!-- afterbegin -->
+  foo
+  <!-- beforeend -->
+</p>
+<!-- afterend -->
+```
+
+#### Code:
+
+- We are going to use the `beforeend` because we are going to insert inside a container as its child and beforeend allows us to put it right after the container's opening div
+
+```js
+// UI Controller
+var UIController = (function () {
+  var DOMstrings = {
+    ..................................
+    incomeContainer: ".income__list",
+    expensesContainer: ".expense__list",
+  };
+
+  return {
+    .................
+
+    addListItem: function (obj, type) {
+      var html, element;
+
+      // Create HTML string with placeholder text
+      if (type === "inc") {
+        element = DOMstrings.incomeContainer;
+        html =
+          '<div ...';
+      } else if (type === "exp") {
+        element = DOMstrings.expensesContainer;
+        html =
+          '<div...';
+      }
+
+      // Replace the placeholder text with some actual data
+      newHtml = html.replace("%id%", obj.id);
+      newHtml = newhtml.replace("%value%", obj.value);
+      newHtml = newhtml.replace("%description%", obj.description);
+
+      // Insert the html into the dom
+      document
+        .querySelector(element)
+        .insertAdjacentElement("beforeend", newhtml);
+    },
+
+  };
+})();
+```
+
+- The html divs:
+
+```html
+.............
+<div class="income__list">
+  <!-- Inserted here -->
+</div>
+.................
+<div class="expenses__list">
+  <!-- Inserted here -->
+</div>
+...................
+```
