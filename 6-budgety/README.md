@@ -139,3 +139,91 @@ var controller = (function (budgetCtrl, UICtrl) {
 })(budgetController, UIController);
 // budgetController is in the outer scope and that could be used without passing // as an argument, but we want to make this module more independent
 ```
+
+## Setting Up the first Event Listeners:
+
+### Content:
+
+- How to set up event listeners for keypress events.
+- How to use event objects
+
+#### Dummy Event Listener:
+
+```js
+// Global APP Controller
+var controller = (function (budgetCtrl, UICtrl) {
+  // Eventlistener for the input button, Decide what happens on each event and
+  // delegate the task to other controllers
+
+  // querySelector Uses same syntax as CSS selector
+  document.querySelector(".add__btn").addEventListener("click", function () {
+    console.log("Button was clicked");
+  });
+})(budgetController, UIController);
+```
+
+### Actual Task when the Button/Enter is pressed:
+
+1. Get the field Input Data
+2. Add the item to the budget Controller
+3. Add the item to the UI
+4. Calculate the budget
+5. Display the budget
+
+### Return Key presses the button:
+
+- We are going to use the keypress event
+- We are not going to select anything, but we will add this event listener to **global document**.
+- event reference: https://developer.mozilla.org/en-US/docs/Web/Events
+- We are going to use the `keypress` events. Which works when ANY key (except Shift, Fn, or CapsLock) is in pressed position. (Fired continously.)
+
+```js
+document.addEventListener("keypress", function (event) {
+  // some code
+  console.log(event);
+});
+```
+
+- The browser automatically sends the event object to the anonymous function of the eventListener. We we are accepting the event object and logging it to the console. Here is what we have in the console:
+
+![keypress event](notes-images/keypress.png)
+
+- Important thing to note here is the keycode, since we pressed a space the keycode is **32**. This can be used to identify the key that was pressed
+- Similarly for enter it is 13
+- Keycode ref: http://keycodes.atjayjo.com/#charcode
+- Some older browsers use the which property instead of the keycode property.
+- So here's the eventListener for pressing enter key:
+
+```js
+document.addEventListener("keypress", function (event) {
+  if (event.keyCode === 13 || event.which === 13) {
+    console.log("Enter Was Pressed");
+  }
+});
+```
+
+### Common function for Button press and Enter press:
+
+```js
+// Global APP Controller
+var controller = (function (budgetCtrl, UICtrl) {
+  var ctrlAddItem = function () {
+    // 1. Get the field Input Data
+    // 2. Add the item to the budget Controller
+    // 3. Add the item to the UI
+    // 4. Calculate the budget
+    // 5. Display the budget on the UI
+  };
+
+  document.querySelector(".add__btn").addEventListener("click", ctrlAddItem);
+
+  document.addEventListener("keypress", function (event) {
+    if (event.keyCode === 13 || event.which === 13) {
+      ctrlAddItem();
+    }
+  });
+})(budgetController, UIController);
+```
+
+- Instead of anonymous function we passed the ctrlAddItem in add\_\_btn querySelector
+- And the same function is called from the keypress event listener's anonymous function
