@@ -392,3 +392,62 @@ var controller = (function (budgetCtrl, UICtrl) {
 
 - We set up the event listeners and DOM variables inside a setup function. Now we need to call that function using the `init()` function which is a public function.
 - So our initialization function is the only way to setup the event listeners.
+
+## Creating Income and Expense Function Constructors:
+
+- How we are going to store our income and expense data in the budget controller.
+
+### Content:
+
+- How to choose function constructors that meet our application's needs
+- How to set up a proper data structure for our budget controller.
+
+### budgetController data model
+
+- We need a data model for expenses and income
+- We know that each new item will have description and a value.
+- We must also distinguish between different income and expenses. So we need a unique ID number as well.
+- We are going to choose an object that has description, value, and an ID.
+- When we have to create lots of objects we are obviously going to create a function constructors which we can use to instantiate lots of expense and income objects.
+
+### Function constructors for data:
+
+- Expense will have additional field in the future so we have created two different constructor for expense and income.
+
+```js
+var budgetController = (function () {
+  //expense
+  var Expense = function (id, description, value) {
+    this.id = id;
+    this.description = description;
+    this.value = value;
+  };
+  var Income = function (id, description, value) {
+    this.id = id;
+    this.description = description;
+    this.value = value;
+  };
+})();
+```
+
+### Data Structure of Budget Controller:
+
+- Budget controller keeps track of all income and expenses, the budget itself and later also of the percentage.
+- Where would we store all the incomes and expenses. Best solution would be using an array.
+
+#### Code:
+
+```js
+var data = {
+  allItems: {
+    exp: [],
+    inc: [],
+  },
+  totals: {
+    exp: 0,
+    inc: 0,
+  },
+};
+```
+
+- array of income and expenses contains all the incomes and expenses which is contained by allItems object which is then contained by data object. The idea is to keep data within a single object as much as possible instead of having a lot of random variables floating around.
