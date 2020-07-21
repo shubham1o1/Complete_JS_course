@@ -225,5 +225,124 @@ var controller = (function (budgetCtrl, UICtrl) {
 })(budgetController, UIController);
 ```
 
-- Instead of anonymous function we passed the ctrlAddItem in add\_\_btn querySelector
+- Instead of anonymous function we passed the ctrlAddItem in `add\_\_btn` querySelector
 - And the same function is called from the keypress event listener's anonymous function
+
+## Reading Input Data:
+
+- We're going to read the income/user expense data from the UI
+
+### Content:
+
+- How to read data from different HTML input types.
+
+### Logic:
+
+- Controller is the place where we tell the other modules what to do.
+- We write methods in the UI controller and in the budget controller to get some data for us or to calculate something and in the controller we call these methods.
+- To get input From UI we are going to write method in the **UIController** and then call it from the **controller** and use the data further such as passing it to other controller and adding to the data structure.
+
+### Methods in UIController:
+
+- We are defining a method that returns an object of the input entry in UI
+- This is catched by the controller when input is submitted by clicking a button or pressing enter.
+
+```js
+var UIController = (function () {
+  return {
+    // Method for returnig all of the inputs from UI
+    getinput: function () {
+      return {
+        type: document.querySelector(".add__type").value,
+        // + for inc, - for ex
+
+        description: document.querySelector(".add__description").value,
+        value: document.querySelector(".add__value").value,
+      };
+    },
+  };
+})();
+```
+
+- Method to catch an input in the app controller:
+
+```js
+// Global APP Controller
+var controller = (function (budgetCtrl, UICtrl) {
+  var ctrlAddItem = function () {
+    // 1. Get the field Input Data
+    var input = UICtrl.getinput();
+    console.log(input);
+  };
+
+  document.querySelector(".add__btn").addEventListener("click", ctrlAddItem);
+
+  document.addEventListener("keypress", function (event) {
+    if (event.keyCode === 13 || event.which === 13) {
+      ctrlAddItem();
+    }
+  });
+})(budgetController, UIController);
+```
+
+- Now we have each of the modules talking to one another by calling each other's methods.
+
+### Passing String Literal as querySelector is a bad idea:
+
+- As we proceed with our app there is going to be tons of these selectors `'.btn'` sort of thing
+- Changes in UI and class name would lead to tediousness in updating our files.
+- We can easily create an object where we store all of these data
+- Since it's about UI we'll create in the **UIController**.
+
+```js
+// UI Controller
+var UIController = (function () {
+  var DOMstrings = {
+    inputType: ".add__type",
+    inputDescription: ".add__description",
+    inputValue: ".add__value",
+  };
+
+  return {
+    // Method for returnig all of the inputs from UI
+    getinput: function () {
+      return {
+        type: document.querySelector(DOMstrings.inputType).value,
+        // + for inc, - for ex
+
+        description: document.querySelector(DOMstrings.inputDescription).value,
+        value: document.querySelector(DOMstrings.inputValue).value,
+      };
+    },
+  };
+})();
+```
+
+- Passing DOMString:
+
+```js
+//controller
+
+// Global APP Controller
+var controller = (function (budgetCtrl, UICtrl) {
+  var DOM = UICtrl.getDOMstrings();
+  ...
+
+// UIController
+var UIController = (function () {
+  // Define DOMStrings
+  var DOMstrings = {
+    inputType: ".add__type",
+    inputDescription: ".add__description",
+    inputValue: ".add__value",
+    inputButton: ".add__btn",
+  };
+
+  return {
+    ...
+    // method to return DOM strings
+    getDOMstrings: function () {
+      return DOMstrings;
+    },
+  };
+```
