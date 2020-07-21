@@ -682,7 +682,7 @@ var UIController = (function () {
   var DOMstrings = {
     ..................................
     incomeContainer: ".income__list",
-    expensesContainer: ".expense__list",
+    expensesContainer: ".expenses__list",
   };
 
   return {
@@ -704,13 +704,13 @@ var UIController = (function () {
 
       // Replace the placeholder text with some actual data
       newHtml = html.replace("%id%", obj.id);
-      newHtml = newhtml.replace("%value%", obj.value);
-      newHtml = newhtml.replace("%description%", obj.description);
+      newHtml = newHtml.replace("%value%", obj.value);
+      newHtml = newHtml.replace("%description%", obj.description);
 
       // Insert the html into the dom
       document
         .querySelector(element)
-        .insertAdjacentElement("beforeend", newhtml);
+        .insertAdjacentHTML("beforeend", newHtml);
     },
 
   };
@@ -729,4 +729,99 @@ var UIController = (function () {
   <!-- Inserted here -->
 </div>
 ...................
+```
+
+## Clearing Our Input Fields:
+
+- We must clear the input field after we enter the input
+
+### Content:
+
+- How to clear HTML fields
+- How to use querySelectorAll
+- How to convert a list to an array
+- A better way to loop over an array than for loops: foreach.
+
+### querySelector():
+
+- The Document method `querySelectorAll()` returns a static (not live) `NodeList` representing a list of the document's elements that match the specified group of selectors.
+- Example:
+
+```js
+fields = document.querySelectorAll(
+  DOMstrings.inputDescription + "," + DOMstrings.inputValue
+);
+```
+
+### Lists in JS:
+
+- List is similar to array but doesn't have methods of an array
+- `fields` is a list
+
+#### Converting list to array:
+
+- use array's method called slice, which return a copy of the array.
+- Usually slice is called on array and it returns another array. But we can use a trick to work on list.
+- We can use the call method to trick `slice()` into treating list like an array.
+
+```js
+fieldsArr = Array.prototype.slice.call(fields);
+```
+
+### Looping over array to remove the content from their field:
+
+- We'll use the `foreach()` method
+- The `forEach()` method executes a provided function once for each array element.
+
+```js
+fieldsArr.forEach(function (current, index, array) {
+  current.value = "";
+});
+```
+
+#### Callback of foreach:
+
+`forEach()` calls a provided `callback` function once for each element in an array in ascending order. `callback` is invoked with three arguments:
+
+- the value of the element
+- the index of the element
+- the Array object being traversed
+
+### Update the Enter Item callback:
+
+```js
+var ctrlAddItem = function () {
+  // Declare Variables
+  // 1. Get the field Input Data
+  // 2. Add the item to the budget Controller
+  // 3. Add the item to the UI
+
+  // 4. Clear the fields
+  UICtrl.clearFields();
+
+  // 5. Calculate the budget
+  // 6. Display the budget on the UI
+};
+```
+
+### Final Clear Field:
+
+- We have also changed the focus to description on addition of new item
+
+```js
+clearFields: function () {
+  var fields, fieldsArr;
+  fields = document.querySelectorAll(
+    DOMstrings.inputDescription + "," + DOMstrings.inputValue
+  );
+
+  fieldsArr = Array.prototype.slice.call(fields);
+
+  fieldsArr.forEach(function (current, index, array) {
+    current.value = "";
+  });
+
+  // to change focus to description field after adding item
+  fieldsArr[0].focus();
+}
 ```
