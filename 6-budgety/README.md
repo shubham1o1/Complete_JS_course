@@ -346,3 +346,49 @@ var UIController = (function () {
     },
   };
 ```
+
+## Creating an Initialization Function
+
+- Similar to the one we did in pig game.
+
+### Content:
+
+- How and why to create an initialization function
+
+### Organizing:
+
+- Just keep the functions in the controller
+
+```js
+// Global APP Controller
+var controller = (function (budgetCtrl, UICtrl) {
+  var setupEventListeners = function () {
+    // Function that sets up our event listeners
+    var DOM = UICtrl.getDOMstrings();
+
+    document
+      .querySelector(DOM.inputButton)
+      .addEventListener("click", ctrlAddItem);
+
+    document.addEventListener("keypress", function (event) {
+      if (event.keyCode === 13 || event.which === 13) {
+        ctrlAddItem();
+      }
+    });
+  };
+  var ctrlAddItem = function () {
+    var input = UICtrl.getinput();
+  };
+
+  return {
+    // Initialization function
+    init: function () {
+      console.log("Application has been initialized");
+      setupEventListeners();
+    },
+  };
+})(budgetController, UIController);
+```
+
+- We set up the event listeners and DOM variables inside a setup function. Now we need to call that function using the `init()` function which is a public function.
+- So our initialization function is the only way to setup the event listeners.
