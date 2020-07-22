@@ -972,3 +972,82 @@ calculateBudget: function () {
 ```
 
 - Displaying on the UI is going to be done in next section.
+
+## Udating the Budget UI Controller:
+
+- We'll update the budget in UI
+
+### Content:
+
+- Practice DOM manipulation by updating the budget and total values in the UI.
+
+### Updating the UI:
+
+- Declare the DOM Strings Variables
+- Then Make a public function to set these variables
+- Then Validate for percentage sign to display --- instead of -1 and for percentage < 0
+
+```js
+// UI Controller
+var UIController = (function () {
+  var DOMstrings = {
+...................................
+    incomeLabel: ".budget__income--value",
+    expensesLabel: ".budget__expenses--value",
+    percentageLabel: ".budget__expenses--percentage",
+  };
+
+....................................
+    displayBudget: function (obj) {
+      document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
+      document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
+      document.querySelector(DOMstrings.expensesLabel).textContent =
+        obj.totalExp;
+
+      if (obj.percentage > 0) {
+        document.querySelector(DOMstrings.percentageLabel).textContent =
+          obj.percentage + "%";
+      } else {
+        document.querySelector(DOMstrings.percentageLabel).textContent = "----";
+      }
+    },
+  };
+})();
+```
+
+### Calling the `displayBudget`:
+
+- Call from init to set the initial values to zero
+- Call from `updateBudget()` to update the value when new item is added
+
+```js
+// Global APP Controller
+var controller = (function (budgetCtrl, UICtrl) {
+.................................
+
+  var updateBudget = function () {
+..................................
+
+    // 3. Display the budget on the UI
+    UICtrl.displayBudget(budget);
+  };
+
+.................................
+
+  return {
+    init: function () {
+      console.log("Application has been initialized");
+      UICtrl.displayBudget({
+        budget: 0,
+        totalInc: 0,
+        totalExp: 0,
+        percentage: 0,
+      });
+
+      setupEventListeners();
+    },
+  };
+})(budgetController, UIController);
+```
+
+[PART2](PART2.md)
