@@ -825,3 +825,42 @@ clearFields: function () {
   fieldsArr[0].focus();
 }
 ```
+
+## Updating the Budget Controller :
+
+### Content:
+
+- How to convert field inputs to numbers
+- How to prevent false inputs
+
+### Converting String to FLoat:
+
+```js
+value: parseFloat(document.querySelector(DOMstrings.inputValue).value),
+```
+
+### Validating input data:
+
+- `isNaN()` function to check if the value is number
+
+```js
+// Callback Function
+var ctrlAddItem = function () {
+  // Declare Variables
+  var input, newItem;
+
+  // 1. Get the field Input Data
+  input = UICtrl.getinput();
+
+  if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
+    // 2. Add the item to the budget Controller
+    newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+    // 3. Add the item to the UI
+    UICtrl.addListItem(newItem, input.type);
+    // 4. Clear the fields
+    UICtrl.clearFields();
+    // 5. Calculate and update the budget
+    updateBudget();
+  }
+};
+```
