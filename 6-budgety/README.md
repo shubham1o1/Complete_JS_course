@@ -137,7 +137,8 @@ var controller = (function (budgetCtrl, UICtrl) {
     },
   };
 })(budgetController, UIController);
-// budgetController is in the outer scope and that could be used without passing // as an argument, but we want to make this module more independent
+// budgetController is in the outer scope and that could be used without passing
+// as an argument, but we want to make this module more independent
 ```
 
 ## Setting Up the first Event Listeners:
@@ -842,6 +843,7 @@ value: parseFloat(document.querySelector(DOMstrings.inputValue).value),
 ### Validating input data:
 
 - `isNaN()` function to check if the value is number
+- checking if a value is gt 0 and description isn't an empty string
 
 ```js
 // Callback Function
@@ -864,3 +866,109 @@ var ctrlAddItem = function () {
   }
 };
 ```
+
+## Updating the Budget in Budget Controller:
+
+- We are going to do the calculations of the total incomes, total expenses and the budget.
+
+### Content:
+
+- How and why to create simple, reusable functions with only one purpose;
+- How to sum all elements of an array using the forEach method.
+
+### Flow:
+
+- Controller has the `updateBudget()` method which is called in the callback function of enter item button
+- **Algorithm** of `updateBudget`:
+  1. Calculate the budget
+  2. Return the budget
+  3. Display the budget on the UI
+
+### Calculating the Budget
+
+- From the budget controller
+- Create a public method and update the data object
+
+#### Algorithm for calculating budget:
+
+- Calculate total income and expenses
+- Calculate the budget: income - expenses
+- Calculate the percentage of income that we spent
+
+```js
+//budget controller
+..........................
+  // calculate total (summing the income/expense array)
+  calculateTotal = function (type) {
+    var sum = 0;
+    data.allItems[type].forEach(function (curr) {
+      sum = sum + curr.value;
+      // Curr is Income or Expense object, so we access the value we do curr.value
+    });
+    data.totals[type] = sum;
+  };
+
+//data object:
+  var data = {
+    allItems: {
+      exp: [],
+      inc: [],
+    },
+    totals: {
+      exp: 0,
+      inc: 0,
+    },
+    budget: 0,
+    percentage: -1,
+  };
+
+...........................
+calculateBudget: function () {
+  // calculate total income and expenses
+  calculateTotal("exp");
+  calculateTotal("inc");
+
+  // calculate the budget: income - expenses
+  data.budget = data.totals.inc - data.totals.exp;
+
+  // calculate the percentage of income that we spent
+  if (data.totals.inc > 0) {
+    data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+  } else {
+    data.percentage = -1;
+  }
+},
+..........................
+```
+
+### Returning the calculated budget via another public function
+
+- We define another public method: getBudget for this and pass an object of data
+
+```js
+  getBudget: function () {
+    return {
+      budget: data.budget,
+      totaInc: data.totals.inc,
+      totalExp: data.totals.exp,
+      percentage: data.percentage,
+    };
+  },
+```
+
+### Final `updateBudget()`:
+
+```js
+  .................................
+  var updateBudget = function () {
+    // 1. Calculate the budget
+    budgetCtrl.calculateBudget();
+
+    // 2. Return the budget
+    var budget = budgetCtrl.getBudget();
+
+    // 3. Display the budget on the UI
+    ................................
+```
+
+- Displaying on the UI is going to be done in next section.
