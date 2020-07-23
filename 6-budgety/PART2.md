@@ -435,7 +435,6 @@ var updatePercentages = function () {
 ```
 
 - This function is called from `ctrlAddItem()` and `ctrlDeleteItem()`
-<<<<<<< HEAD
 
 ## Updating the Percentages Budget Controller:
 
@@ -534,5 +533,3 @@ var controller = (function (budgetCtrl, UICtrl) {
 .................................
 });
 ```
-=======
->>>>>>> 530a689018aa3598f7c063e2dcc29bc556af6921
