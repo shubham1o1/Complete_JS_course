@@ -251,3 +251,93 @@ var ctrlDeleteItem = function (event) {
 - We read the id of the element.
 - We used the split() to split string into array separated by "-"
 - Then finally we read type and id
+
+## Deleting an Item from our Budget Controller:
+
+- Lets now create a new method in budget controller so we can delete an item from Data Structure.
+
+### Content:
+
+- `map()` method to loop over an array
+- How to remove elements from an array using the splice method.
+
+### Selecting ID:
+
+- ids and array index are not a same
+- we are going to delete an array item and we have an id. But we must be careful to not consider array's index as an id.
+- So, we first access the element and then find out all the set of id and store them in a variable.
+- And we find the index of the id that is of our interest.
+
+```js
+deleteItem: function (type, id) {
+  var ids = data.allItems[type].map(function (current) {
+    return current.id;
+  });
+
+  index = ids.indexOf(id);
+
+  if (index !== -1) {
+    data.allItems[type].splice(index, 1);
+  }
+},
+```
+
+#### `map()` function:
+
+ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+
+- Similar to forEach function
+- The `map()` method **creates a new array** populated with the results of calling a provided function on every element in the calling array.
+
+**syntax**
+
+```js
+var new_array = arr.map(function callback( currentValue[, index[, array]]) {
+    // return element for new_array
+}[, thisArg])
+```
+
+#### indexOf() method:
+
+- returns the index of the element in the array
+
+#### Delete if index exists:
+
+- If index !== -1 then delete the item using the splice method
+- **splice()** method takes in the index and then number of item from the index as an argument.
+
+```js
+if (index !== -1) {
+  data.allItems[type].splice(index, 1);
+}
+```
+
+- Here, the item at index is deleted and only 1 item is deleted, that is specified in the argument while calling the splice method.
+
+### Calling the `deleteItem()`
+
+- Call it from the ctrlDeleteItem() as the first step in our delete algorithm
+
+```js
+// Delete Item Callback Function
+var ctrlDeleteItem = function (event) {
+  var itemID, splitID, type, ID;
+
+  // From event we can access the target element
+  itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+
+  if (itemID) {
+    // inc-1
+    splitID = itemID.split("-"); // split returns array
+    type = splitID[0];
+    ID = parseInt(splitID[1]);
+
+    // 1. Delete the item from the data structure
+    budgetCtrl.deleteItem(type, ID);
+
+    // 2. Delete the item from the UI
+
+    // 3. Update and show the new budget
+  }
+};
+```
