@@ -341,3 +341,43 @@ var ctrlDeleteItem = function (event) {
   }
 };
 ```
+
+## Deleting an Item From From the UI:
+
+### Content:
+
+- How to delete an element from the DOM.
+
+### Deleting from UI:
+
+```js
+deleteListItem: function (selectorID) {
+  var el = document.getElementById(selectorID);
+  el.parentNode.removeChild(el);
+},
+```
+
+- Pretty weird right? You get an element and then you have to specify the child as that very element in the removeChild.
+
+- ref: https://blog.garstasio.com/you-dont-need-jquery/dom-manipulation/
+
+#### Callback function update
+
+```js
+    // Delete Item Callback Function
+    var ctrlDeleteItem = function (event) {
+      var itemID, splitID, type, ID;
+
+      // From event we can access the target element
+      itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+
+      .........................................
+
+      // 2. Delete the item from the UI
+      UICtrl.deleteListItem(itemID);
+
+      // 3. Update and show the new budget
+      updateBudget();
+    }
+  };
+```
