@@ -785,3 +785,7 @@ changedType: function () {
   document.querySelector(DOMstrings.inputButton).classList.toggle("red");
 }
 ```
+
+## Final Consideration:
+
+![finalstructure](notes-images/finalstructure.png)
