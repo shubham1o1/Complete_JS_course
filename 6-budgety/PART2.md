@@ -381,3 +381,57 @@ deleteListItem: function (selectorID) {
     }
   };
 ```
+
+## Project Planning and Architecture (Step-3):
+
+- After step2 our architecture look as follows:
+
+![afterstep2](notes-images/afterstep2.png)
+
+- `updateBudget()` function's significance can be seen here. As it is called during both the addion and deletion of an item.
+
+### Planning: Step 3
+
+- #### Individual Percentage of the expense
+
+  - Calculate Percentages
+  - Update Pecentages in UI
+
+- #### Update Date/Time at time
+
+  - Display the current month and year
+
+- #### Number Formatting
+
+- #### Improve input field UX
+
+## Updating the Percentages Controller:
+
+- We are going to start with Updating the income percentages
+
+### Content:
+
+- Reinforcing the concepts and techniques that we have learned so far.
+
+### Bainstorming:
+
+- When will these income percentages be updated?
+- Each time we add/delete an item.
+- These percentages are the percentages of the income that each expense represents
+- When we add/delete income all of the expense percentages will be updated.
+- Also when we add/delete new expense the percentage must be updated
+- We should create a new function and call them fron `ctrlAddItem` and `ctrlDeleteItem`
+- Similar to `updateBudget`
+
+### Algorithm:
+
+```js
+// Updating the Percentages:
+var updatePercentages = function () {
+  // 1. Calculate percentages
+  // 2. Read percentages from the budget controller
+  // 3. Update the UI with new percentages
+};
+```
+
+- This function is called from `ctrlAddItem()` and `ctrlDeleteItem()`
