@@ -533,3 +533,255 @@ var controller = (function (budgetCtrl, UICtrl) {
 .................................
 });
 ```
+
+## Updating the Percentages UI Controller:
+
+- We are going to display the percentages in the UI
+
+### Content:
+
+- How to create own forEach function but for nodeLists instead of Arrays
+
+### Updating the UIController:
+
+- The percentages are inside `item__percentage` class of `expense`
+- So we are selecting `item__percentage` class
+- set the DOMString:
+
+```js
+var DOMstrings = {
+................................
+  expensesPercentageLabel: ".item__percentage",
+};
+```
+
+#### Node Lists:
+
+- Each html element is a node in DOM
+
+```js
+var fields = document.querySelectorAll(DOMstrings.expensesPercentageLabel);
+// Returns a Node List
+```
+
+- We loop over the Node and update the percentage value
+- `nodeList` doesn't have the forEach method.
+
+### `displayPercentage(percentages)`
+
+- We pass the percentages and add them to the UI
+
+```js
+
+// UI Controller
+var UIController = (function () {
+  var DOMstrings = {
+    ....................................
+    expensesPercentageLabel: ".item__percentage",
+  };
+  ...........................................
+    displayPercentages: function (percentages) {
+      var fields = document.querySelectorAll(
+        DOMstrings.expensesPercentageLabel
+      ); // Returns a Node List
+
+      // Custom forEach function
+      var nodeListForEach = function (list, callback) {
+        for (var i = 0; i < list.length; i++) {
+          callback(list[i], i);
+        }
+      };
+
+      nodeListForEach(fields, function (current, index) {
+        if (percentages[index] > 0) {
+          current.textContent = percentages[index] + "%";
+        } else {
+          current.textContent = "---";
+        }
+      });
+    },
+```
+
+- Call the `displayPercentages(percentages)` from `updatePercentages()` method
+
+```js
+// Updating the Percentages:
+var updatePercentages = function () {
+  // 1. Calculate percentages
+  budgetCtrl.calculatePercentages();
+
+  // 2. Read percentages from the budget controller
+  var percentages = budgetCtrl.getPercentages();
+
+  // 3. Update the UI with new percentages
+  UICtrl.displayPercentages(percentages);
+};
+```
+
+## Formatting Our Budget Numbers String Manipulation
+
+- We'll take care of giveing the number a proper formatting.
+- Better look and easier to read
+
+### Content:
+
+- How to use different strings methods to manipulate strings.
+
+### Looks Ideas:
+
+- Every Number has two decimal parts(even if they are integers)
+- Numbers are equally aligned that way
+- `+` sign before income and `-` sign before expense
+- If the number is in thousands then there are commas between them.
+
+### Implementation Idea:
+
+- Create a method inside UIController and each time we display a number call that method and recieve a formatted number. Then output that number.
+
+### Algorithm:
+
+- Calculate the absolute part of the number first.
+
+```js
+num = Math.abs(num);
+```
+
+- putting two digits after decimal
+
+```js
+(12.346).toFixed(2);
+// "12.35"
+(2).toFixed(2);
+// "2.00"
+```
+
+- `toFixed()` method returns a string
+
+```js
+// UI Controller Private method:
+
+var formatNumber = function (num, type) {
+  var numSplit, int, dec;
+  /*
+  + or - before number
+  exactly 2 decimal points
+  comma separating the thousands
+  */
+  num = Math.abs(num);
+
+  // Rounds to 2 decimals or adds 00
+  num = num.toFixed(2); // Methods of Number prototype
+
+  // Comma Separation:
+  // Using split to separate decimal
+  numSplit = num.split(".");
+  int = numSplit[0];
+  dec = numSplit[1];
+  if (int.length > 3) {
+    int = int.substr(0, int.length - 3) + "," + int.substr(int.length - 3, 3);
+    // input : 2310, o/p: 2,310
+  }
+
+  return (type === "exp" ? "-" : "+") + " " + int + dec;
+};
+```
+
+- place item in UI COntroller:
+
+```js
+newHtml = newHtml.replace("%value%", formatNumber(obj.value, type));
+```
+
+- Format the budget in UIController:
+
+```js
+    displayBudget: function (obj) {
+      obj.budget > 0 ? (type = "inc") : (type = "exp");
+      document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(
+        obj.budget,
+        type
+      );
+      document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(
+        obj.totalInc,
+        "inc"
+      );
+      document.querySelector(
+        DOMstrings.expensesLabel
+      ).textContent = formatNumber(obj.totalExp, "exp");
+```
+
+## Displaying the Current Month and Year:
+
+- Display them as soon as we start the app
+
+### Content:
+
+- How to get the current dat by using the Date object constructor
+
+### Function:
+
+```js
+displayMonth: function () {
+  var now, year, months, month;
+
+  var now = new Date();
+  // var christmas = new Date(2020, 13, 25);
+
+  months = [
+    "jan",
+    "feb",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "spet",
+    "oct",
+    "nov",
+    "dec",
+  ];
+
+  year = now.getFullYear(); //YY
+  month = now.getMonth(); // MM
+
+  document.querySelector(DOMstrings.dateLabel).textContent =
+    months[month] + " " + year;
+},
+```
+
+- Call it from the `init()`
+- Declare dateLable in UIController
+- We have used the `now()` function and change the value in the DOM.
+
+## Finishing Touches Improving the UX:
+
+- Polishing the User Interface even more
+
+### Content:
+
+- How and when to use 'change' events
+
+While entering income we want our input field to be blue and for expense we want it to be red. We change the `+` and `-` from the dropdown and accordingly the income and expenses were added.
+
+### Change Event:
+
+- We can use these events whenever we change the dropdown.
+
+```js
+changedType: function () {
+  var fields = document.querySelectorAll(
+    DOMstrings.inputType +
+      "," +
+      DOMstrings.inputDescription +
+      "," +
+      DOMstrings.inputValue
+  );
+
+  nodeListForEach(fields, function (curr) {
+    curr.classList.toggle("red-focus");
+  });
+
+  document.querySelector(DOMstrings.inputButton).classList.toggle("red");
+}
+```
