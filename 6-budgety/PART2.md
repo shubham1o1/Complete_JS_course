@@ -46,3 +46,208 @@ Event Delegation is not adding event handler to the target element but to the pa
 
 - When we have an element with lots of child elements that we are interested in
 - When we want an event handler attached to an element that is not yet in the DOM when our page is loaded.
+
+## Setting Up The Delete Event Listener Using Event Delegation:
+
+- The code to delete income / expense items from the app.
+
+### Content:
+
+- How to use event delegation in practice using the concept of event bubbling and target element
+- How to use IDs in HTML to connect the UI with the data model
+- How to use the parentNode property for DOM traversing
+
+### Setting Event Handler in the Parent Element:
+
+A peek throught the HTML:
+
+```html
+<div class="container clearfix">
+  <div class="income">
+    <h2 class="icome__title">Income</h2>
+
+    <div class="income__list">
+      <!-- Income list and the delete button(class="item__delete--btn") are present here  -->
+    </div>
+  </div>
+
+  <div class="expenses">
+    <h2 class="expenses__title">Expenses</h2>
+    <div class="expenses__list">
+      <!-- Expense list and the delete button(class="item__delete--btn") are present here  -->
+    </div>
+  </div>
+</div>
+```
+
+- We are going to listen to the button click event from the `container` element.
+- We can add a single event handler for delete task when we use the `container` element.
+
+```js
+// Global APP Controller
+var controller = (function (budgetCtrl, UICtrl) {
+  var setupEventListeners = function () {
+    // Function that sets up our event listeners
+    var DOM = UICtrl.getDOMstrings();
+
+  ..........................................
+
+    document
+      .querySelector(DOM.container)
+      .addEventListener("click", ctrlDeleteItem);
+  };
+..................
+}
+
+// UI Controller
+var UIController = (function () {
+  var DOMstrings = {
+.....................................
+    container: ".container",
+  };
+.....................................
+}
+```
+
+### The callback function for delete item:
+
+```js
+// Delete Item Callback Function
+var ctrlDeleteItem = function (event) {
+  // From event we can access the target element
+  console.log(event.target);
+};
+```
+
+- When we press the delete icon we must remove the content from the UI. Let's look at the HTML that defines the content:
+
+```html
+<div class="item clearfix" id="income-0">
+  <div class="item__description">Salary</div>
+  <div class="right clearfix">
+    <div class="item__value">+ 2,100.00</div>
+    <div class="item__delete">
+      <button class="item__delete--btn">
+        <i class="ion-ios-close-outline"></i>
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+- Here we want to remove the `<div class="item clearfix" id="income-0">` part that hold the content, when the button (`<i class="ion-ios-close-outline"></i>`) is pressed.
+
+### DOM Traversing:
+
+- We are going to traverse from `<i>` to its parent
+
+```js
+// Delete Item Callback Function
+var ctrlDeleteItem = function (event) {
+  // From event we can access the target element
+  console.log(event.target.parentNode);
+};
+```
+
+- accessing `parentNode` logs button element; therefore, we traverse one step up to the parent element.
+- But we want to traverse 4 element up to the `income-0` ish ids
+- which we can do like this:
+- `console.log(event.target.parentNode.parentNode.parentNode.parentNode);`
+- the result is:
+
+```html
+<div class="item clearfix" id="income-0">
+  <div class="item__description">Salary</div>
+  <div class="right clearfix">
+    <div class="item__value">+ 2,100.00</div>
+    <div class="item__delete">
+      <button class="item__delete--btn">
+        <i class="ion-ios-close-outline"></i>
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+- But all we need is an id as it is an unique identifier that can remove this component. SO we could write:
+
+```js
+console.log(event.target.parentNode.parentNode.parentNode.parentNode.id);
+// Output when adding items:
+// income-0
+// income-1
+// expense-o
+..............
+```
+
+### Differentiating the types:
+
+- we can read the inc-1 or exp-30 from the DOM but we'll have to recognize them as income or expense.
+- They are a string and we can use `split()` method of a string.
+- But string is a primitive as still it has a method.
+- This is due to the fact that JS, wraps the primitive into a wrapper and converts it into an object `String` with bunch of its own methods.
+- Same thing can happen to `numbers`
+
+#### Demo of `split()` in console
+
+```js
+var s = "inc-1";
+undefined
+splitID = s.split('-');
+(2) ["inc", "1"]
+0: "inc"
+1: "1"
+length:
+2__proto__: Array(0)
+```
+
+- `split()` returns an array that is separated by `"-"`
+
+```js
+p = "inc-1-tpe-4";
+("inc-1-tpe-4");
+splitted = p.split("-");
+(4)[("inc", "1", "tpe", "4")];
+```
+
+#### Algorithm to delete item:
+
+1. Delete the item from the data structure
+
+2. Delete the item from the UI
+
+3. Update and show the new budget
+
+### Summary:
+
+- We first set a event listener to the container and we used event delegation.
+
+```js
+document.querySelector(DOM.container).addEventListener("click", ctrlDeleteItem);
+```
+
+- Then we defined the call back function where we read the event object and read the item type and id:
+
+```js
+// Delete Item Callback Function
+var ctrlDeleteItem = function (event) {
+  var itemID, splitID, type, ID;
+
+  // From event we can access the target element
+  itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+
+  if (itemId) {
+    // inc-1
+    splitID = itemID.split("-"); // split() returns array
+    type = splitID[0];
+    ID = splitID[1];
+  ..........................................
+  }
+};
+```
+
+- We read the target element using `event.target` property
+- We used parentNode to traverse up.
+- We read the id of the element.
+- We used the split() to split string into array separated by "-"
+- Then finally we read type and id
