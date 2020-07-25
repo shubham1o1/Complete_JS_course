@@ -325,7 +325,7 @@ console.log(`${firstName} `.repeat(5)); // John John John John John
 
 ## Arrow Functions:
 
-An arrow function expression is a syntactically compact alternative to a regular function expression, although without its own bindings to the this, arguments, super, or new.target keywords. Arrow function expressions are ill suited as methods, and they cannot be used as constructors.
+An arrow function expression is a syntactically compact alternative to a regular function expression, although without its own bindings to the `this`, arguments, super, or new.target keywords. Arrow function expressions are ill suited as methods, and they cannot be used as constructors.
 
 ```js
 const years = [1990, 1965, 1982, 1937];
@@ -415,6 +415,177 @@ console.log(ages6);
 2: "Age element 3: 38"
 3: "Age element 4: 83"
 length: 4
+__proto__: Array(0)
+*/
+```
+
+## Arrow Function Lexical 'this' Keyword:
+
+- The biggest advantage of using the arrow function might be that they share the surrounding this keyword.
+- Unlike normal functions, arrow functions don't get their this keyword.
+- They simply use the `this` keyword of the function they are written in. So, we say they have a lexical this variable.
+
+```js
+//ES5
+var box5 = {
+  color: "green",
+  position: 1,
+  clickMe: function () {
+    document.querySelector(".green").addEventListener("click", function () {
+      var str =
+        "This is box number " + this.position + " and it is " + this.color;
+      alert(str);
+    });
+  },
+};
+
+box5.clickMe();
+```
+
+- here the `this.position` and `this.color` is read as undefined. This happens because only in a method call the `this` keyword actually points to the object.
+- But in the regular function (or a callback function) call the `this` keyword will point to the global objects i.e the window object.
+- Solution in ES5:
+
+```js
+//ES5
+var box5 = {
+  color: "green",
+  position: 1,
+  clickMe: function () {
+    self = this;
+    document.querySelector(".green").addEventListener("click", function () {
+      var str =
+        "This is box number " + self.position + " and it is " + self.color;
+      alert(str);
+    });
+  },
+};
+
+box5.clickMe();
+```
+
+- We assign this variable to some other variable and later use that variable. `self` in our case.
+- it is a workaround, or a hack.
+
+### Arrow function and `this`:
+
+- No hack required, the arrow function shares the lexical this keyword.
+- Arrow function can access the this variable of its surrounding function.
+
+```js
+//ES6
+const box6 = {
+  color: "green",
+  position: 1,
+  clickMe: function () {
+    document.querySelector(".green").addEventListener("click", () => {
+      var str =
+        "This is box number " + this.position + " and it is " + this.color;
+      alert(str);
+    });
+  },
+};
+
+box6.clickMe();
+```
+
+- Arrow functions are useful when you have to preserve the value of `this` keyword.
+
+### `clickMe()` as arrow function is not a good idea:
+
+```js
+//ES6
+const box6 = {
+  color: "green",
+  position: 1,
+  clickMe: () => {
+    document.querySelector(".green").addEventListener("click", () => {
+      var str =
+        "This is box number " + this.position + " and it is " + this.color;
+      alert(str);
+    });
+  },
+};
+
+box6.clickMe();
+```
+
+- here again we get the `undefined` for `this.position` and `this.color` since `clickMe()`'s surrounding is global object and its child arrow function will also have global object where `position` and `color` are `undefined`.
+
+### Arrow function with constructor:
+
+```js
+function Person(name) {
+  this.name = name;
+}
+
+// ES5
+Person.prototype.myFriends5 = function (friends) {
+  var arr = friends.map(function (el) {
+    return this.name + " is friends with " + el;
+  });
+  console.log(arr);
+};
+
+var friends = ["Bob", "Jane", "Mark"];
+new Person("John").myFriends5(friends);
+/*
+(3) [" is friends with Bob", " is friends with Jane", " is friends with Mark"]
+0: " is friends with Bob"
+1: " is friends with Jane"
+2: " is friends with Mark"
+length: 3
+__proto__: Array(0)
+*/
+```
+
+- The name is not defined
+- The anonymous callback function is not going to have access to the `this` variable so the `name` is not displayed here too.
+- We can use the **call**, **bind** and **apply** as they allow us to define the `this` variable manually.
+- **bind** method creates a copy of the function.
+- Making the following modification will make the function work
+
+```js
+..............
+  var arr = friends.map(
+    function (el) {
+      return this.name + " is friends with " + el;
+    }.bind(this)
+  );
+.....................
+/*
+(3) ["John is friends with Bob", "John is friends with Jane", "John is friends with Mark"]
+0: "John is friends with Bob"
+1: "John is friends with Jane"
+2: "John is friends with Mark"
+length: 3
+__proto__: Array(0)
+*/
+```
+
+- In ES6:
+
+```js
+// ES6
+
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.myFriends6 = function (friends) {
+  var arr = friends.map((el) => `${this.name} is friends with ${el}`);
+  console.log(arr);
+};
+
+var friends = ["Bob", "Jane", "Mark"];
+new Person("Mike").myFriends6(friends);
+
+/*
+(3) ["Mike is friends with Bob", "Mike is friends with Jane", "Mike is friends with Mark"]
+0: "Mike is friends with Bob"
+1: "Mike is friends with Jane"
+2: "Mike is friends with Mark"
+length: 3
 __proto__: Array(0)
 */
 ```
