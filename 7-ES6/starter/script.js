@@ -86,9 +86,55 @@ console.log(i);
 ////////////////////////////////////////////////////
 //////////////    Blocks and IIFEs   ///////////////
 ////////////////////////////////////////////////////
-
+/*
 {
+  const a = 1;
+  let b = 2;
   var c = 3;
 }
 
-console.log(c); // 3
+console.log(c);
+// console.log(a+b);
+// Uncaught ReferenceError: a is not defined
+
+*/
+
+////////////////////////////////////////////////////
+/////////////     Strings in ES6     ///////////////
+////////////////////////////////////////////////////
+
+let firstName = "John";
+let lastName = "Smith";
+
+const yearOfBirth = 1990;
+
+function calcAge(year) {
+  return 2020 - year;
+}
+
+// ES5
+console.log(
+  "This is " +
+    firstName +
+    " " +
+    lastName +
+    ". He was born in " +
+    yearOfBirth +
+    ". Today, he is  " +
+    calcAge(yearOfBirth)
+);
+
+// ES6:
+console.log(
+  `This is ${firstName} ${lastName}. He was born in ${yearOfBirth}. Today, he is ${calcAge(
+    yearOfBirth
+  )} years old.`
+);
+// This is john Smith. He was born in 1990. Today, he is 30 years old.
+
+const n = `${firstName} ${lastName}`;
+console.log(n.startsWith("J")); //true ( because n = John Smith starts with J)
+console.log(n.endsWith("h")); //true
+console.log(n.includes(" ")); //true (Ther is a space in string)
+console.log(firstName.repeat(5)); // JohnJohnJohnJohnJohn
+console.log(`${firstName} `.repeat(5)); // John John John John John
