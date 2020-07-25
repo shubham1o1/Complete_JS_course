@@ -245,3 +245,32 @@ console.log(i);
 ```
 
 - `i` is not block scoped with var
+
+## Blocks and IIFEs:
+
+- New way of creating IIFEs will be discussed
+- Block scope gives us a data privacy, for which we relied on IIFEs before
+
+### A New Way to Create Block in ES6:
+
+```js
+{
+  const a = 1;
+  let b = 2;
+}
+
+console.log(a + b);
+// Uncaught ReferenceError: a is not defined
+```
+
+- Somewhat like IIFEs
+
+### With var though :
+
+```js
+{
+  var c = 3;
+}
+
+console.log(c); // 3
+```
