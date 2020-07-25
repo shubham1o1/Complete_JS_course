@@ -102,7 +102,7 @@ console.log(c);
 ////////////////////////////////////////////////////
 /////////////     Strings in ES6     ///////////////
 ////////////////////////////////////////////////////
-
+/*
 let firstName = "John";
 let lastName = "Smith";
 
@@ -138,3 +138,68 @@ console.log(n.endsWith("h")); //true
 console.log(n.includes(" ")); //true (Ther is a space in string)
 console.log(firstName.repeat(5)); // JohnJohnJohnJohnJohn
 console.log(`${firstName} `.repeat(5)); // John John John John John
+*/
+
+////////////////////////////////////////////////////
+///////////  Arrow Functions Basics   //////////////
+////////////////////////////////////////////////////
+
+const years = [1990, 1965, 1982, 1937];
+
+// ES5
+var ages5 = years.map(function (el) {
+  return 2020 - el;
+});
+
+console.log(ages5);
+/*
+Array(4)
+0: 30
+1: 55
+2: 38
+3: 83
+length: 4
+__proto__: Array(0)
+*/
+
+//ES6:
+let ages6 = years.map((el) => 2020 - el);
+console.log(ages6);
+/*
+Array(4)
+0: 30
+1: 55
+2: 38
+3: 83
+length: 4
+__proto__: Array(0)
+*/
+
+ages6 = years.map((el, index) => `Age element ${index + 1}: ${2020 - el}`);
+console.log(ages6);
+/*
+(4) ["Age element 1: 30", "Age element 2: 55", "Age element 3: 38", "Age element 4: 83"]
+0: "Age element 1: 30"
+1: "Age element 2: 55"
+2: "Age element 3: 38"
+3: "Age element 4: 83"
+length: 4
+__proto__: Array(0)
+*/
+
+ages6 = years.map((el, index) => {
+  const now = new Date().getFullYear();
+  const age = now - el;
+  return `Age element ${index + 1}: ${age}`;
+});
+
+console.log(ages6);
+/*
+(4) ["Age element 1: 30", "Age element 2: 55", "Age element 3: 38", "Age element 4: 83"]
+0: "Age element 1: 30"
+1: "Age element 2: 55"
+2: "Age element 3: 38"
+3: "Age element 4: 83"
+length: 4
+__proto__: Array(0)
+*/
