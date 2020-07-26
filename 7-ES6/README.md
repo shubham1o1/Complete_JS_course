@@ -655,3 +655,141 @@ const [age2, retirement] = calcAgeRetirement(1990);
 console.log(age2); // 30
 console.log(retirement); // 35
 ```
+
+## Arrays in ES5 ES2015
+
+- New Methods and New Kind of Loop
+- `querySelectorAll` returns a NodeList not an Array. We transformed using `slice` and `call()` in ES5.
+
+```js
+const boxes = document.querySelectorAll(".box");
+
+// ES5
+var boxesArr5 = Array.prototype.slice.call(boxes);
+
+boxesArr5.forEach(function (cur) {
+  cur.style.backgroundColor = "dodgerblue";
+});
+
+//ES6
+const boxesArr6 = Array.from(boxes);
+// Transform nodeslist into array
+
+boxesArr6.forEach((cur) => (cur.style.backgroundColor = "dodgerblue"));
+```
+
+- In ES6 we have the `from` method which transforms `NodeLists` into `Arrays`
+
+### Looping Over an Array:
+
+- We usually use the `forEach` or `map` method and the problem with them is that we cannot `break` from them.
+- We also cannot use the `continue` statement
+- In ES5 we'd use the for loop.
+
+### ES5 Version:
+
+- Note that we can also use the property, `className` where we can set the HTML class
+
+```js
+// ES5
+for (var i = 0; i < boxesArr5.length; i++) {
+  if (boxesArr5[i].className === "box blue") {
+    continue;
+  }
+  boxesArr5[i].textContent = "I Changed to blue";
+}
+```
+
+### `for - of` loop:
+
+#### Syntax
+
+```js
+for (variable of iterable) {
+  statement;
+}
+```
+
+**variable**
+On each iteration a value of a different property is assigned to `variable`. `variable` may be declared with const, let, or var.
+
+**iterable**
+Object whose `iterable` properties are iterated.
+
+```js
+//ES6
+for (const cur of boxesArr6) {
+  if (cur.className === "box blue") {
+    continue;
+  }
+  cur.textContent = "I Changed to blue";
+}
+```
+
+- We can also use string's method `includes()` here
+
+```js
+if (cur.className.includes('blue'))
+```
+
+### finding index and finding items:
+
+```js
+//ES5
+var ages = [12, 17, 8, 21, 14, 11];
+
+var full = ages.map(function (cur) {
+  return cur >= 18;
+});
+console.log(full);
+
+console.log(full.indexOf(true)); //3 first index of true
+
+console.log(ages[full.indexOf(true)]); // 21
+
+// ES6:
+console.log(ages.findIndex((cur) => cur >= 18)); //3
+console.log(ages.find((cur) => cur >= 18)); //21
+```
+
+### `findIndex()`:
+
+`Array.prototype.findIndex()`
+
+The `findIndex()` method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+
+#### Syntax
+
+`arr.findIndex(callback( element[, index[, array]] )[, thisArg])`
+
+**Parameters**
+
+_callback_
+
+A function to execute on each value in the array until the function returns true, indicating that the satisfying element was found.
+
+It takes three arguments:
+
+_element_
+
+The current element being processed in the array.
+
+_index Optional_
+
+The index of the current element being processed in the array.
+
+_array Optional_
+
+The array findIndex() was called upon.
+
+_thisArg Optional_
+
+Optional object to use as this when executing callback.
+
+**Return value**
+
+The index of the first element in the array that passes the test. Otherwise, -1.
+
+### `find()` method:
+
+The `find()` method returns the value of the first element in the provided array that satisfies the provided testing function.

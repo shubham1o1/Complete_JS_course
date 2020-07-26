@@ -284,3 +284,55 @@ console.log(retirement); // 35
 ////////////////////////////////////////////////////
 /////             Arrays in ES6                /////
 ////////////////////////////////////////////////////
+
+const boxes = document.querySelectorAll(".box");
+
+// querySelectorAll returns a NodeList not a array. We transformed using call() in ES5
+
+// ES5
+var boxesArr5 = Array.prototype.slice.call(boxes);
+
+boxesArr5.forEach(function (cur) {
+  cur.style.backgroundColor = "dodgerblue";
+});
+
+//ES6
+
+const boxesArr6 = Array.from(boxes);
+// Transform nodeslist into array
+
+boxesArr6.forEach((cur) => (cur.style.backgroundColor = "dodgerblue"));
+
+// ES5
+/*
+for (var i = 0; i < boxesArr5.length; i++) {
+  if (boxesArr5[i].className === "box blue") {
+    continue;
+  }
+  boxesArr5[i].textContent = "I Changed to blue";
+}
+*/
+
+//ES6
+for (const cur of boxesArr6) {
+  if (cur.className.includes("blue")) {
+    continue;
+  }
+  cur.textContent = "I Changed to blue";
+}
+
+//ES5
+var ages = [12, 17, 8, 21, 14, 11];
+
+var full = ages.map(function (cur) {
+  return cur >= 18;
+});
+console.log(full);
+
+console.log(full.indexOf(true)); //3 first index of true
+
+console.log(ages[full.indexOf(true)]); // 21
+
+// ES6:
+console.log(ages.findIndex((cur) => cur >= 18)); //3
+console.log(ages.find((cur) => cur >= 18)); //21
