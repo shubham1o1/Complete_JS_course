@@ -678,7 +678,7 @@ const boxesArr6 = Array.from(boxes);
 boxesArr6.forEach((cur) => (cur.style.backgroundColor = "dodgerblue"));
 ```
 
-- In ES6 we have the `from` method which transforms `NodeLists` into `Arrays`
+- In ES6 we have the `from()` method which transforms `NodeLists` into `Arrays`
 
 ### Looping Over an Array:
 
@@ -793,3 +793,60 @@ The index of the first element in the array that passes the test. Otherwise, -1.
 ### `find()` method:
 
 The `find()` method returns the value of the first element in the provided array that satisfies the provided testing function.
+
+## The Spread Operator:
+
+- A very convenient way to expand elements of an array in places like arguments and function calls.
+- In ES5 we could use the apply method to pass the array's element as an individual argument.
+- But in ES6 we could just use the spread operator to expand the array and send it as an argument
+
+```js
+function addFourAges(a, b, c, d) {
+  return a + b + c + d;
+}
+
+var sum1 = addFourAges(10, 30, 12, 21);
+console.log(sum1); //73
+
+// Passing numbers from array:
+var ages = [10, 30, 12, 21];
+var sum2 = addFourAges.apply(null, ages);
+console.log(sum2); //73
+
+// ES6
+const sum3 = addFourAges(...ages);
+// console.log(sum3); // 73
+```
+
+### Use Cases of the spread Operator:
+
+#### Joining Two Arrays:
+
+```js
+const familySmith = ["John", "Jane", "Mark"];
+const familyMiller = ["Mary", "Bob", "Ann"];
+const bigFamily = [...familySmith, "Lily", ...familyMiller];
+console.log(bigFamily);
+/*
+(7) ["John", "Jane", "Mark", "Lily", "Mary", "Bob", "Ann"]
+0: "John"
+1: "Jane"
+2: "Mark"
+3: "Lily"
+4: "Mary"
+5: "Bob"
+6: "Ann"
+length: 7
+__proto__: Array(0)
+*/
+```
+
+#### Using in NodeList:
+
+```js
+const h = document.querySelector("h1");
+const boxes = document.querySelectorAll(".box"); // NodeList
+const all = [h, ...boxes];
+
+Array.from(all).forEach((curr) => (curr.style.color = "purple"));
+```

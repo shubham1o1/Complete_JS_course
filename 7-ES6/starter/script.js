@@ -284,7 +284,7 @@ console.log(retirement); // 35
 ////////////////////////////////////////////////////
 /////             Arrays in ES6                /////
 ////////////////////////////////////////////////////
-
+/*
 const boxes = document.querySelectorAll(".box");
 
 // querySelectorAll returns a NodeList not a array. We transformed using call() in ES5
@@ -302,7 +302,7 @@ const boxesArr6 = Array.from(boxes);
 // Transform nodeslist into array
 
 boxesArr6.forEach((cur) => (cur.style.backgroundColor = "dodgerblue"));
-
+*/
 // ES5
 /*
 for (var i = 0; i < boxesArr5.length; i++) {
@@ -312,7 +312,7 @@ for (var i = 0; i < boxesArr5.length; i++) {
   boxesArr5[i].textContent = "I Changed to blue";
 }
 */
-
+/*
 //ES6
 for (const cur of boxesArr6) {
   if (cur.className.includes("blue")) {
@@ -336,3 +336,47 @@ console.log(ages[full.indexOf(true)]); // 21
 // ES6:
 console.log(ages.findIndex((cur) => cur >= 18)); //3
 console.log(ages.find((cur) => cur >= 18)); //21
+*/
+
+////////////////////////////////////////////////////
+/////          The Spread Operator             /////
+////////////////////////////////////////////////////
+
+function addFourAges(a, b, c, d) {
+  return a + b + c + d;
+}
+
+var sum1 = addFourAges(10, 30, 12, 21);
+console.log(sum1); //73
+
+// Passing numbers from array:
+var ages = [10, 30, 12, 21];
+var sum2 = addFourAges.apply(null, ages);
+console.log(sum2); //73
+
+// ES6
+const sum3 = addFourAges(...ages);
+console.log(sum3); // 73
+
+const familySmith = ["John", "Jane", "Mark"];
+const familyMiller = ["Mary", "Bob", "Ann"];
+const bigFamily = [...familySmith, "Lily", ...familyMiller];
+console.log(bigFamily);
+/*
+(7) ["John", "Jane", "Mark", "Lily", "Mary", "Bob", "Ann"]
+0: "John"
+1: "Jane"
+2: "Mark"
+3: "Lily"
+4: "Mary"
+5: "Bob"
+6: "Ann"
+length: 7
+__proto__: Array(0)
+*/
+
+const h = document.querySelector("h1");
+const boxes = document.querySelectorAll(".box"); // NodeList
+const all = [h, ...boxes];
+
+Array.from(all).forEach((curr) => (curr.style.color = "purple"));
