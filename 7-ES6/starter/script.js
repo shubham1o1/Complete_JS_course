@@ -229,7 +229,7 @@ new Person("John").myFriends5(friends);
 */
 
 // ES6
-
+/*
 function Person(name) {
   this.name = name;
 }
@@ -241,3 +241,46 @@ Person.prototype.myFriends6 = function (friends) {
 
 var friends = ["Bob", "Jane", "Mark"];
 new Person("Mike").myFriends6(friends);
+*/
+
+////////////////////////////////////////////////////
+/////            Destructuring                 /////
+////////////////////////////////////////////////////
+
+//ES5
+// var john = ["John", 26];
+// var name = john[0];
+// var age = john[1];
+/*
+// ES6
+const [name, age] = ["John", 26];
+console.log(name); // John
+console.log(age); // 26
+
+//With Objects
+const obj = {
+  firstName: "John",
+  lastName: "Smith",
+};
+
+const { firstName, lastName } = obj;
+console.log(firstName); // John
+console.log(lastName); // Smith
+
+const { firstName: a, lastName: b } = obj;
+console.log(a); // john
+console.log(b); // smith
+
+function calcAgeRetirement(year) {
+  const age = new Date().getFullYear() - year;
+  return [age, 65 - age];
+}
+
+const [age2, retirement] = calcAgeRetirement(1990);
+console.log(age2); // 30
+console.log(retirement); // 35
+*/
+
+////////////////////////////////////////////////////
+/////             Arrays in ES6                /////
+////////////////////////////////////////////////////

@@ -589,3 +589,69 @@ length: 3
 __proto__: Array(0)
 */
 ```
+
+## Destructuring:
+
+- It is a very convenient way to extract data from data structure such as object or an array.
+
+### Storing Array's item in a single variable:
+
+- Here `name` and `age` constant variables are created and they are assigned the value of `"John"` and `26`
+
+```js
+//ES5
+// var john = ["John", 26];
+// var name = john[0];
+// var age = john[1];
+
+// ES6
+const [name, age] = ["John", 26];
+console.log(name); // John
+console.log(age); // 26
+```
+
+- We destructured `["John", 26];` using the syntax : `const [name, age] =`
+- It is like opposite of constructing a data structure
+
+### Destructuring with Objects:
+
+- Use curly braces surrounding the variable
+- Use the variable name, same as the key in the object
+
+```js
+//With Objects
+const obj = {
+  firstName: "John",
+  lastName: "Smith",
+};
+
+const { firstName, lastName } = obj;
+
+console.log(firstName); // John
+console.log(lastName); // Smith
+```
+
+### If we want to set a different variable name:
+
+```js
+const { firstName: a, lastName: b } = obj;
+console.log(a); // john
+console.log(b); // smith
+```
+
+### Use Cases:
+
+#### Returning Multiple Values from a Function:
+
+- In ES5 we used objects to return multiple values
+
+```js
+function calcAgeRetirement(year) {
+  const age = new Date().getFullYear() - year;
+  return [age, 65 - age];
+}
+
+const [age2, retirement] = calcAgeRetirement(1990);
+console.log(age2); // 30
+console.log(retirement); // 35
+```
