@@ -664,3 +664,135 @@ const johnAthlete6 = new Athlete6("john", 1990, "swimmer", 3, 10);
 johnAthlete6.wonMedals(); // 11
 johnAthlete6.calculateAge(); // 30
 */
+
+////////////////////////////////////////////////////
+/////            Coding  Challenge             /////
+////////////////////////////////////////////////////
+/*
+
+Suppose that you're working in a small town administration, and you're in charge of two town elements:
+1. Parks
+2. Streets
+
+It's a very small town, so right now there are only 3 parks and 4 streets. All parks and streets have a name and a build year.
+
+At an end-of-year meeting, your boss wants a final report with the following:
+1. Tree density of each park in the town (forumla: number of trees/park area)
+2. Average age of each town's park (forumla: sum of all ages/number of parks)
+3. The name of the park that has more than 1000 trees
+4. Total and average length of the town's streets
+5. Size classification of all streets: tiny/small/normal/big/huge. If the size is unknown, the default is normal
+
+All the report data should be printed to the console.
+
+HINT: Use some of the ES6 features: classes, subclasses, template strings, default parameters, maps, arrow functions, destructuring, etc.
+
+*/
+
+class Info {
+  constructor(name, yearBuild) {
+    this.name = name;
+    this.yearBuild = yearBuild;
+  }
+}
+
+class Parks extends Info {
+  constructor(name, yearBuild, numberOfTrees, area, age = 0) {
+    super(name, yearBuild);
+    this.numberOfTrees = numberOfTrees;
+    this.area = area;
+    this.age = new Date().getFullYear() - this.yearBuild;
+  }
+
+  calcDens() {
+    return this.numberOfTrees / this.area;
+  }
+}
+
+class Street extends Info {
+  constructor(name, yearBuild, length, size = "normal") {
+    super(name, yearBuild);
+    this.length = length;
+  }
+}
+console.log("----------------------------------------");
+console.log("The tree density:");
+// 1. Tree density of each park in the town (forumla: number of trees/park area)
+const parkA = new Parks("Park A", 1995, 2000, 154);
+const parkB = new Parks("Park B", 2015, 12000, 200);
+const parkC = new Parks("Park A", 2001, 200, 500);
+
+report = new Map();
+report.set("p-a", parkA);
+report.set("p-b", parkB);
+report.set("p-c", parkC);
+
+for (let [key, value] of report.entries()) {
+  console.log(`${value.name} has the density of ${value.calcDens()}`);
+}
+
+// console.log(report);
+console.log("----------------------------------------");
+
+console.log("Average age of each town's park:");
+// 2. Average age of each town's park (forumla: sum of all ages/number of parks)
+report.set("avg-age", (parkA.age + parkB.age + parkC.age) / 3);
+console.log(report.get("avg-age"));
+
+// 3. The name of the park that has more than 1000 trees
+console.log("----------------------------------------");
+
+console.log("The parks that has more than 1000 trees are:");
+
+for (let [key, value] of report.entries()) {
+  if (key.includes("p-")) {
+    if (report.get(key).numberOfTrees > 1000) {
+      console.log(`${report.get(key).name}`);
+    }
+  } else {
+    break;
+  }
+}
+console.log("----------------------------------------");
+
+// 4. Total and average length of the town's streets
+streetA = new Street("Street A", 1968, 200);
+streetB = new Street("Street B", 1978, 300);
+streetC = new Street("Street C", 1986, 400);
+streetD = new Street("Street D", 1990, 500);
+report.set(
+  "tot-l",
+  streetA.length + streetB.length + streetC.length + streetD.length
+);
+report.set("avg-l", report.get("tot-l") / 4);
+console.log(
+  `Total length ${report.get("tot-l")} and the Average Length : ${report.get(
+    "avg-l"
+  )} `
+);
+
+console.log("----------------------------------------");
+
+// 5. Size classification of all streets: tiny/small/normal/big/huge. If the size is unknown, the default is normalo=
+streets = new Map();
+
+streets.set("s-a", streetA);
+streets.set("s-b", streetB);
+streets.set("s-c", streetC);
+streets.set("s-d", streetD);
+
+for (let [key, value] of streets) {
+  if (value.length > 100 && value.length <= 200) {
+    value.size = "tiny";
+  } else if (value.length > 200 && value.length <= 300) {
+    value.size = "small";
+  } else if (value.length > 300 && value.length <= 400) {
+    value.size = "normal";
+  } else if (value.length > 300 && value.length <= 500) {
+    value.size = "big";
+  }
+}
+
+for (let [key, value] of streets) {
+  console.log(`${value.name} is of ${value.size} size`);
+}
