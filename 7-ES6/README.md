@@ -850,3 +850,173 @@ const all = [h, ...boxes];
 
 Array.from(all).forEach((curr) => (curr.style.color = "purple"));
 ```
+
+## Rest Parameters:
+
+- We're going to talk about function parameters
+- Rest Parameters allow us to pass an arbitrary number of arguments into a function and use these arguments in that function.
+- Use the same notation as the spread operator but are in fact an exact opposite thing.
+- While the spread operator transform arrays into single value, the rest parameter transforms collections of values into an array when we call the function with multilpe parameters.
+- The rest parameter syntax allows us to represent an indefinite number of arguments as an array.
+
+### Syntax
+
+```js
+function f(a, b, ...theArgs) {
+  // ...
+}
+```
+
+### Description
+
+A function's last parameter can be prefixed with `...` which will cause all remaining (user supplied) arguments to be placed within a "standard" JavaScript array.
+
+Only the last parameter can be a **"rest parameter"**.
+
+```js
+function myFun(a, b, ...manyMoreArgs) {
+  console.log("a", a);
+  console.log("b", b);
+  console.log("manyMoreArgs", manyMoreArgs);
+}
+
+myFun("one", "two", "three", "four", "five", "six");
+
+// Console Output:
+// a, one
+// b, two
+// manyMoreArgs, [three, four, five, six]
+```
+
+### Arguments variables:
+
+- ref: https://levelup.gitconnected.com/how-to-write-function-with-n-number-of-parameters-in-javascript-a916de1be7a2
+
+- In ES5 if we dont want to define a number of argument we dont define any parameters for a function and just use the arguments keyword.
+- arguments keyword or a variable is very similar to the this variable. Each execution context gets access to the argument variable.
+- In Javascript, **arguments** is a local JavaScript object variable that is available in all non-arrow functions. **arguments** is an Array-like object accessible inside functions that contain the values of the **arguments** passed to that function.
+
+```js
+// ES5
+function isFullAge5() {
+  console.log(arguments);
+}
+
+isFullAge5();
+
+/*
+Arguments [callee: ƒ, Symbol(Symbol.iterator): ƒ]
+callee: ƒ isFullAge5()
+length: 0
+Symbol(Symbol.iterator): ƒ values()
+__proto__: Object
+*/
+```
+
+- Since the arguments object isn’t an array, we first have to convert it into an array using the `Array.from` method in ES6 but `Array.prototype.slice.call(arguments);` in ES5, before we can loop through it.
+
+```js
+// ES5
+function isFullAge5() {
+  var argsArr = Array.prototype.slice.call(arguments);
+  console.log(argsArr);
+  argsArr.forEach(function (cur) {
+    console.log(2020 - cur >= 18);
+  });
+}
+
+isFullAge5(1990, 2009, 1965);
+/*
+(3) [1990, 2009, 1965]
+0: 1990
+1: 2009
+2: 1965
+length: 3
+__proto__: Array(0)
+
+ true
+ false
+ true
+*/
+```
+
+#### Using Rest Parameters:
+
+```js
+// ES6
+
+function isFullAge6(...years) {
+  console.log(years);
+  years.forEach((curr) => console.log(2020 - curr >= 18));
+}
+
+isFullAge6(2011, 2001, 2012, 2000);
+
+/*
+(4) [2011, 2001, 2012, 2000]
+0: 2011
+1: 2001
+2: 2012
+3: 2000
+length: 4
+__proto__: Array(0)
+
+false
+true
+false
+true
+*/
+```
+
+### Difference between spread operator and rest parameter:
+
+- Spread is used in function call while the rest is used in function declaration
+
+### Accepting Another Parameter:
+
+- ES5 version:
+
+```js
+function isFullAge5(limit) {
+  console.log(arguments);
+  // Arguments(4) [21, 1990, 2009, 1965, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+
+  var argsArr = Array.prototype.slice.call(arguments, 1);
+  console.log(argsArr);
+  // (3) [1990, 2009, 1965]
+
+  argsArr.forEach(function (cur) {
+    console.log(2020 - cur >= limit);
+  });
+  // true
+  // false
+  // true
+
+  console.log(limit); // 21
+}
+
+isFullAge5(21, 1990, 2009, 1965);
+```
+
+- Here the slice method cuts the array from the position 1 onwards `var argsArr = Array.prototype.slice.call(arguments, 1);`
+
+#### ES6 Version:
+
+```js
+// ES6
+
+function isFullAge6(limit, ...years) {
+  console.log(years);
+  years.forEach((curr) => console.log(2020 - curr >= limit));
+}
+
+isFullAge6(16, 2011, 2001, 2012, 2000);
+
+/*
+(4) [2011, 2001, 2012, 2000]
+false
+true
+false
+true
+*/
+```

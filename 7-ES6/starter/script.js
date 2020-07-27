@@ -341,7 +341,7 @@ console.log(ages.find((cur) => cur >= 18)); //21
 ////////////////////////////////////////////////////
 /////          The Spread Operator             /////
 ////////////////////////////////////////////////////
-
+/*
 function addFourAges(a, b, c, d) {
   return a + b + c + d;
 }
@@ -362,6 +362,7 @@ const familySmith = ["John", "Jane", "Mark"];
 const familyMiller = ["Mary", "Bob", "Ann"];
 const bigFamily = [...familySmith, "Lily", ...familyMiller];
 console.log(bigFamily);
+*/
 /*
 (7) ["John", "Jane", "Mark", "Lily", "Mary", "Bob", "Ann"]
 0: "John"
@@ -374,9 +375,74 @@ console.log(bigFamily);
 length: 7
 __proto__: Array(0)
 */
+/*
 
 const h = document.querySelector("h1");
 const boxes = document.querySelectorAll(".box"); // NodeList
 const all = [h, ...boxes];
 
 Array.from(all).forEach((curr) => (curr.style.color = "purple"));
+*/
+
+////////////////////////////////////////////////////
+/////           The Rest Parameters            /////
+////////////////////////////////////////////////////
+/*
+// ES5
+function isFullAge5() {
+  var argsArr = Array.prototype.slice.call(arguments);
+  console.log(argsArr);
+  argsArr.forEach(function (cur) {
+    console.log(2020 - cur >= 18);
+  });
+}
+
+isFullAge5(1990, 2009, 1965);
+
+// isFullAge5(1990, 2009, 1965, 2018); // Works with all number of params
+
+// ES6
+
+function isFullAge6(...years) {
+  console.log(years);
+  years.forEach((curr) => console.log(2020 - curr >= 18));
+}
+
+isFullAge6(2011, 2001, 2012, 2000);
+*/
+
+function isFullAge5(limit) {
+  var argsArr = Array.prototype.slice.call(arguments, 1);
+  console.log(argsArr);
+  // (3) [1990, 2009, 1965]
+
+  console.log(limit); // 21
+
+  argsArr.forEach(function (cur) {
+    console.log(2020 - cur >= limit);
+  });
+  // true
+  // false
+  // true
+}
+
+// isFullAge5(21, 1990, 2009, 1965);
+
+// isFullAge5(1990, 2009, 1965, 2018); // Works with all number of params
+
+// ES6
+
+function isFullAge6(limit, ...years) {
+  console.log(years);
+  years.forEach((curr) => console.log(2020 - curr >= limit));
+}
+
+isFullAge6(16, 2011, 2001, 2012, 2000);
+
+/*
+(4) [2011, 2001, 2012, 2000]
+false
+true
+false
+true
+*/
