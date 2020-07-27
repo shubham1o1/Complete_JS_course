@@ -539,6 +539,7 @@ console.log(question.get(ans === question.get("correct")));
 /////                 Classes                  /////
 ////////////////////////////////////////////////////
 
+/*
 // ES5
 
 var Person5 = function (name, yearOfBirth, job) {
@@ -588,3 +589,76 @@ PersonStrange.prototype.greet = function () {
 john = new PersonStrange("John");
 
 console.log(john);
+*/
+
+////////////////////////////////////////////////////
+/////         Classes With Subclasses          /////
+////////////////////////////////////////////////////
+
+/*
+// ES5
+
+var Person5 = function (name, yearOfBirth, job) {
+  this.name = name;
+  this.yearOfBirth = yearOfBirth;
+  this.job = job;
+};
+
+Person5.prototype.calculateAge = function () {
+  var age = new Date().getFullYear() - this.yearOfBirth;
+  console.log(age);
+};
+
+var Athlete5 = function (name, yearOfBirth, job, olympicgames, medals) {
+  Person5.call(this, name, yearOfBirth, job);
+  this.olympicgames = olympicgames;
+  this.medals = medals;
+};
+
+Athlete5.prototype = Object.create(Person5.prototype);
+
+Athlete5.prototype.wonModel = function () {
+  this.medals++;
+  console.log(this.medals);
+};
+
+var johnAthlete5 = new Athlete5("John", 1990, "swimmer", 3, 10);
+var person5 = new Person5("John", 1990, "swimmer");
+
+johnAthlete5.calculateAge();
+johnAthlete5.wonModel();
+*/
+
+// ES6
+
+// SUper Class
+class Person6 {
+  constructor(name, yearOfBirth, job) {
+    this.name = name;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
+  }
+
+  calculateAge() {
+    var age = new Date().getFullYear() - this.yearOfBirth;
+    console.log(age);
+  }
+}
+
+class Athlete6 extends Person6 {
+  constructor(name, yearOfBirth, job, olympicGames, medals) {
+    super(name, yearOfBirth, job);
+    this.olympicGames = olympicGames;
+    this.medals = medals;
+  }
+
+  wonMedals() {
+    this.medals++;
+    console.log(this.medals);
+  }
+}
+
+const johnAthlete6 = new Athlete6("john", 1990, "swimmer", 3, 10);
+
+johnAthlete6.wonMedals(); // 11
+johnAthlete6.calculateAge(); // 30

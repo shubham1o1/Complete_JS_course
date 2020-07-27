@@ -1386,6 +1386,8 @@ class StaticMethodCall {
 
 #### Using static in classes
 
+ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static
+
 The following example demonstrates several things:
 
 - How a static method is implemented on a class.
@@ -1416,3 +1418,101 @@ console.log(BiggerTriple.triple(3));
 console.log(tp.triple());
 // 'tp.triple is not a function'.
 ```
+
+## Classes with Subclasses
+
+### Inheritance in ES5:
+
+- We have two function constructor; `Athlete5`(Subclass) is inheriting from `Person5` (SUperclass)
+- Before we were implementing inheritance by instance from constructor prototype, this is the first time we are implementing this.
+- `Athlete5` constructor has all the data passed on to it and declared when defined.
+- We create a `Person5.call()` method inside `Athlete5` and this is also passsed .
+- `this` is passed so that when new operator creates the Athlete5 object, it starts by creating an empty object with its `this` variable pointing to Athlete5.
+- It is the same `this` variable that is passed to call so that the assignment of properties of `Person5` will be referenced to `Athlete5`
+
+- Now we'll set the prototype manually by using `Object.create()`
+- We want the prototype of `Athlete5` to be the prototype of the `Person5` so that they become connected
+
+```js
+// ES5
+
+var Person5 = function (name, yearOfBirth, job) {
+  this.name = name;
+  this.yearOfBirth = yearOfBirth;
+  this.job = job;
+};
+
+Person5.prototype.calculateAge = function () {
+  var age = new Date().getFullYear() - this.yearOfBirth;
+  console.log(age);
+};
+
+var Athlete5 = function (name, yearOfBirth, job, olympicgames, medals) {
+  // call and this to set data to Athlete5
+  // constructor from Person5 constructor's data
+  Person5.call(this, name, yearOfBirth, job);
+  this.olympicgames = olympicgames;
+  this.medals = medals;
+};
+
+// Inherits all the prototype of Person5
+Athlete5.prototype = Object.create(Person5.prototype);
+
+Athlete5.prototype.wonModel = function () {
+  this.medals++;
+  console.log(this.medals);
+};
+
+var johnAthlete5 = new Athlete5("John", 1990, "swimmer", 3, 10);
+var person5 = new Person5("John", 1990, "swimmer");
+
+johnAthlete5.calculateAge();
+johnAthlete5.wonModel();
+```
+
+![inheritance in es5](notes-images/es5inheritance.png)
+
+- We can see the `Athlete5` has the prototype of `Person5` which includes the `calculateAge()` method
+- Thus we are also able to call the `calculateAge()` from Athlete5 instance
+
+### Inheritance in ES6 (Subclassing):
+
+```js
+// ES6
+
+// SUper Class
+class Person6 {
+  constructor(name, yearOfBirth, job) {
+    this.name = name;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
+  }
+
+  calculateAge() {
+    var age = new Date().getFullYear() - this.yearOfBirth;
+    console.log(age);
+  }
+}
+
+class Athlete6 extends Person6 {
+  constructor(name, yearOfBirth, job, olympicGames, medals) {
+    super(name, yearOfBirth, job);
+    this.olympicGames = olympicGames;
+    this.medals = medals;
+  }
+
+  wonMedals() {
+    this.medals++;
+    console.log(this.medals);
+  }
+}
+
+const johnAthlete6 = new Athlete6("john", 1990, "swimmer", 3, 10);
+
+johnAthlete6.wonMedals(); // 11
+johnAthlete6.calculateAge(); // 30
+```
+
+![subclasses in ES6](notes-images/subclasses6.png)
+
+- Keything is the prototype chain and prototypical inheritance.
