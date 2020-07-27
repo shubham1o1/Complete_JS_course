@@ -1521,3 +1521,47 @@ johnAthlete6.calculateAge(); // 30
 - Key thing is the **prototype chain** and **prototypical inheritance**.
 - Class is just syntactical sugar
 - Under the hood it works by utilizing the **prototype chain**
+
+## Lesson From Coding Challenge:
+
+### Reduce Method :
+
+- used to reduce an array to a single value
+- ES5 method, similar to forEach/map
+- The reduce() method executes a reducer function (that you provide) on each element of the array, resulting in single output value.
+
+```js
+const array1 = [1, 2, 3, 4];
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+// 1 + 2 + 3 + 4
+console.log(array1.reduce(reducer));
+// expected output: 10
+
+// 5 + 1 + 2 + 3 + 4
+console.log(array1.reduce(reducer, 5));
+// expected output: 15
+```
+
+The reducer function takes four arguments:
+
+- Accumulator (acc)
+- Current Value (cur)
+- Current Index (idx)
+- Source Array (src)
+
+Your reducer function's returned value is assigned to the accumulator, whose value is remembered across each iteration throughout the array, and ultimately becomes the final, single resulting value.
+
+#### Syntax
+
+```js
+arr.reduce(callback( accumulator, currentValue[, index[, array]] )[, initialValue])
+```
+
+- Has access to previous value , current and index, initial value
+
+- Here if we pass an array, it sums to a single value:
+
+```js
+const sum = arr.reduce((prev, cur, index) => prev + cur, 0);
+```

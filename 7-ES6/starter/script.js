@@ -734,9 +734,10 @@ for (let [key, value] of report.entries()) {
 // console.log(report);
 console.log("----------------------------------------");
 
-console.log("Average age of each town's park:");
 // 2. Average age of each town's park (forumla: sum of all ages/number of parks)
 report.set("avg-age", (parkA.age + parkB.age + parkC.age) / 3);
+
+console.log("Average age of each town's park:");
 console.log(report.get("avg-age"));
 
 // 3. The name of the park that has more than 1000 trees
