@@ -1086,3 +1086,199 @@ var emily = new SmithPerson("Emily", 1983, "Diaz", "Spanish");
 console.log(emily);
 // SmithPerson {lastName: "Diaz", nationality: "Spanish", firstName: "Emily"}
 ```
+
+## Maps:
+
+- New Data Structure in ES6
+- Common use case of JS object is to use them as hash maps. (String key : Arbitrary Values)
+- Map is a new key-value data structure, the key could be numbers, strings, function, objects or boolean in map but in object it had to be a string.
+
+### Setting value in map
+
+- We use the set method
+- We define Map with new keyword
+
+```js
+const question = new Map();
+
+// Defining a new key-value pair
+question.set(
+  "question",
+  "What is the official name of the latest major JavaScript Version"
+);
+question.set(1, "ES5");
+question.set(2, "ES6");
+question.set(3, "ES2015");
+question.set(4, "ES57");
+question.set("correct", 3);
+
+question.set(true, "Correct Answer");
+question.set(false, "Wrong, Please try again");
+
+console.log(question);
+
+/*
+Map(8) {"question" => "What is the official name of the latest major JavaScript Version", 1 => "ES5", 2 => "ES6", 3 => "ES2015", 4 => "ES57", …}
+[[Entries]]
+0: {"question" => "What is the official name of the latest major JavaScript Version"}
+1: {1 => "ES5"}
+2: {2 => "ES6"}
+3: {3 => "ES2015"}
+4: {4 => "ES57"}
+5: {"correct" => 3}
+6: {true => "Correct Answer"}
+7: {false => "Wrong, Please try again"}
+size: (...)
+__proto__: Map
+*/
+```
+
+### Description
+
+A Map object iterates its elements in insertion order — a for...of loop returns an array of [key, value] for each iteration.
+
+### Retrieving Data From Map:
+
+```js
+console.log(question.get("question"));
+// What is the official name of the latest major JavaScript Version
+```
+
+### Checking size of a Map
+
+```js
+console.log(question.size);
+// 8
+```
+
+### Checking and deleting data:
+
+- specify the key to delete
+
+```js
+question.delete(4);
+```
+
+- Checking in console:
+
+```js
+question
+Map(7) {"question" => "What is the official name of the latest major JavaScript Version", 1 => "ES5", 2 => "ES6", 3 => "ES2015", "correct" => 3, …}
+```
+
+- use the `has()` method to delete the item in the key:
+
+```js
+if (question.has(4)) {
+  question.delete(4);
+}
+```
+
+- Deleting all the data:
+
+```js
+question.clear();
+console.log(question);
+
+/*
+Map(0) {}
+[[Entries]]
+No properties
+size: (...)
+__proto__: Map
+*/
+```
+
+### Maps are iterable:
+
+- We can loop through Maps but we cannot do so in objects.
+
+### Maps have a `forEach()` method
+
+```js
+question.forEach((value, key) =>
+  console.log(`This is ${key}, and it's set to ${value}`)
+);
+
+/*
+
+This is question, and it's set to What is the official name of the latest major JavaScript Version
+This is 1, and it's set to ES5
+This is 2, and it's set to ES6
+This is 3, and it's set to ES2015
+This is 4, and it's set to ES57
+This is correct, and it's set to 3
+This is true, and it's set to Correct Answer
+This is false, and it's set to Wrong, Please try again
+*/
+```
+
+#### Using `for...of` to iterate through maps:
+
+```js
+for (let [key, value] of question.entries()) {
+  if (typeof key === "number") {
+    console.log(value);
+  }
+}
+
+/*
+
+ES5
+ES6
+ES2015
+ES57
+*/
+```
+
+- The **entries()** method returns a new Iterator object that contains the [key, value] pairs for each element in the Map object in insertion order.
+
+**Using `entries()`**
+
+```js
+let myMap = new Map();
+myMap.set("0", "foo");
+myMap.set(1, "bar");
+myMap.set({}, "baz");
+
+let mapIter = myMap.entries();
+
+console.log(mapIter.next().value); // ["0", "foo"]
+console.log(mapIter.next().value); // [1, "bar"]
+console.log(mapIter.next().value); // [Object, "baz"]
+```
+
+### Complete Quiz Code:
+
+```js
+const question = new Map();
+
+// Setting the data structure
+question.set(
+  "question",
+  "What is the official name of the latest major JavaScript Version"
+);
+question.set(1, "ES5");
+question.set(2, "ES6");
+question.set(3, "ES2015");
+question.set(4, "ES57");
+question.set("correct", 3);
+question.set(true, "Correct Answer");
+question.set(false, "Wrong, Please try again");
+
+console.log(question.get("question"));
+// What is the official name of the latest major JavaScript Version
+
+// Displaying the option
+for (let [key, value] of question.entries()) {
+  if (typeof key === "number") {
+    console.log(`Answer ${key}: ${value}`);
+  }
+}
+
+// Reading the answer
+const ans = parseInt(prompt("Write the correct answer"));
+
+// Checking if answer is correct and display pertinent message
+console.log(question.get(ans === question.get("correct")));
+```
