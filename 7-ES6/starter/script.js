@@ -411,6 +411,7 @@ function isFullAge6(...years) {
 isFullAge6(2011, 2001, 2012, 2000);
 */
 
+/*
 function isFullAge5(limit) {
   var argsArr = Array.prototype.slice.call(arguments, 1);
   console.log(argsArr);
@@ -438,11 +439,54 @@ function isFullAge6(limit, ...years) {
 }
 
 isFullAge6(16, 2011, 2001, 2012, 2000);
+*/
+
+////////////////////////////////////////////////////
+/////           Default  Parameters            /////
+////////////////////////////////////////////////////
 
 /*
-(4) [2011, 2001, 2012, 2000]
-false
-true
-false
-true
+//ES5
+function SmithPerson(firstName, yearOfBirth, lastName, nationality) {
+  lastName === undefined ? (lastName = "Smith") : (this.lastName = lastName);
+  nationality === undefined
+    ? (nationality = "American")
+    : (this.nationality = nationality);
+
+  this.firstName = firstName;
+  this.lastName = lastName;
+  // this.yearOfBirth = yearOfBirth;
+  // this.nationality = nationality;
+}
+
+var john = new SmithPerson("John", 1990);
+// john's lastName and nationality will be assigned as undefined
+
+console.log(john);
+// SmithPerson {firstName: "John", lastName: "Smith", yearOfBirth: 1990, nationality: "American"}
+
+var emily = new SmithPerson("Emily", 1983, "Diaz", "Spanish");
+console.log(emily);
+// SmithPerson {lastName: "Diaz", nationality: "Spanish", firstName: "Emily"}
 */
+
+// ES6
+function SmithPerson(
+  firstName,
+  yearOfBirth,
+  lastName = "Smith",
+  nationality = "American"
+) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.yearOfBirth = yearOfBirth;
+  this.nationality = nationality;
+}
+
+var john = new SmithPerson("John", 1990);
+console.log(john);
+// SmithPerson {firstName: "John", lastName: "Smith", yearOfBirth: 1990, nationality: "American"}
+
+var emily = new SmithPerson("Emily", 1983, "Diaz", "Spanish");
+console.log(emily);
+// SmithPerson {lastName: "Diaz", nationality: "Spanish", firstName: "Emily"}

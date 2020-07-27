@@ -1020,3 +1020,69 @@ false
 true
 */
 ```
+
+## Default Parameters:
+
+- We use them whenever we want one or more parameters in a function to be preset, they'll have default value.
+
+```js
+function SmithPerson(firstName, yearOfBirth, lastName, nationality) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.yearOfBirth = yearOfBirth;
+  this.nationality = nationality;
+}
+
+var john = new SmithPerson("John", 1990);
+// john's lastName and nationality will be assigned as undefined
+console.log(john);
+
+// SmithPerson {firstName: "John", lastName: undefined, yearOfBirth: 1990, nationality: undefined}
+```
+
+- Modified version:
+
+```js
+function SmithPerson(firstName, yearOfBirth, lastName, nationality) {
+  lastName === undefined ? (lastName = "Smith") : (this.lastName = lastName);
+  nationality === undefined
+    ? (nationality = "American")
+    : (this.nationality = nationality);
+
+  this.firstName = firstName;
+  this.lastName = lastName;
+  // this.yearOfBirth = yearOfBirth;
+  // this.nationality = nationality;
+}
+
+var john = new SmithPerson("John", 1990);
+// john's lastName and nationality will be assigned as undefined
+
+console.log(john);
+// SmithPerson {firstName: "John", lastName: "Smith", yearOfBirth: 1990, nationality: "American"}
+```
+
+### ES6 Version:
+
+```js
+// ES6
+function SmithPerson(
+  firstName,
+  yearOfBirth,
+  lastName = "Smith",
+  nationality = "American"
+) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.yearOfBirth = yearOfBirth;
+  this.nationality = nationality;
+}
+
+var john = new SmithPerson("John", 1990);
+console.log(john);
+// SmithPerson {firstName: "John", lastName: "Smith", yearOfBirth: 1990, nationality: "American"}
+
+var emily = new SmithPerson("Emily", 1983, "Diaz", "Spanish");
+console.log(emily);
+// SmithPerson {lastName: "Diaz", nationality: "Spanish", firstName: "Emily"}
+```
