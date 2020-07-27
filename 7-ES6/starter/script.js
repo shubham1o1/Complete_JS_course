@@ -448,15 +448,15 @@ isFullAge6(16, 2011, 2001, 2012, 2000);
 /*
 //ES5
 function SmithPerson(firstName, yearOfBirth, lastName, nationality) {
-  lastName === undefined ? (lastName = "Smith") : (this.lastName = lastName);
+  lastName === undefined ? (lastName = "Smith") : (lastName = lastName);
   nationality === undefined
     ? (nationality = "American")
-    : (this.nationality = nationality);
+    : (nationality = nationality);
 
   this.firstName = firstName;
   this.lastName = lastName;
-  // this.yearOfBirth = yearOfBirth;
-  // this.nationality = nationality;
+  this.yearOfBirth = yearOfBirth;
+  this.nationality = nationality;
 }
 
 var john = new SmithPerson("John", 1990);
@@ -629,6 +629,7 @@ johnAthlete5.calculateAge();
 johnAthlete5.wonModel();
 */
 
+/*
 // ES6
 
 // SUper Class
@@ -662,3 +663,4 @@ const johnAthlete6 = new Athlete6("john", 1990, "swimmer", 3, 10);
 
 johnAthlete6.wonMedals(); // 11
 johnAthlete6.calculateAge(); // 30
+*/

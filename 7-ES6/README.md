@@ -43,7 +43,7 @@ console.log(name6);
 // Uncaught TypeError: Assignment to constant variable.
 ```
 
-- Variable declared with `var` is **function** scoped but the variable declared with `let` and `const` are **block**(if elwse, for, while, switch, function, ... ) scoped.
+- Variable declared with `var` is **function** scoped but the variable declared with `let` and `const` are **block**(if else, for, while, switch, function, ... ) scoped.
 
 ### Demo:
 
@@ -80,8 +80,7 @@ function driverLicence6(passedTest) {
 }
 
 driverLicence6(true);
-// Uncaught ReferenceError: firstName is not defined
-    at driverLicence6
+// Uncaught ReferenceError: firstName is not defined at driverLicence6
 ```
 
 ### Block:
@@ -139,7 +138,7 @@ driverLicence6(true);
 
 ### Hoisting the `let` variables:
 
-- We have log the `firstName` variable before assigning the value.
+- We have logged the `firstName` variable before assigning the value.
 - But it is logged as undefined that is because variables are hoisted before the line of execution where the variable is declared is reached but they are assigned only when the line of assignment is reached in the program excution.
 
 ```js
@@ -151,7 +150,6 @@ function driverLicence6(passedTest) {
     console.log(firstName); // undefined
     firstName = "John";
 
-    //Uncaught SyntaxError: Missing initializer in const declaration
     console.log(
       firstName +
         ", born in " +
@@ -182,9 +180,9 @@ driverLicence6(true);
 - Although variables are hoisted we still cannot accessed them before they are declared.
 - We can only use a variable after we declared and define them.
 
-### The i conundrum: (Self Mafde name):
+### The i conundrum: (Self Made term):
 
-- i outside for and inside for are two completely different VARIABLES.
+- `i` outside `for` and inside `for` are two completely different VARIABLES.
 
 ```js
 let i = 23;
@@ -318,14 +316,14 @@ console.log(
 const n = `${firstName} ${lastName}`;
 console.log(n.startsWith("J")); //true ( because n = John Smith starts with J)
 console.log(n.endsWith("h")); //true
-console.log(n.includes(" ")); //true (Ther is a space in string)
+console.log(n.includes(" ")); //true (There is a space in string)
 console.log(firstName.repeat(5)); // JohnJohnJohnJohnJohn
 console.log(`${firstName} `.repeat(5)); // John John John John John
 ```
 
-## Arrow Functions:
+## Arrow Function:
 
-An arrow function expression is a syntactically compact alternative to a regular function expression, although without its own bindings to the `this`, arguments, super, or new.target keywords. Arrow function expressions are ill suited as methods, and they cannot be used as constructors.
+An arrow function expression is a syntactically compact alternative to a regular function expression, although without its own bindings to the `this`, `arguments`, `super`, or `new.target` keywords. Arrow function expressions are ill suited as methods, and they cannot be used as constructors.
 
 ```js
 const years = [1990, 1965, 1982, 1937];
@@ -365,7 +363,7 @@ singleParam => { statements }
 ### Arrow functions variations:
 
 - **One argument**, **a line of code** (parenthesis not needed surroundning an argument)
-- `const ages6 = years.map((el) => 2020 - el);` here, el is the argument and `2020 - el` is the **return** expression.
+- `const ages6 = years.map((el) => 2020 - el);` here, `el` is the argument and `2020 - el` is the **return** expression.
 
 ```js
 //ES6:
@@ -421,9 +419,9 @@ __proto__: Array(0)
 
 ## Arrow Function Lexical 'this' Keyword:
 
-- The biggest advantage of using the arrow function might be that they share the surrounding this keyword.
-- Unlike normal functions, arrow functions don't get their this keyword.
-- They simply use the `this` keyword of the function they are written in. So, we say they have a lexical this variable.
+- The biggest advantage of using the arrow function might be that they share the surrounding `this` keyword.
+- Unlike normal functions, arrow functions don't get their `this` keyword.
+- They simply use the `this` keyword of the function they are written in. So, we say they have a lexical `this` variable.
 
 ```js
 //ES5
@@ -711,9 +709,11 @@ for (variable of iterable) {
 ```
 
 **variable**
+
 On each iteration a value of a different property is assigned to `variable`. `variable` may be declared with const, let, or var.
 
 **iterable**
+
 Object whose `iterable` properties are iterated.
 
 ```js
@@ -849,6 +849,7 @@ const boxes = document.querySelectorAll(".box"); // NodeList
 const all = [h, ...boxes];
 
 Array.from(all).forEach((curr) => (curr.style.color = "purple"));
+// not required, though.. all is already an array
 ```
 
 ## Rest Parameters:
@@ -892,9 +893,9 @@ myFun("one", "two", "three", "four", "five", "six");
 
 - ref: https://levelup.gitconnected.com/how-to-write-function-with-n-number-of-parameters-in-javascript-a916de1be7a2
 
-- In ES5 if we dont want to define a number of argument we dont define any parameters for a function and just use the arguments keyword.
-- arguments keyword or a variable is very similar to the this variable. Each execution context gets access to the argument variable.
-- In Javascript, **arguments** is a local JavaScript object variable that is available in all non-arrow functions. **arguments** is an Array-like object accessible inside functions that contain the values of the **arguments** passed to that function.
+- In ES5 if we dont want to define a number of argument we dont define any parameters for a function and just use the `arguments` keyword.
+- `arguments` keyword or a variable is very similar to the this variable. Each execution context gets access to the argument variable.
+- In Javascript, **`arguments`** is a local JavaScript object variable that is available in all non-arrow functions. **`arguments`** is an Array-like object accessible inside functions that contain the values of the **`arguments`** passed to that function.
 
 ```js
 // ES5
@@ -1044,15 +1045,15 @@ console.log(john);
 
 ```js
 function SmithPerson(firstName, yearOfBirth, lastName, nationality) {
-  lastName === undefined ? (lastName = "Smith") : (this.lastName = lastName);
+  lastName === undefined ? (lastName = "Smith") : (lastName = lastName);
   nationality === undefined
     ? (nationality = "American")
-    : (this.nationality = nationality);
+    : (nationality = nationality);
 
   this.firstName = firstName;
   this.lastName = lastName;
-  // this.yearOfBirth = yearOfBirth;
-  // this.nationality = nationality;
+  this.yearOfBirth = yearOfBirth;
+  this.nationality = nationality;
 }
 
 var john = new SmithPerson("John", 1990);
@@ -1135,7 +1136,7 @@ __proto__: Map
 
 ### Description
 
-A Map object iterates its elements in insertion order — a for...of loop returns an array of [key, value] for each iteration.
+A Map object iterates its elements in insertion order — a `for...of` loop returns an array of `[key, value]`for each iteration.
 
 ### Retrieving Data From Map:
 
@@ -1331,7 +1332,7 @@ john6.calculateAge(); //30
 - Note the absence of comma between functions
 - The constructor method is used though, for the first time
 
-Seeing in console:
+**Seeing in console:**
 
 ![classes](notes-images/classes.png)
 
@@ -1357,7 +1358,7 @@ Person6.greeting();
 
 ![Static Functions](notes-images/staticfunctions.png)
 
-- Note the presence of static function in the protype of Person
+- Note the absence of static function in the protype of Person. If function was present in prototype it would be able to be inherited.
 
 ```js
 john6.greeting();
@@ -1513,6 +1514,10 @@ johnAthlete6.wonMedals(); // 11
 johnAthlete6.calculateAge(); // 30
 ```
 
+- Looking at `johnAthlete6` in console:
+
 ![subclasses in ES6](notes-images/subclasses6.png)
 
-- Keything is the prototype chain and prototypical inheritance.
+- Key thing is the **prototype chain** and **prototypical inheritance**.
+- Class is just syntactical sugar
+- Under the hood it works by utilizing the **prototype chain**
