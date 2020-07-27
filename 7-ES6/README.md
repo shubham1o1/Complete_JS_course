@@ -1282,3 +1282,137 @@ const ans = parseInt(prompt("Write the correct answer"));
 // Checking if answer is correct and display pertinent message
 console.log(question.get(ans === question.get("correct")));
 ```
+
+## Classes:
+
+- Dont add anything new to the language
+- Just a **syntactic sugar** to the way we handle prototypal inheritance.
+- Makes easier to implement inheritance and to create objects based on blueprints(function constructors)
+- They are not hoisted, so first define then use them
+- We can only add methods to classes but not properties.
+
+```js
+// ES5
+
+var Person5 = function (name, yearOfBirth, job) {
+  this.name = name;
+  this.yearOfBirth = yearOfBirth;
+  this.job = job;
+};
+
+Person5.prototype.calculateAge = function () {
+  var age = new Date().getFullYear() - this.yearOfBirth;
+  console.log(age);
+};
+
+var john5 = new Person5("john", 1990, "teacher");
+john5.calculateAge(); //30
+
+//////////////////////////////////////////////////
+
+// ES6
+class Person6 {
+  constructor(name, yearOfBirth, job) {
+    this.name = name;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
+  }
+
+  calculateAge() {
+    var age = new Date().getFullYear() - this.yearOfBirth;
+    console.log(age);
+  }
+}
+
+var john6 = new Person6("john", 1990, "teacher");
+john6.calculateAge(); //30
+```
+
+- Note the absence of comma between functions
+- The constructor method is used though, for the first time
+
+Seeing in console:
+
+![classes](notes-images/classes.png)
+
+### Static Methods in classes:
+
+- They are attached to the classes and not inherited by the instances
+
+```js
+class Person6 {
+...........................
+  static greeting() {
+    console.log("Hey Here!");
+  }
+}
+
+Person6.greeting();
+// Hey Here!
+```
+
+- We can use static methods as helper methods
+- We cannot use them on instances.
+- It is attached to the class definition
+
+![Static Functions](notes-images/staticfunctions.png)
+
+- Note the presence of static function in the protype of Person
+
+```js
+john6.greeting();
+// Uncaught TypeError: john6.greeting is not a function
+```
+
+#### Calling static methods from a class constructor and other methods
+
+Static methods are not directly accessible using the this keyword from non-static methods. You need to call them using the class name: `CLASSNAME.STATIC_METHOD_NAME()` or by calling the method as a property of the constructor:
+
+```js
+class StaticMethodCall {
+  constructor() {
+    console.log(StaticMethodCall.staticMethod());
+    // 'static method has been called.'
+
+    console.log(this.constructor.staticMethod());
+    // 'static method has been called.'
+  }
+
+  static staticMethod() {
+    return "static method has been called.";
+  }
+}
+```
+
+#### Using static in classes
+
+The following example demonstrates several things:
+
+- How a static method is implemented on a class.
+- That a class with a static member can be sub-classed.
+- How a static method can and cannot be called.
+
+```js
+class Triple {
+  static triple(n = 1) {
+    return n * 3;
+  }
+}
+
+class BiggerTriple extends Triple {
+  static triple(n) {
+    return super.triple(n) * super.triple(n);
+  }
+}
+
+console.log(Triple.triple()); // 3
+console.log(Triple.triple(6)); // 18
+
+var tp = new Triple();
+
+console.log(BiggerTriple.triple(3));
+// 81 (not affected by parent's instantiation)
+
+console.log(tp.triple());
+// 'tp.triple is not a function'.
+```
