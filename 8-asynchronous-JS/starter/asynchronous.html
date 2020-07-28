@@ -101,21 +101,38 @@
           );
         });
       };
-      getIDs
-        .then((IDs) => {
-          console.log(IDs);
-          return getRecipe(IDs[2]);
-        })
-        .then((recipe) => {
-          console.log(recipe);
-          return getRelated(recipe.publisher);
-        })
-        .then((recipe) => {
-          console.log(recipe);
-        })
-        .catch((error) => {
-          console.log("Error!");
-        });
+      // getIDs
+      //   .then((IDs) => {
+      //     console.log(IDs);
+      //     return getRecipe(IDs[2]);
+      //   })
+      //   .then((recipe) => {
+      //     console.log(recipe);
+      //     return getRelated(recipe.publisher);
+      //   })
+      //   .then((recipe) => {
+      //     console.log(recipe);
+      //   })
+      //   .catch((error) => {
+      //     console.log("Error!");
+      //   });
+
+      ///////////////////////////////////
+      /// From Promises to AsyncWait
+      async function getRecipesAW() {
+        const IDs = await getIDs;
+        console.log(IDs); // (4) [523, 883, 432, 974]
+        const recipe = await getRecipe(IDs[2]);
+        console.log(recipe);
+        const related = await getRelated(recipe.publisher);
+        console.log(related);
+
+        return recipe;
+      }
+
+      getRecipesAW().then((result) => {
+        console.log(result); // (4) [523, 883, 432, 974]
+      });
     </script>
   </body>
 </html>

@@ -314,3 +314,81 @@ getIDs
 - We call `getID's` `then()`, which does the job(Async, with timer), logs the id and returns the return value of `getRecipe()`
 - `getRecipe()` returns promise and this returned promise's `then()` function is called. `then()` recieves the recipe and logs it to console. `then()` returns the return value of `getRelated()`.
 - `getRelated()` returns a promise with resolve value of recipe, which the `then()` function logs to the console.
+
+## From Promises to AsyncAwait:
+
+- Introduced in ES8
+- Purpose is to consume Promises they do not produce them
+- Method of Producing promises is same as before
+
+### Process:
+
+- Start by creating async function using the `async` keyword:
+
+```js
+async function getRecipesAW() {}
+```
+
+- The async function returns a promise.
+- Inside async function we can have one or more `await` expressions
+
+```js
+async function getRecipesAW() {
+  const IDs = await getIDs;
+  console.log(IDs); // (4) [523, 883, 432, 974]
+}
+```
+
+- `await` keyword holds execution until the promise is fulfilled. And the expression return the resolved value of the promise and it is assigned to IDs here in the above code
+
+- Multiple awaits:
+
+```js
+async function getRecipesAW() {
+  const IDs = await getIDs;
+  console.log(IDs); // (4) [523, 883, 432, 974]
+  const recipe = await getRecipe(IDs[2]);
+  console.log(recipe);
+  const related = await getRelated(recipe.publisher);
+  console.log(related);
+}
+```
+
+- `await` expression can only be used inside a async function.
+- async function runs in the background which is very important because we cannot have the main code stopping
+- although we must synchronously invoke the `getRecipesAW()` from somewhere in the program.
+
+### Returning values from Async function:
+
+```js
+async function getRecipesAW() {
+  ....................
+  return recipe;
+}
+
+const rec = getRecipesAW();
+console.log(rec);
+/*
+
+Output:
+
+Promise {<pending>}
+(4) [523, 883, 432, 974]
+{title: "French Tomata Pasta", publisher: "Jonas"}
+Jonas: Italian Pizza
+
+*/
+```
+
+- Cannot return synchronously, when the rec = getRecipesAW() is executed the async function is not yet complete. So, it doesn't reach to the return statement. But it does return a promise pending object
+- An async function always automatically returns a promise.
+- Returning something will resolve the promise with returned value.
+
+```js
+getRecipesAW().then((result) => {
+  console.log(result);
+  // {title: "French Tomata Pasta", publisher: "Jonas"}
+});
+```
+
+- Sinc the function returns a promise we can consume the returned value as resolved value.
