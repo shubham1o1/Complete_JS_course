@@ -490,3 +490,64 @@ fetch(
 - We have now converted json strings into JS Objects.
 
 ![Json response to JS objects](notes-images/jsondata.png)
+
+## Making AJAX Calls with Fetch and Async- Await:
+
+- We can use async/await to consume the Promises in easier way.
+
+```js
+async function getWeatherAW(woeid) {
+  // data fetch, a promise is recieved
+  const result = await fetch(
+    `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
+  );
+
+  // parse resolved promise into json of js
+  // json() promise resolves the data
+  const data = await result.json();
+
+  // reading data
+  const tomorrow = data.consolidated_weather[1];
+
+  // logging data
+  console.log(
+    `Temperatures tomorrow in ${data.title} stay between ${tomorrow.min_temp} and ${tomorrow.max_temp}.`
+  );
+
+  //returning data as promise is returned in async
+  return data;
+}
+```
+
+### Final Code with try catch:
+
+```js
+async function getWeatherAW(woeid) {
+  try {
+    const result = await fetch(
+      `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
+    );
+    const data = await result.json();
+    const tomorrow = data.consolidated_weather[1];
+    console.log(
+      `Temperatures tomorrow in ${data.title} stay between ${tomorrow.min_temp} and ${tomorrow.max_temp}.`
+    );
+    return data;
+  } catch (error) {
+    alert(error);
+  }
+}
+getWeatherAW(2487956);
+
+let dataLondon;
+getWeatherAW(44418).then((data) => {
+  dataLondon = data;
+  console.log(dataLondon);
+});
+```
+
+- Simply assigning `let dataLondon = getWeatherAW(44418)` won't work for async code as it is not finished execution or it returns promise and not data. So, we have to use the `then` method.
+
+### Final Output:
+
+![Final Output](notes-images/finalconsole.png)
