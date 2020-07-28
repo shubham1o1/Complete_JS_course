@@ -392,3 +392,11 @@ getRecipesAW().then((result) => {
 ```
 
 - Sinc the function returns a promise we can consume the returned value as resolved value.
+
+## AJAX and APIS:
+
+**AJAX**: Asynchronous JavaScript And XML. Allows us to asynchronously communicate with remote servers without reloading the page.
+
+**API**: Application Programming Interface. Allow apps to talk to each other. Part of the server, recieves request and sends back responses.
+
+![ajax and apis](notes-images/ajaxandapis.png)
