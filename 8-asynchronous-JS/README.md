@@ -162,3 +162,155 @@ getRecipe();
 - There is setTimeout inside setTimeout, but after a while it will get quite tedious as the chain increases.
 - There are calbacks inside of other callbacks. This is often called the callback hell in javascript.
 - To overcome the **callback hell**, **promises** were introduced in ES6.
+
+## From Callback Hell to Promises:
+
+- ES6 feature to deal with async JS
+
+### What are Promises?:
+
+- Object that keeps track about whether a certain event(_asynchronous_) has happened already or not.
+- Determines what happens after the event(_asynchronous_) has happened
+- Implements the concept of a future value that we're expecting. (EG: We Ask to Get data from server in the background, promise the promises us to get that data, we can handle it in the future.)
+
+### Promise States:
+
+#### Pending:
+
+- Before the state has happened the promise is called _pending_
+
+#### Settled/Resolved:
+
+- Promise after the state has _happened_.
+
+#### Fulfilled:
+
+- When the promise is successful and the result is obtained, it is called _fulfilled_.
+
+#### Rejected:
+
+- When the promise is unsuccessful and the result is not obtained, it is called _rejected_.
+
+---
+
+We can produce and consume promises. When we produce a promise we create a new promise and send a result using that promise. When we consume it, we can use the callback function for fulfillment/rejection of promise.
+
+### Code Sandbox:
+
+- Code for Getting IDs with promise.
+
+```js
+const getIDs = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve([523, 883, 432, 974]);
+  }, 1500);
+});
+
+getIDs.then((IDs) => {
+  console.log(IDs);
+});
+```
+
+- OP: `(4) [523, 883, 432, 974]`
+
+#### Executor Function
+
+- We created a Promise() object with a executor function inside of it.
+- Executor function takes two arguments: `resolve` and `reject` functions
+- Executor function informs the promise whether the event it is handling was successful or not. If it was successful we call `resolve()` else we call `reject()`
+- Executor function is immediately called once the Promise is created.
+- Inside the executor we placed a async code.
+- After 1500 ms `setTimeout` returns the array of fake ids in case it is successful, utilizing the `resolve()` function
+- What we pass as an argument while calling `resolve()` is the **result of the promise.**
+- Since `setTimeout()` is always successful we can only place the `resolve()` function, for the cases where success isn't guaranteed, we should include the `reject` functions too.
+- resolve returns data from the successful/fulfilled promise.
+- We handle the fulfilled state with the `then()` method.
+
+#### `then()` method:
+
+- Available on all promise objects.
+- Used to handle the fulfilled promise or **consume** the promise.
+- Adds event handler for the case of fulfilled promises (there exists a result).
+- Pass a callback function which has the result of successful promise as its argument.
+
+#### `catch()` method:
+
+- Handles promise when it is rejected.
+- Second method to **consume** the promise
+
+```js
+const getIDs = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject([523, 883, 432, 974]);
+  }, 1500);
+});
+
+getIDs.catch((error) => {
+  console.log(error);
+});
+
+// (4) [523, 883, 432, 974]
+```
+
+### Chaining different promises:
+
+```js
+const getIDs = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve([523, 883, 432, 974]);
+  }, 1500);
+});
+
+const getRecipe = (recID) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(
+      (ID) => {
+        const recipe = {
+          title: "French Tomata Pasta",
+          publisher: "Jonas",
+        };
+        resolve(recipe);
+      },
+      1500,
+      recID
+    );
+  });
+};
+
+const getRelated = (publisher) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(
+      (pub) => {
+        const recipe = {
+          title: "Italian Pizza",
+          publisher: "Jonas",
+        };
+        resolve(`${pub}: ${recipe.title}`);
+      },
+      1500,
+      publisher
+    );
+  });
+};
+getIDs
+  .then((IDs) => {
+    console.log(IDs);
+    return getRecipe(IDs[2]);
+  })
+  .then((recipe) => {
+    console.log(recipe);
+    return getRelated(recipe.publisher);
+  })
+  .then((recipe) => {
+    console.log(recipe);
+  })
+  .catch((error) => {
+    console.log("Error!");
+  });
+```
+
+#### Explanation:
+
+- We call `getID's` `then()`, which does the job(Async, with timer), logs the id and returns the return value of `getRecipe()`
+- `getRecipe()` returns promise and this returned promise's `then()` function is called. `then()` recieves the recipe and logs it to console. `then()` returns the return value of `getRelated()`.
+- `getRelated()` returns a promise with resolve value of recipe, which the `then()` function logs to the console.
