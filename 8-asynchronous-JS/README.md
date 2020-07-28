@@ -112,3 +112,53 @@ processLargeImage(image, () => {
 ### Final State:
 
 ![finalstate](notes-images/finalstate.png)
+
+## The Old Way Asynchronous JavaScript with Callbacks:
+
+- Traditional way
+
+### Nested `setTimeout()`:
+
+- **Simulation** of loading data from ajax call is done here.
+- First we get the recipe id.
+- Once the ID is obtained we fetch the recipe, this process is simulated by yet another `setTimeout()` function.
+- `setTimeout()` takes third argument which can be supplied to callback function
+- Again if we want the recipe by same publisher, we can do as follows.
+
+```js
+function getRecipe() {
+  setTimeout(() => {
+    const recipeID = [523, 883, 432, 974];
+    console.log(recipeID);
+    setTimeout(
+      (id) => {
+        const recipe = {
+          title: "French Tomata Pasta",
+          publisher: "Jonas",
+        };
+        console.log(`${id} : ${recipe.title}`);
+        setTimeout(
+          (publisher) => {
+            const recipe2 = {
+              title: "Italian Pizza",
+              publisher: "Jonas",
+            };
+            console.log(recipe2);
+          },
+          1500,
+          recipe.publisher
+        );
+      },
+      1500,
+      recipeID[2]
+    );
+  }, 1500);
+}
+
+getRecipe();
+```
+
+- What we implemented here was similar to a three chained ajax call
+- There is setTimeout inside setTimeout, but after a while it will get quite tedious as the chain increases.
+- There are calbacks inside of other callbacks. This is often called the callback hell in javascript.
+- To overcome the **callback hell**, **promises** were introduced in ES6.
