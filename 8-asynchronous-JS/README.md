@@ -400,3 +400,93 @@ getRecipesAW().then((result) => {
 **API**: Application Programming Interface. Allow apps to talk to each other. Part of the server, recieves request and sends back responses.
 
 ![ajax and apis](notes-images/ajaxandapis.png)
+
+## Making AJAX Calls with Fetch and Promises:
+
+- We are going to make a ajax call to request some weather data from a real weather API.
+- We are going to use a modern web API called fetch.
+- Web API are available in the browser and they are not part of the JS language itself.
+- We used to do this using a rather complex XML HTTPRequest Interface. It has a better browser support and is older than fetch. But fetch is more modern and it works for our case
+- JSON: Similar to JS object but it is just a single string and not an entire js object.
+- We can obtain the json string and convert it into js object
+
+### `fetch()`:
+
+```js
+fetch("https://www.metaweather.com/api/location/2487956/");
+```
+
+- Just writing above line results an error
+
+```js
+Access to fetch at 'https://www.metaweather.com/api/location/2487956/' from origin 'http://127.0.0.1:5500' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+asynchronous.html:140 GET https://www.metaweather.com/api/location/2487956/ net::ERR_FAILED
+(anonymous) @ asynchronous.html:140
+asynchronous.html:1 Uncaught (in promise) TypeError: Failed to fetch
+```
+
+- This error is due to the same origin policy in javascript. Which prevents making AJAX requests to a domain different than our own domain.
+- Right now we dont have any domain and we are trying to access the api from the metaweather domain.
+- Because of the origin policy we cannot access the API.
+- CORS was developed to allow developer to share resources. Where the developers of the API that we are requesting from, they need to implement CORS on their server.
+- We can proxy the request through our own server like doing th AJAX requests on our own server where the same origin policy doesn't exist and then send the data to the browser. We cannot do that here because we dont have our own server.
+- We can use the proxy service provided by cors-anywhere.herokuapp.com
+
+```js
+fetch(
+  "https://cors-anywhere.herokuapp.com//https://www.metaweather.com/api/location/2487956/"
+);
+```
+
+- We fired up the request, now we have to handle the response.
+- fetch api gets our data and returns a promise.
+- This promise can either return the data that we want or return an error if it couldn't somehow find the data that we requested.
+- So, we can use the `then` and `catch` method on this promise
+- we are only consuming the promise as fetch already creates and returns one for us.
+-
+
+```js
+fetch(
+  "https://cors-anywhere.herokuapp.com//https://www.metaweather.com/api/location/2487956/"
+)
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+/*
+o/p:
+
+Response {type: "cors", url: "https://cors-anywhere.herokuapp.com//https://www.metaweather.com/api/location/2487956/", redirected: false, status: 200, ok: true, …}
+*/
+```
+
+- We see the result is a Response object.
+- Response object's body property has a readable stream
+
+![readable steam](notes-images/bodyreadablestream.png)
+
+- We first have to process the response so that we have the wanted result.
+- body is where the result is stored.
+- we use `json()` method for that purpose and the `json()` method returns a promise which we can consume using the `then()` method. We must also chain the `then()` method for this purpose.
+
+```js
+fetch(
+  "https://cors-anywhere.herokuapp.comhttps://www.metaweather.com/api/location/2487956/"
+)
+  .then((result) => {
+    console.log(result);
+    return result.json();
+  })
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+```
+
+- We have now converted json strings into JS Objects.
+
+![Json response to JS objects](notes-images/jsondata.png)

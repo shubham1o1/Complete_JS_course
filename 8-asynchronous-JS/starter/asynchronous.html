@@ -61,7 +61,7 @@
       }
 
       getRecipe();
-      */
+     
       ///////////////////////////////////
       /// From Callback Hell to Promises
       const getIDs = new Promise((resolve, reject) => {
@@ -133,6 +133,31 @@
       getRecipesAW().then((result) => {
         console.log(result); // (4) [523, 883, 432, 974]
       });
+       */
+
+      ///////////////////////////////////
+      /// Making AJAX CALLS with FETHCH and PRomisses
+      function getWeather(woeid) {
+        // 2487956
+        fetch(
+          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
+        )
+          .then((result) => {
+            console.log(result);
+            return result.json();
+          })
+          .then((data) => {
+            // console.log(data);
+            const today = data.consolidated_weather[0];
+            console.log(
+              `temperatures in ${data.title} stay between ${today.min_temp} and ${today.max_temp}`
+            );
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+      getWeather(44418);
     </script>
   </body>
 </html>
