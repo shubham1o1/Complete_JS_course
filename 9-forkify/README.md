@@ -445,3 +445,16 @@ module.exports = {
 - `npm install --save core-js@3 regenerator-runtime`
 
 - These are installed in app dependencies and they are going into final bundle.
+
+## Planning our project Architecture:
+
+- We are using the Model-View-Controller architecture (MVC)
+- MVC very nicely decouples the presentation logic from the application logic with the controller in between them that control the entire app.
+- **Controller** - index.js file. Possible due to ES6 modules that makes the app modular separating different aspects of the app into different files.
+- We'll have separate models and view for each of the different aspects of the app.
+- search.js model is responsible for fetching apis, doing search using ajax.
+- In view.js we take the user input from the UI, and display the search results.
+- controller connects these models and view.
+- similarly there are recipe, list and likes part of the app with their respective MVC component.
+
+![MVC Design](notes-images/mvcdesign.png)
