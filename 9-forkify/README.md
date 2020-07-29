@@ -267,3 +267,106 @@ I imported 23 from another module       index.js:8
 
 - Remove the mode from webpack.config.js and add it to scripts of package.json instead in a way as specified above.
 - Running `npm run build` yields in a `bundle.js` file quite smaller than `npm run dev` since we are building in production mode.
+
+## A Modern Setup The Webpack Dev Server:
+
+- Adding webpack dev server to our setup in order to automatically reload the page when we save our code.
+
+### Installation:
+
+`npm install webpack-dev-server --save-dev`
+
+- Specify the contentBase in `webpack.config.js`:
+
+```js
+devServer: {
+  contentBase: "./dist";
+}
+```
+
+- We also add a `start` script in `package.json`
+
+```json
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development --open"
+  },
+```
+
+- `--open` flag opens the file in browser automatically
+
+- run the command: `npm run start`
+
+- And we are good to go. The index.html is opened, the one inside the dist folder.
+- Now we can monitor any changes
+
+#### Slight Correction :
+
+- Specify path to the folder where webpack bundles and specify the filename relative to that path
+
+```js
+module.exports = {
+  entry: ["./src/js/index.js"],
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "js/bundle.js",
+  },
+  devServer: {
+    contentBase: "./dist",
+  },
+```
+
+- ContentBase and Path is made the same so the web-pack-dev server works properly to automatically reload the changes.
+
+### Copying index.html to dist:
+
+- Webpack allows us to do the copying and it also injects the script tags.
+- For this purpose we have the plugins.
+
+#### Plugins:
+
+- Plugins allows us to do the complex processing of our input files. In our case, `index.html` file.
+- We want to use the html webpack plug-in
+- First we have to install it.
+
+```js
+npm i --save-dev html-webpack-plugin
+```
+
+- Configuring in `webpack.config.js` :
+
+```js
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+module.exports = {
+  .............
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "./src/index.html",
+    }),
+  ],
+};
+```
+
+- We have to require the plugin as we did before for path
+- We have to specify in the array all the plugins that we are using.
+- We pass `HtmlWebpackPlugin` object, inside of which we pass an option in the form of js object.
+- Since we want to copy index.html each time we are bundling from src to dist, we specify the filename and template.
+- Template is the starting HTML file.
+
+### NPM START:
+
+- index.html file is not present in the dist folder.
+- The webpack dev server streams the file
+- On inspecting element we notice that plugin inject the line :
+
+```html
+<script src="js/bundle.js"></script>
+```
+
+### NPM DEV:
+
+- Bundles the files and puts it to dist
