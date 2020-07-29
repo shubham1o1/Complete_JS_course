@@ -50,3 +50,27 @@
 These are NPM packages and the easiest way to run them is by using NPM script. Which allows us to run all these tools automatically and easily in our CLI.
 
 ![Tools and Lib](notes-images/toolsandlibsoview.png)
+
+## A Brief Introduction to the Command Line:
+
+- These Tools only work in the command line
+- Moving around the File System, Creating Files and Folders, copying files and so on.
+
+```bash
+
+rm
+# removes
+
+rm -r
+# removes directory
+
+mv
+# moves
+
+cp
+# copies
+
+open
+# opens file
+
+```
