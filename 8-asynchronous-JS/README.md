@@ -546,7 +546,7 @@ getWeatherAW(44418).then((data) => {
 });
 ```
 
-- Simply assigning `let dataLondon = getWeatherAW(44418)` won't work for async code as it is not finished execution or it returns promise and not data. So, we have to use the `then` method.
+- Simply assigning `let dataLondon = getWeatherAW(44418)` won't work for async code as it is not finished executing also it returns promise and not data. So, we have to use the `then` method.
 
 ### Final Output:
 
