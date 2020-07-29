@@ -140,3 +140,130 @@ GET /favicon.ico 404 3.490 ms - 150
 ```
 
 ![live server](notes-images/liveserver.png)
+
+## Babel Installation:
+
+[ref](notes-images/tools6.html)
+
+`npm install --save-dev @babel/core @babel/preset-env babel-loader`
+
+`npm install --save core-js@3 regenerator-runtime`
+
+## A Modern Setup Configuring Webpack:
+
+- Bundling with webpack:
+
+![bundling with webpack](notes-images/webpack.png)
+
+- Bundles more than `.js` files
+
+### Zero Configuration:
+
+- No need to write config file
+- You need to have one source folder in the root and a single index.js file then you are good to go.
+- Webpack create a distribution folder and puts the bundled files there.
+- That's for small app, for larger app we'll write cofiguration.
+
+### Webpack Config File:
+
+- Create `webpack.config.js` in root of project
+- It is a regular js file
+- We have one object where we specify our configuartion.
+- We export this object from this file using the nodeJS syntax.
+- Webpack can take this object and work with it.
+
+#### Core Concepts in Webpack:
+
+1. **Entry Points** : Where the webpack will start bundling. The location to the file where it will look up all the dependencies that it will bundle up together. We can specify one or more entry files. But here we are specifying only one for now i.e. index.js for now.
+
+```js
+module.exports = {
+  entry: ["./src/js/index.js"],
+};
+```
+
+2. **Output** : Tells webpack where to save the bundled files. Specify the output property by passing an object. In the object put the path to the folder and the filename. Filename is usually `bundle.js`. The path needs to be an absolute path. To access the absolute path we use the built-in node package called path which we import as : `const path = require("path");`. The `resolve()` method inside the path package requires `__dirname` variable to obtain the absolute path and we append the output folder's path as second parameter to the `resolve()` method.
+
+```js
+const path = require("path");
+
+module.exports = {
+  entry: ["./src/js/index.js"],
+  output: {
+    path: path.resolve(__dirname, "dist/js"),
+    filename: "bundle.js",
+  },
+  mode: "development",
+};
+```
+
+- We can also specify the mode as production or development. Development mode doesn't create a minified version of code. The production mode will enable all sorts of optimization like minification and treeshaking in order to reduce the final bundle size.
+
+3. **Loaders** TBRL
+4. **Plugins** TBRL
+
+### Exporting Modules:
+
+#### test.js
+
+- `export` is the ES6 modules syntax
+- We can have `default` export or a named export
+
+```js
+console.log("Imported Module");
+export default 23;
+```
+
+#### index.js
+
+- We can import something using the `import` keyword and assign it to a variable say `x`.
+- We can name the modules we are importing from as: `'./test'` . We dont have to specify `.js`
+
+```js
+import x from "./test ";
+
+// x is what we exported from test.js
+
+console.log(`I imported ${x} from another module`);
+```
+
+### Adding npm script:
+
+- Install the `webpack-cli` as : `npm install webpack-cli --save-dev`
+- Specify the script in package.json:
+
+```json
+  "scripts": {
+    "dev": "webpack"
+  },
+```
+
+### Running the webpack:
+
+`npm run dev`
+
+- run starts the scripts.
+
+### Testing our code:
+
+- Go to dist, create a new index.html file and import the bundle.js script and inspect the element.
+- Output:
+
+```console
+Imported Module             test.js:2
+I imported 23 from another module       index.js:8
+```
+
+- If we didn't use the webpack it wouldn't have worked.
+
+### Adding mode to npm script:
+
+```json
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+```
+
+- Remove the mode from webpack.config.js and add it to scripts of package.json instead in a way as specified above.
+- Running `npm run build` yields in a `bundle.js` file quite smaller than `npm run dev` since we are building in production mode.
