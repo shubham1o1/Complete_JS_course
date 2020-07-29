@@ -74,3 +74,69 @@ open
 # opens file
 
 ```
+
+## A modern Setup Installing Node.js and NPM:
+
+- Install node
+- Add package.json: `npm init`
+
+### Installing Webpack using npm:
+
+`npm install webpack --save-dev`
+
+- `--save-dev` to save as development dependency
+- In `package.json` we see the line:
+
+```json
+  "devDependencies": {
+    "webpack": "^4.44.0"
+  }
+```
+
+- Which implies that webpack is a development tool.
+
+### Installing Jquery(Example)
+
+- `npm install jquery --save`
+- Package.json:
+
+```json
+  "dependencies": {
+    "jquery": "^3.5.1"
+  }
+```
+
+- Not a dev dependencies but just a dependency.
+- Dependency are important because they let our code run on other dev's pc
+- Dependencies allow us to install all the dependencies automatically.
+
+### Node Modules:
+
+- All packages, and the dependencies required for each dependencies is present here (Jquery and Webpack in our case)
+
+### Adding Dependencies:
+
+- There is list of dependencies in the package.json file which we can use to install the dependencies.
+
+`npm install`
+
+#### Uninstalling packages:
+
+`npm uninstall jquery`
+
+### Installing Packages Globally:
+
+- `--save-dev` and `--save` options installs packages locally.
+- Accesible from everywhere.
+- A package called **Liveserver** creates local server to serve static website.
+  `sudo npm install live-server --global`
+- Now we can run the `live-server` command from literally anywhere, since it is installed globally
+
+```bash
+bomb@zod:~/Documents/projects/javascript/completejscourse_work_codes/9-forkify/starter$ live-server
+Serving "/home/bomb/Documents/projects/javascript/completejscourse_work_codes/9-forkify/starter" at http://127.0.0.1:8080
+Ready for changes
+GET /favicon.ico 404 3.490 ms - 150
+```
+
+![live server](notes-images/liveserver.png)
