@@ -370,3 +370,78 @@ module.exports = {
 ### NPM DEV:
 
 - Bundles the files and puts it to dist
+
+## A Modern Setup Babel:
+
+- Babel is a JavaScript Compiler
+
+### Packages Needed:
+
+- `npm install --save-dev @babel/core @babel/preset-env babel-loader`
+- Installing multpile packages at once.
+- Babel loader is needed for webpack to load babel files
+- Preset to compile js.
+- Core contains the core functionality of the compiler.
+
+### Loaders:
+
+- Loaders in webpack allow us to import or to load all kinds of different files and also to process them (like converting SASS to CSS code, ES6 to ES5)
+- Including loader in webpack.config.js
+
+```js
+..................
+module.exports = {
+.................
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_midules/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
+    ],
+  },
+};
+```
+
+- We specify `module` property and assign an object
+- We have `rules` inside this object which is an array
+- the array contains an object with `test` and `use` property
+- `test` contains regular expression that includes all js files
+- `use` has an object with `loader` property where we specify the `babel-loader`.
+- We `exclude` the `node_modules` using regex else babel will compile all `node_modules` thousands of js files.
+- What rule does is it specifies babel to check .js and exclude node_modules and apply babel loader to this file.
+
+### Babel Config File (.babelrc):
+
+- We have object with preset property
+- Into preset we pass an array
+- Preset is a collection of code transform plugins which in our case is @babel/env
+- Now we can target the environment, like browsers
+
+```json
+{
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "useBuiltIns": "usage",
+        "corejs": "3",
+        "targets": {
+          "browsers": ["last 5 versions", "ie >= 8"]
+        }
+      }
+    ]
+  ]
+}
+```
+
+- Babel automatically figures out which version of JS it needs to run on last five version of all the browsers.
+- Somethings we cannot convert since they are not present in ES5, these need to be polyfilled.
+- For polyfill we install core-js and regenerator-runtime for async.
+
+- `npm install --save core-js@3 regenerator-runtime`
+
+- These are installed in app dependencies and they are going into final bundle.

@@ -16,4 +16,15 @@ module.exports = {
       template: "./src/index.html",
     }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_midules/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
+    ],
+  },
 };
