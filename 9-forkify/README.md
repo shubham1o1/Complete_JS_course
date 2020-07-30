@@ -458,3 +458,76 @@ module.exports = {
 - similarly there are recipe, list and likes part of the app with their respective MVC component.
 
 ![MVC Design](notes-images/mvcdesign.png)
+
+## How ES6 Modules Work:
+
+### Content:
+
+- How to use ES6 modules
+- Default and named exports and imports
+
+### Creating Files:
+
+- src -> models -> Search.js
+- src -> views -> searchView.js
+
+### Default Exports:
+
+- Used only when we wabt to export one thing from a module.
+- Exporting:
+
+```js
+// models/Search.js
+export default "I am an exported string";
+```
+
+- Importing:
+
+```js
+// index.js
+import string from "./models/Search";
+```
+
+### Named Exports:
+
+#### Multiple Exports:
+
+```js
+// view/searchView.js
+
+export const add = (a, b) => a + b;
+export const multiply = (a, b) => a * b;
+export const ID = 23;
+```
+
+#### Multiple Imports:
+
+```js
+// index.js
+import { add, multiply, ID } from "./views/searchView";
+console.log(
+  `Using imported function: ${add(ID, 2)} and ${multiply(3, 5)}, ${str}`
+);
+// Using imported function: 25 and 15, I am an exported string
+```
+
+- We have to use exact same name or we can use different name as :
+
+```js
+// index.js
+import { add as a, multiply as m, ID } from "./views/searchView";
+console.log(`Using imported function: ${a(ID, 2)} and ${m(3, 5)}, ${str}`);
+```
+
+- Importing all :
+
+```js
+import * as searchView from "./views/searchView";
+
+console.log(
+  `Using imported function: ${searchView.add(
+    searchView.ID,
+    2
+  )} and ${searchView.multiply(3, 5)}, ${str}`
+);
+```
