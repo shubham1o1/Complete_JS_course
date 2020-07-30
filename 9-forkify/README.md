@@ -933,3 +933,103 @@ const renderRecipe = (recipe) => {
 - We have used `reduce` and `join` method
 - The accumulator of reduce keep count of length of the new title.
 - While the `split` forms new array of each words in a string, `join` joins each words of array into a string.
+
+## Rendering an AJAX loading Spinner:
+
+- Since spinner is going to be used in more than one section, we write its code by aiming to make it reusable.
+- We are going to put it in `base.js`
+
+### Image and Animation:
+
+- Animation code for the loader image
+- Infinite rotating animation
+
+```css
+.loader {
+  margin: 5rem auto;
+  text-align: center;
+}
+.loader svg {
+  height: 5.5rem;
+  width: 5.5rem;
+  fill: #f59a83;
+  transform-origin: 44% 50%;
+  animation: rotate 1.5s infinite linear;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+```
+
+### Defining the loader function:
+
+```js
+export const elementStrings = {
+  loader: "loader",
+};
+
+export const renderLoader = (parent) => {
+  const loader = `
+  <div class = ${elementStrings.loader}>
+    <svg>
+      <use href="img/icons.svg#icon-cw"></use>
+    </svg>
+  </div>`;
+  parent.insertAdjacentHTML("afterbegin", loader);
+};
+```
+
+- We pass the parent element.
+- We define the html that will be placed inside the parent element.
+- We insert the markup afterbegin
+- We have svg and use to place the icon and #icon-cw to put the rotation animation.
+- We also need to clear the loader once the data is loaded
+
+### Clearing loader:
+
+```js
+export const clearLoader = () => {
+  const loader = document.querySelector(`.${elementStrings.loader}`);
+  if (loader) {
+    loader.parentElement.removeChild(loader);
+  }
+};
+```
+
+- In order to clear loader we first select the element then select the parentelement and then remove the child.
+- We cannot selector the loader element outside the loader scope since it is not there initially.
+
+### Calling from the controller:
+
+```js
+import { elements, renderLoader, clearLoader } from "./views/base";
+
+const controlSearch = async () => {
+  // 1. Get the Query from the view
+  const query = searchView.getInput();
+
+  if (query) {
+    // 2. New Search object and add to state
+    state.search = new Search(query);
+
+    // 3. Prepare UI (Clear Previous result, load spinner display)
+    /** */
+    searchView.clearInput();
+    searchView.clearResults();
+    renderLoader(elements.searchRes);
+
+    // 4. Search for recipe
+    await state.search.getResults();
+
+    // 5. Render Results in UI
+    clearLoader();
+    searchView.renderResults(state.search.result);
+  }
+};
+```
