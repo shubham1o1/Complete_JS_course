@@ -887,3 +887,49 @@ const controlSearch = async () => {
 };
 ..............
 ```
+
+## Building the Search View - Part 2:
+
+We will reduce the title size whenever it occupies more than one line. We dont want to cut the words in half either. We want entire words followed by three dots.
+
+### Algorithm
+
+- Split the title into its word
+- Use the reduce method on the resulting array
+- Accumulate the words by looping until length < 17
+- Test if current title + next word < 17
+
+```js
+.........................
+
+const limitRecipeTitle = (title, limit = 17) => {
+  const newTitle = []; // we can mutate const arrays and objects
+  if (title.length > limit) {
+    title.split(" ").reduce((acc, cur) => {
+      if (acc + cur.length <= limit) {
+        newTitle.push(cur);
+      }
+      return acc + cur.length;
+    }, 0);
+    return `${newTitle.join(" ")} ...`; // join is opposite of split
+  }
+  return title;
+};
+
+const renderRecipe = (recipe) => {
+  const markup = `
+  <li>
+  ............................
+              <h4 class="results__name">${limitRecipeTitle(recipe.title)}</h4>
+              <p class="results__author">${recipe.publisher}</p>
+          </div>
+      </a>
+  </li>`
+  ............................
+
+```
+
+- We called the limitRecipeTitle inside the markup
+- We have used `reduce` and `join` method
+- The accumulator of reduce keep count of length of the new title.
+- While the `split` forms new array of each words in a string, `join` joins each words of array into a string.

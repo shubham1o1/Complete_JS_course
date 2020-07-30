@@ -10,15 +10,36 @@ export const clearResults = () => {
   elements.searchResultList.innerHTML = "";
 };
 
+const limitRecipeTitle = (title, limit = 17) => {
+  /** Algorithm
+   * - Split the title into its word
+   * - Use the reduce method on the resulting array
+   * - Accumulate the words by looping until length < 17
+   * - Test if current title + next word < 17
+   */
+  const newTitle = []; // we can mutate const arrays and objects
+  if (title.length > limit) {
+    title.split(" ").reduce((acc, cur) => {
+      if (acc + cur.length <= limit) {
+        newTitle.push(cur);
+      }
+      return acc + cur.length;
+    }, 0);
+    return `${newTitle.join(" ")} ...`; // join is opposite of split
+  }
+  return title;
+};
+
 const renderRecipe = (recipe) => {
   const markup = `
   <li>
       <a class="results__link" href="#${recipe.recipe_id}">
           <figure class="results__fig">
-              <img src="${recipe.image_url}" alt="${recipe.title}">
+              <img src="${recipe.image_url}" 
+              alt= "${recipe.title}">
           </figure>
           <div class="results__data">
-              <h4 class="results__name">${recipe.title}</h4>
+              <h4 class="results__name">${limitRecipeTitle(recipe.title)}</h4>
               <p class="results__author">${recipe.publisher}</p>
           </div>
       </a>
