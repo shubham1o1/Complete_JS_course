@@ -679,3 +679,75 @@ search.getResults();
 ```
 
 - Both query and result are inside the search object now.
+
+## Building the Search Controller:
+
+### Content:
+
+- The concept of application state
+- A simple way of implementng state
+
+We are going to place all the controller's code in a single file.
+
+### State:
+
+- What is the current state of the app? Like what is the current search query or current recipe, How many servings are currently being calculated, What's currently in the shopping list.
+- All of these data in the current moment in our app is call state
+- We'd like to store these state in one central variable, like an object
+- State Management Libraries eg: Redux
+
+### Code With Explanation:
+
+- Create a state object (Don't why constant)
+- All the state variable will be held by this object
+
+```js
+import Search from "./models/Search";
+
+////////////////////////////////////////
+/** Global state of the app
+ * - Search Object (Query + Result)
+ * - Current Recipe Object
+ * - Shopping List Object
+ * - Liked Recipe
+ */
+const state = {};
+////////////////////////////////////////
+
+const controlSearch = async () => {
+  // 1. Get the Query from the view
+  const query = "pizza"; //TODO
+
+  if (query) {
+    // 2. New Search object and add to state
+    state.search = new Search(query);
+
+    // 3. Prepare UI (Clear Previous result, load spinner display)
+    /** */
+
+    // 4. Search for recipe
+    await state.search.getResults();
+
+    // 5. Render Results in UI
+    console.log(state.search.result);
+  }
+};
+// Selecting the form and passing event object to Callback function
+document.querySelector(".search").addEventListener("submit", (e) => {
+  e.preventDefault(); // To prevent from reloading when form is submitted
+  controlSearch();
+});
+
+/**
+ * (28) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+ */
+```
+
+#### Algorithm
+
+- Listen to search form submit event
+- Read the Query from the view
+- Create a new search object with that query
+- Prepare the UI for the query
+- Prepare the recipe from json data using search object's method
+- Render the result in UI

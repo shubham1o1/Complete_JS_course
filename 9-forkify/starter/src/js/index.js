@@ -1,19 +1,39 @@
 import Search from "./models/Search";
 
-const search = new Search("pizza");
-console.log(search);
+////////////////////////////////////////
+/** Global state of the app
+ * - Search Object (Query + Result)
+ * - Current Recipe Object
+ * - Shopping List Object
+ * - Liked Recipe
+ */
+const state = {};
+////////////////////////////////////////
 
-/*
-Search {query: "pizza"}
-query: "pizza"
-__proto__:
-constructor: ƒ Search(query)
-getResults: ƒ getResults()
-__proto__: Object
-*/
+const controlSearch = async () => {
+  // 1. Get the Query from the view
+  const query = "pizza"; //TODO
 
-search.getResults();
+  if (query) {
+    // 2. New Search object and add to state
+    state.search = new Search(query);
 
-/*
-(28) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
-*/
+    // 3. Prepare UI (Clear Previous result, load spinner display)
+    /** */
+
+    // 4. Search for recipe
+    await state.search.getResults();
+
+    // 5. Render Results in UI
+    console.log(state.search.result);
+  }
+};
+// Selecting the form and passing event object to Callback function
+document.querySelector(".search").addEventListener("submit", (e) => {
+  e.preventDefault(); // To prevent from reloading when form is submitted
+  controlSearch();
+});
+
+/**
+ * (28) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+ */
