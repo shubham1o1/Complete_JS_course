@@ -620,3 +620,62 @@ async function getResults(query) {
 
 getResults("carrot");
 ```
+
+## Building the Search Model:
+
+### Content:
+
+- How to build a simple data model using ES6 Classes
+
+### Data:
+
+- Implementation of Query + Search Result
+
+```js
+//Search.js
+import axios from "axios";
+
+export default class Search {
+  constructor(query) {
+    this.query = query;
+  }
+  async getResults() {
+    try {
+      const res = await axios(
+        `https://forkify-api.herokuapp.com/api/search?&q=${this.query}`
+      );
+      this.result = res.data.recipes;
+      console.log(this.result);
+    } catch (error) {
+      alert(error);
+    }
+  }
+}
+```
+
+- Note how we dynamically created a new property called `result` inside the method of a class without defining the method in a constuctor.
+
+```js
+//index.js
+import Search from "./models/Search";
+
+const search = new Search("pizza");
+console.log(search);
+
+/*
+Search {query: "pizza"}
+query: "pizza"
+__proto__:
+constructor: ƒ Search(query)
+getResults: ƒ getResults()
+__proto__: Object
+*/
+
+search.getResults();
+
+/*
+(28) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+*/
+```
+
+- Both query and result are inside the search object now.

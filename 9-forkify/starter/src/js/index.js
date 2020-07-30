@@ -1,15 +1,19 @@
-import axios from "axios";
+import Search from "./models/Search";
 
-async function getResults(query) {
-  try {
-    const res = await axios(
-      `https://forkify-api.herokuapp.com/api/search?&q=${query}`
-    );
-    const recipes = res.data.recipes;
-    console.log(recipes);
-  } catch (error) {
-    alert(error);
-  }
-}
+const search = new Search("pizza");
+console.log(search);
 
-getResults("tomato");
+/*
+Search {query: "pizza"}
+query: "pizza"
+__proto__:
+constructor: ƒ Search(query)
+getResults: ƒ getResults()
+__proto__: Object
+*/
+
+search.getResults();
+
+/*
+(28) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+*/
