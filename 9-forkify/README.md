@@ -531,3 +531,92 @@ console.log(
   )} and ${searchView.multiply(3, 5)}, ${str}`
 );
 ```
+
+## Making Our First API Calls:
+
+### Content:
+
+- How to use a real world API
+- What API keys are and why we need them
+
+### API keys:
+
+- Like Passwords
+- Helps to track number of requests.
+- Example api with keys :
+
+```js
+const res = await axios(
+  `${PROXY}http://food2fork.com/api/search?key=${KEY}&q=${this.query}`
+);
+```
+
+### Sample API call:
+
+- Since fetch is not compatible with all browsers we can use the axios:
+  `npm install axios --save`
+
+- **Importing Packages** : No need to specify the path of npm package like we specified ES6 modules path while importing.
+
+```js
+import axios from "axios";
+
+// variations:
+import a from "axios";
+```
+
+- axios automatically returns json, but with fetch we had two steps. It also handles error better.
+
+### Result of ajax:
+
+- Code:
+
+```js
+import axios from "axios";
+
+async function getResults(query) {
+  const res = await axios(
+    `https://forkify-api.herokuapp.com/api/search?&q=${query}`
+  );
+  console.log(res);
+}
+
+getResults("carrot");
+```
+
+- Console pic:
+
+![first ajax](notes-images/firstajax.png)
+
+- JSON response is observed with data, config, header and so on.
+
+- Obtaining only recipe data:
+
+```js
+const recipes = res.data.recipes;
+console.log(recipes);
+```
+
+![recdata](notes-images/recipedata.png)
+
+### Error Handling:
+
+- Use the try catch
+
+```js
+import axios from "axios";
+
+async function getResults(query) {
+  try {
+    const res = await axios(
+      `https://forkify-api.herokuapp.com/api/search?&q=${query}`
+    );
+    const recipes = res.data.recipes;
+    console.log(recipes);
+  } catch (error) {
+    alert(error);
+  }
+}
+
+getResults("carrot");
+```
