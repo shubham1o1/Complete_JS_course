@@ -751,3 +751,139 @@ document.querySelector(".search").addEventListener("submit", (e) => {
 - Prepare the UI for the query
 - Prepare the recipe from json data using search object's method
 - Render the result in UI
+
+## Building the Search View Part-1:
+
+We'll write couple of functions for the search view.
+
+### Content:
+
+- Advanced DOM manipulation techniques
+- How to use ES6 template strings to render entire HTML components
+- How to create a loading spinner.
+
+### Reading the query parameter:
+
+- Create a model with all the DOM element defined inside
+
+```js
+// views/base.js
+export const elements = {
+  searchForm: document.querySelector(".search"),
+  searchInput: document.querySelector(".search__field"),
+};
+```
+
+- Create a function that picks value from the form in `searchView`
+
+```js
+import { elements } from "./base";
+
+export const getInput = () => elements.searchInput.value;
+```
+
+- Call the function from the controller (index.js):
+
+```js
+import Search from "./models/Search";
+import * as searchView from "./views/searchView";
+import { elements } from "./views/base";
+
+const state = {};
+
+
+const controlSearch = async () => {
+  // 1. Get the Query from the view
+  const query = searchView.getInput();
+
+...............
+
+```
+
+### Rendering the results to the UI:
+
+#### Define the element where we are going to place the markup:
+
+- We defined the `result__list` in base.js
+
+```js
+// base.js
+export const elements = {
+............................
+  searchResultList: document.querySelector(".results__list"),
+};
+```
+
+#### Define the method to place the markup in `searchView`
+
+- We define the Markup using the template string
+- We insert the markup using the insertAdjacentHtml
+- We loop through the list of recipe and render individual recipe
+- We also defined the `clearInput` and `clearResults` fuctions to clear the input field and result display field respectively.
+
+```js
+export const clearInput = () => {
+  elements.searchInput.value = "";
+};
+
+export const clearResults = () => {
+  elements.searchResultList.innerHTML = "";
+};
+
+...................
+
+const renderRecipe = (recipe) => {
+  const markup = `
+  <li>
+      <a class="results__link" href="#${recipe.recipe_id}">
+          <figure class="results__fig">
+              <img src="${recipe.image_url}" alt="${recipe.title}">
+          </figure>
+          <div class="results__data">
+              <h4 class="results__name">${recipe.title}</h4>
+              <p class="results__author">${recipe.publisher}</p>
+          </div>
+      </a>
+  </li>
+  `;
+  elements.searchResultList.insertAdjacentHTML("beforeend", markup);
+};
+
+export const renderResults = (recipes) => {
+  recipes.forEach(renderRecipe);
+};
+```
+
+#### Rendering From the controller:
+
+- We called the `renderResults()` from searchView
+- We also cleared the input field by implementing the `clearInput` Method
+- We also cleared the previous search results by calling the `clearResults` method
+
+```js
+
+// index.js
+
+....................
+const controlSearch = async () => {
+  // 1. Get the Query from the view
+  const query = searchView.getInput();
+
+  if (query) {
+    // 2. New Search object and add to state
+    state.search = new Search(query);
+
+    // 3. Prepare UI (Clear Previous result, load spinner display)
+    /** */
+    searchView.clearInput();
+    searchView.clearResults();
+
+    // 4. Search for recipe
+    await state.search.getResults();
+
+    // 5. Render Results in UI
+    searchView.renderResults(state.search.result);
+  }
+};
+..............
+```
