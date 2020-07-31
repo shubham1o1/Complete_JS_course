@@ -1033,3 +1033,189 @@ const controlSearch = async () => {
   }
 };
 ```
+
+## Implementing Search Results Pagination:
+
+### Content:
+
+- How to use the `.closest` method for easier event handling
+- How and why to use `data-*` attributes in HTML5, to read data
+
+### Implementing pagination in three steps:
+
+### 1. Change the render results functions:
+
+- we add page and result per page argument.
+- we slice the recipe with start and end variable.
+- `const start = (page - 1) * resPerPage;`
+- `const end = page * resPerPage;`
+
+```js
+export const renderResults = (recipes, page = 1, resPerPage = 10) => {
+  const start = (page - 1) * resPerPage;
+  const end = page * resPerPage;
+
+  recipes.slice(start, end).forEach(renderRecipe);
+
+  // render pagination buttons
+  renderButtons(page, recipes.length, resPerPage);
+};
+```
+
+- Call the render Buttons
+
+### 2. Render the button (prev 1 2 3 next)
+
+- Page 1 - only next
+- page last - prev
+- other pages - prev and next
+- find current page and number of pages
+- no of pages = total items/ items per page
+
+```js
+// pass number of page and type (prev/next)
+const createButton = (page, type) => `
+<button class="btn-inline results__btn--${type}" data-goto=${
+  type === "prev" ? page - 1 : page + 1
+}>
+    <svg class="search__icon">
+        <use href="img/icons.svg#icon-triangle-${
+          type === "prev" ? "left" : "right"
+        }"></use>
+    </svg>
+    <span>Page ${type === "prev" ? page - 1 : page + 1}</span>
+</button>
+`;
+```
+
+- Call createButtons for each of the cases using renderButton function:
+
+```js
+const renderButtons = (page, numOfResults, resPerPage) => {
+  const pages = Math.ceil(numOfResults / resPerPage); // round up
+  let button;
+  if (page === 1 && pages > 1) {
+    // button to go to next
+    button = createButton(page, "next");
+  } else if (page < pages) {
+    // both buttons
+    button = `
+      ${createButton(page, "prev")} 
+      ${createButton(page, "nest")}
+    `;
+  } else if ((page = pages && pages > 1)) {
+    // button to go to prev
+    button = createButton(page, "prev");
+  }
+
+  elements.searchResPages.insertAdjacentHTML("afterbegin", button);
+};
+```
+
+- If type is prev -> put page -1 in the button through span inline tag
+
+### Data Attributes:
+
+- `data-'random-name'`
+- eg:
+
+```html
+<button class="btn-inline results__btn--${type}" data-goto></button>
+```
+
+- it will render as :
+
+```html
+<button class="btn-inline results__btn--next" data-goto="2"></button>
+```
+
+- While handling the event we will read this property
+
+### 3. Attach buttons with event handlers
+
+- All the event listeners are present in controller.
+- Since the pagination is not present when the page is initially loaded, we cannot attach the event listeners to the button.
+- THe solution is to use the event delegation
+
+```js
+// index.js
+
+elements.searchResPages.addEventListener("click", (e) => {
+  console.log(e.target); // e - event, target - element where event happende
+});
+```
+
+- When we click on the button we get
+
+```js
+<span>Page 3</span>
+```
+
+- Right now we are not clicking the button, just the text and the searchResPages element of which the button is the child.
+
+### Catching the button click with `closest()` :
+
+- The `closest()` method traverses the Element and its parents (heading toward the document root) until it finds a node that matches the provided selector string. Will return itself or the matching ancestor. If no such element exists, it returns null.
+
+#### Syntax
+
+`var closestElement = targetElement.closest(selectors);`
+
+_Parameters_
+`selectors` is a DOMString containing a selector list.
+ex: `p:hover, .toto + q`
+_Return value_
+`closestElement` is the `Element` which is the closest ancestor of the selected element. It may be null.
+_Exceptions_
+SyntaxError is thrown if the `selectors` is not a valid selector list string.
+
+#### Adding Closest:
+
+```js
+elements.searchResPages.addEventListener("click", (e) => {
+  const btn = e.target.closest(".btn-inline");
+  console.log(btn); // e - event, target - element where event happened
+});
+// when you click it will log: <button class="btn-inline results__btn--nest" data-goto="3">…</button>
+```
+
+- Reading the goto value:
+
+```js
+elements.searchResPages.addEventListener("click", (e) => {
+  const btn = e.target.closest(".btn-inline");
+  if (btn) {
+    const goToPage = parseInt(btn.dataset.goto, 10); // 10 is a base(decimal)
+    console.log(goToPage);
+    // 3
+  }
+});
+```
+
+- We just read the data attribute which we used in `createButton` as:
+
+```js
+const createButton = (page, type) => `
+<button class="btn-inline results__btn--${type}" data-goto=${
+  type === "prev" ? page - 1 : page + 1
+}>
+.....................
+```
+
+- Whenever we prefix an attribute with data then the variable gets stored in a dataset(**goto** in our case)
+
+- Finally rendering page according to goto variable:
+
+```js
+elements.searchResPages.addEventListener("click", (e) => {
+  const btn = e.target.closest(".btn-inline");
+  if (btn) {
+    const goToPage = parseInt(btn.dataset.goto, 10);
+    searchView.clearResults();
+    searchView.renderResults(state.search.result, goToPage);
+    // 3
+  }
+});
+```
+
+- We also cleared the results of previous page else the button and search result will be added indefinitely.
