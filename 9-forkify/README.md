@@ -1219,3 +1219,140 @@ elements.searchResPages.addEventListener("click", (e) => {
 ```
 
 - We also cleared the results of previous page else the button and search result will be added indefinitely.
+
+## Building the Recipe Model:
+
+- Model for a single recipe selected from the search results
+
+### `recipe.js` (inside models):
+
+- Use axios for ajax call
+- Use class to hold the data (recipe object)
+- Each recipe is identified by an ID and when we create a new recipe object we will pass in that exact ID. Based on this ID we can later to the ajax call to get the rest of the data for the recipe.
+
+```js
+import axios from "axios";
+
+export default class Recipe {
+  constructor(id) {
+    this.id = id;
+  }
+
+  async getRecipe() {
+    try {
+      const res = await axios(
+        `https://forkify-api.herokuapp.com/api/get?rId=${this.id}`
+      );
+      console.log(res);
+    } catch (error) {
+      alert(error);
+    }
+  }
+}
+```
+
+```js
+////////////////////////////////////
+/// RECIPE CONTROLLER
+let recipe = new Recipe(2658);
+recipe.getRecipe();
+```
+
+- Output:
+
+```json
+{data: {…}, status: 200, statusText: "OK", headers: {…}, config: {…}, …}
+config: {url: "https://forkify-api.herokuapp.com/api/get?rId=2658", headers: {…}, transformRequest: Array(1), transformResponse: Array(1), timeout: 0, …}
+data:
+  recipe:
+    image_url: "http://forkify-api.herokuapp.com/images/14573f089.jpg"
+    ingredients: (8) ["1 pound dry ziti pasta", "1 onion, chopped", "1 pound lean ground beef", "2 (26 ounce) jars spaghetti sauce", "6 ounces provolone cheese, sliced", "1 1/2 cups sour cream", "6 ounces mozzarella cheese, shredded", "2 tablespoons grated Parmesan cheese"]
+    publisher: "All Recipes"
+    publisher_url: "http://allrecipes.com"
+    recipe_id: "2658"
+    social_rank: 99.99999999889937
+    source_url: "http://allrecipes.com/Recipe/Baked-Ziti-I/Detail.aspx"
+    title: "Baked Ziti I"
+    __proto__: Object
+    __proto__: Object
+headers: {content-length: "550", content-type: "application/json; charset=utf-8"}
+request: XMLHttpRequest {readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, onreadystatechange: ƒ, …}
+status: 200
+statusText: "OK"
+__proto__: Object
+```
+
+- Inside the data we have all the properties we need such as title, publisher, image,...
+- So, we read these property as :
+
+```js
+  ..........................
+  async getRecipe() {
+    try {
+      const res = await axios(
+        `https://forkify-api.herokuapp.com/api/get?rId=${this.id}`
+      );
+      this.title = res.data.recipe.title;
+      this.author = res.data.recipe.publisher;
+      this.img = res.data.recipe.image_url;
+      this.url = res.data.recipe.source_url;
+      this.ingredients = res.data.recipe.ingredients;
+      // console.log(res);
+    } catch (error) {
+      alert(error);
+    }
+  }
+  ..............
+```
+
+- Logging the recipe:
+
+```js
+////////////////////////////////////
+/// RECIPE CONTROLLER
+let recipe = new Recipe(2658);
+recipe.getRecipe();
+
+console.log(recipe);
+```
+
+- o/p
+
+```json
+Recipe {id: 2658}
+  author: "All Recipes"
+  id: 2658
+  img: "http://forkify-api.herokuapp.com/images/14573f089.jpg"
+  ingredients: Array(8)
+    0: "1 pound dry ziti pasta"
+    1: "1 onion, chopped"
+    2: "1 pound lean ground beef"
+    3: "2 (26 ounce) jars spaghetti sauce"
+    4: "6 ounces provolone cheese, sliced"
+    5: "1 1/2 cups sour cream"
+    6: "6 ounces mozzarella cheese, shredded"
+    7: "2 tablespoons grated Parmesan cheese"
+    length: 8
+  __proto__: Array(0)
+  title: "Baked Ziti I"
+  url: "http://allrecipes.com/Recipe/Baked-Ziti-I/Detail.aspx"
+__proto__: Object
+```
+
+### Methods to calculate cooking time and serving:
+
+```js
+  ..................
+  calcTime() {
+    // Assuming that we need 15 mins for each 3 ingredients
+    const numIng = this.ingredients.length;
+    const periods = Math.ceil(numIng / 2);
+    this.time = periods * 15;
+  }
+
+  calcServings() {
+    // set all servings to four
+    this.serving = 4;
+  }
+  .............
+```
