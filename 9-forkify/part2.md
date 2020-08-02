@@ -279,3 +279,176 @@ try {
   clearLoader();
 }
 ```
+
+## Building the Recipe Model Part 2:
+
+- We'll write complex function to process ingredient list
+- We'll read through a list of ingredients, and in each ingredient separate the quanity, the unit and the description.
+- We can individually increase/decrease the number/quantity of the ingredient.
+
+### Content:
+
+- Use array methods like map slice, findIndex and includes.
+- How and why to use eval()
+
+### Cleaning Data:
+
+- Standardize tbsp, tablespoons and cups
+- Remove bracket's content.
+
+#### Algorithm:
+
+#### 1. Uniform Units:
+
+- Create two arrays, one array will have original ingredient, other array will be written exactly like we want them
+
+```js
+  parseIngredients() {
+    const unitsLong = [
+      "tablespoons",
+      "tablespoons",
+      "ounce",
+      "ounces",
+      "teaspoon",
+      "teaspoons",
+      "cups",
+      "pounds",
+    ];
+    const writShort = [
+      "tbsp",
+      "tbsp",
+      "oz",
+      "oz",
+      "tsp",
+      "tsp",
+      "cup",
+      "pound",
+    ];
+    const newIngredients = this.ingredients.map((el) => {
+      // 1. Uniform Units
+      let ingredient = el.toLowerCase();
+      unitsLong.forEach((unit, i) => {
+        ingredient = ingredient.replace(unit, unitShort[i]);
+      });
+      ........................
+```
+
+#### 2. Remove parenthesis
+
+- Using REGEx:
+
+**Creating a regular expression**
+
+- You construct a regular expression in one of two ways:
+
+- Using a regular expression literal, which consists of a pattern enclosed between slashes, as follows:
+
+`let re = /ab+c/;`
+
+- Regular expression literals provide compilation of the regular expression when the script is loaded. If the regular expression remains constant, using this can improve performance.
+
+- Or calling the constructor function of the RegExp object, as follows:
+
+`let re = new RegExp('ab+c');`
+
+- Using the constructor function provides runtime compilation of the regular expression. Use the constructor function when you know the regular expression pattern will be changing, or you don't know the pattern and are getting it from another source, such as user input.
+
+```js
+.......................
+  // 2. Remove parenthesis
+  ingredient = ingredient.replace(/ *\([^)]*\) */g, "");
+  // replaces parenthesis and everting inside with nothing
+
+  // 3. Parse ingredients into count units and ingredient
+
+  return ingredient;
+});
+this.ingredients = newIngredients;
+..........
+```
+
+regex ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+
+#### 3. Parse ingredients into count units and ingredient
+
+**Cases**:
+
+- Number, Unit and the text
+- Only Number
+- No Number
+
+**Algorithm:**:
+
+1. Test if there are units and where it is located
+
+   - Convert Ingredient into Array
+
+   ```js
+   const arrIng = ingredient.split(" ");
+   ```
+
+   - Return the index of the positioin where the test is true
+
+   ```js
+   const unitIndex = arrIng.findIndex((el2) => unitShort.includes(el2));
+   ```
+
+2. Use the above test to decide:
+
+   ```js
+      ...............................
+      let objIng;
+
+      if (unitIndex > -1) {
+        // There is a unit
+
+        // EX; 4 1/2  cups then count = ['4', '1/2']
+        const arrCount = arrIng.slice(0, unitIndex);
+
+        let count;
+        if (arrCount.length === 1) {
+          count = eval(arrIng[0].replace("-", "+"));
+        } else {
+          count = eval(arrIng.slice(0, unitIndex).join("+"));
+          // "4+1/2" = 4.5 thanks to eval()
+        }
+
+        objIng = {
+          count, // count : count
+          unit: arrIng[unitIndex],
+          ingredient: arrIng.slice(unitIndex + 1).join(" "),
+        };
+      } else if (parseInt(arrIng[0], 10)) {
+        // There is no unit, but 1st element is number
+        objIng = {
+          count: parseInt(arrIng[0], 10),
+          unit: "",
+          ingredient: arrIng.slice(1).join(" "),
+        };
+      } else if (unitIndex === -1) {
+        // There is no unit
+        objIng = {
+          count: 1,
+          unit: "",
+          ingredient,
+          // object's ingredient is assigned,
+          // similar to ingredient: this.ingredient
+        };
+      }
+
+      return objIng;
+      .......................
+   ```
+
+   - Using parseInt as returning true/false
+
+   ```js
+   let a = "122";
+   undefined;
+
+   a;
+   ("122");
+
+   if (parseInt(a, 10)) console.log(true);
+   true;
+   ```
