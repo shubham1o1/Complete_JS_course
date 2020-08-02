@@ -56,11 +56,13 @@ export default class Recipe {
       "cup",
       "pound",
     ];
+
+    const units = [...unitShort, "kg", "g"];
     const newIngredients = this.ingredients.map((el) => {
       // 1. Uniform Units
       let ingredient = el.toLowerCase();
       unitsLong.forEach((unit, i) => {
-        ingredient = ingredient.replace(unit, unitShort[i]);
+        ingredient = ingredient.replace(unit, units[i]);
       });
 
       // 2. Remove parenthesis

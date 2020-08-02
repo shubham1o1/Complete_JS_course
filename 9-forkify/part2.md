@@ -452,3 +452,97 @@ regex ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular
    if (parseInt(a, 10)) console.log(true);
    true;
    ```
+
+## Building the Recipe View:
+
+- Rendering the recipe in the UI
+
+### Setting Up:
+
+```js
+//base.js
+.................
+  recipe: document.querySelector(".recipe"),
+.............
+```
+
+- Setting up the markup:
+
+```js
+//recipeView.js
+import { elements } from "./base";
+
+export const renderRecipe = (recipe) => {
+  const markUp = `
+  <figure class="recipe__fig">
+      <img src="img/${recipe.img}" alt="${recipe.title}" class="recipe__img">
+      <h1 class="recipe__title">
+          <span>${recipe.title}</span>
+      </h1>
+  </figure>
+  ..............................
+  ...............................
+  .................................
+  `;
+  elements.recipe.insertAdjacentHTML("afterbegin", markUp);
+};
+```
+
+### Programmatically putting markup(ingredient list) with loop:
+
+```js
+// callback function to create ingredient list
+const createIngredient = (ingredient) => `
+<li class="recipe__item">
+  <svg class="recipe__icon">
+      <use href="img/icons.svg#icon-check"></use>
+  </svg>
+  <div class="recipe__count">${ingredient.count}</div>
+  <div class="recipe__ingredient">
+      <span class="recipe__unit">${ingredient.unit}</span>
+      ${ingredient.ingredient}
+  </div>
+</li>
+`;
+...........................
+ const markUp = `
+  <figure class="recipe__fig">
+      <img src="${recipe.img}" alt="${recipe.title}" class="recipe__img">
+      <h1 class="recipe__title">
+          <span>${recipe.title}</span>
+      </h1>
+  </figure>
+  .......................
+ <div class="recipe__ingredients">
+      <ul class="recipe__ingredient-list">
+      ${recipe.ingredients.map((el) => createIngredient(el)).join(""))}
+
+      </ul>
+```
+
+- map returns array but we want string . So we join the arrays into strings
+
+### Recipe Controller Added codes:
+
+```js
+const controlRecipe = async () => {
+............
+
+  if (id) {
+    // Prepare UI for Changes
+    recipeView.clearRecipe();
+    renderLoader(elements.recipe);
+    ...............................
+
+    try {
+      ..........................
+
+      // Render the Recipe
+      clearLoader();
+      recipeView.renderRecipe(state.recipe);
+    } catch (error) {
+      alert("Error Processing Recipe");
+    }
+  }
+};
+```
