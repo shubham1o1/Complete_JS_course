@@ -655,3 +655,89 @@ const controlRecipe = async () => {
     if (state.search) searchView.highlightSelected(id);
 ...............................
 ```
+
+## Updating Recipe Servings:
+
+- Updating the servings and the ingredients list whenever we click the increase or decrease buttons.
+- Handling event delegation with `.matches`
+
+### Method to update servings in Recipe model:
+
+- pass the type argument which implies whether to increase or decrease the value
+- calculate the new servings according to the type
+- Update the count of ingredient with forEach method
+- Finally update the servings
+
+```js
+  updateServings(type) {
+    // type implies increase or decrease
+
+    //servings
+    const newServings = type === "dec" ? this.serving - 1 : this.serving + 1;
+
+    //ingredients
+    this.ingredients.forEach((ing) => {
+      ing.count *= newServings / this.serving;
+    });
+
+    this.servings = newServings;
+  }
+```
+
+### Implementing the event handlers for the + and - buttons:
+
+- We have to use event delegation since the button are not there initially.
+- Only thing that is there is the recipe element, that is where we'll have to attach the event listeners and use the target property of the event in order to figure out where the click actually happened.
+- We cannot use `.closest` since there are more than one thing we'd like to select. (There are +, -, heart, add to list buttons). So, it is impossible to target these elements.
+- We'll test what was click and react accordingly.
+- We'll use the `.matches` methods
+
+```js
+elements.recipe.addEventListener("click", (e) => {
+  if (e.target.matches(".btn-decrease, .btn-decrease *")) console.log(123);
+});
+```
+
+- We can pass CSS selector inside matches.
+- `btn-decrease *` implies any child of `btn-decrease`.
+- If the event matches these classes then the consequent statement will be executed.
+
+```js
+// index.js
+elements.recipe.addEventListener("click", (e) => {
+  if (e.target.matches(".btn-decrease, .btn-decrease *")) {
+    // Decrease Button is clicked
+    if (state.recipe.serving > 1) {
+      // Stop from making serving a negative value.
+      state.recipe.updateServings("dec");
+      recipeView.updateServingsIngredients(state.recipe);
+    }
+  }
+  if (e.target.matches(".btn-increase, .btn-increase *")) {
+    // increase button is clicked
+    state.recipe.updateServings("inc");
+    recipeView.updateServingsIngredients(state.recipe);
+  }
+  console.log(state.recipe);
+});
+```
+
+- Displaying the changes on the UI:
+- select the serving element and update the serving
+- select the ingredient array and update the ingredient counts by looping through the ingredient.
+
+```js
+//recipeView.js
+
+export const updateServingsIngredients = (recipe) => {
+  // Update servings
+  document.querySelector(".recipe__info-data--people").textContent =
+    recipe.serving;
+
+  // Update ingredients
+  const countElements = Array.from(document.querySelectorAll(".recipe__count"));
+  countElements.forEach((el, i) => {
+    el.textContent = formatCount(recipe.ingredients[i].count);
+  });
+};
+```
