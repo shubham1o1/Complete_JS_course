@@ -546,3 +546,112 @@ const controlRecipe = async () => {
   }
 };
 ```
+
+## Building the Recipe View Part 2:
+
+- We are going to write a function that converts the decimal number into fraction.
+- We are going to use external package: `fraction.js`
+- You can plug in a number and get a numerator and a denominator.
+- 0.75 => 3 num and 4 deno
+
+`npm install fractional --save`
+
+- `--save` saves to package.json file.
+
+```json
+  ...............
+  "dependencies": {
+  ............
+    "regenerator-runtime": "^0.13.7"
+  }
+}
+```
+
+### Exporting the old fashion way (Node.js style):
+
+```js
+var function = require("fractional").fraction;
+```
+
+- Importing:
+
+```js
+import { Fraction } from "fractional";
+```
+
+### Formatting decimal into fraction and integer:
+
+- We destructure the count string into two variables int and dec by using split by '.' and map function
+- If dec is not present we simply return the count
+- We int is not present we simply return the fractional part
+- If both are present we extract the fractional part and append the integer and fractional part together.
+
+```js
+//recipeView.js
+
+const formatCount = (count) => {
+  if (count) {
+    // 2.5 => 2 1/2
+    const [int, dec] = count
+      .toString()
+      .split(".")
+      .map((el) => parseInt(el, 10));
+
+    if (!dec) return count;
+
+    if (int === 0) {
+      const fr = new Fraction(count);
+      return `${fr.numerator}/${fr.denominator}`;
+    } else {
+      const fr = new Fraction(count - int);
+      return `${int} ${fr.numerator}/${fr.denominator}`;
+    }
+  }
+  return "?";
+};
+```
+
+### Putting into practice:
+
+```js
+const createIngredient = (ingredient) => `
+.............
+  <div class="recipe__count">${formatCount(ingredient.count)}</div>
+.............
+`;
+```
+
+### Adding Highlight to selected item:
+
+```js
+// searchView.js
+export const highlightSelected = (id) => {
+  const resultsArr = Array.from(document.querySelectorAll(".results__link"));
+  resultsArr.forEach((el) => el.classList.remove("results__link--active"));
+  document
+    .querySelector(`a[href="#${id}"]`)
+    .classList.add("results__link--active");
+};
+```
+
+- Clear the previously highlighted items first
+- Add the highlight to the attribute of `<a></a>`
+
+#### Putting into Practices:
+
+```js
+////////////////////////////////////
+/// RECIPE CONTROLLER
+
+const controlRecipe = async () => {
+  // Get ID from URL
+  const id = window.location.hash.replace("#", "");
+  console.log(id);
+
+  if (id) {
+....................
+
+    // highlight selected search item
+    if (state.search) searchView.highlightSelected(id);
+...............................
+```
