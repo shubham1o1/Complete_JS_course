@@ -844,3 +844,50 @@ undefined
 > __proto__: Array(0)
 > __proto__: Object
 ```
+
+## Building the Shopping List View:
+
+- Setting the elements:
+
+```js
+// base.js
+export const elements = {
+............
+  shopping: document.querySelector(".shopping__list"),
+};
+```
+
+- Rendering the list markup:
+
+```js
+//listView.js
+
+export const renderItem = (item) => {
+  const markUp = `
+  <li class="shopping__item data-itemid=${item.id}">
+    <div class="shopping__count">
+        <input type="number" value="${item.count}" step="${item.count}" class = "shopping__count-value">
+        <p>${item.unit}</p>
+    </div>
+    <p class="shopping__description">${item.ingredient}</p>
+    <button class="shopping__delete btn-tiny">
+        <svg>
+            <use href="img/icons.svg#icon-circle-with-cross"></use>
+        </svg>
+    </button>
+  </li>
+  `;
+  elements.shopping.insertAdjacentElement("beforeend", markUp);
+};
+```
+
+- Deleting Item from list:
+
+```js
+export const deleteItem = (id) => {
+  const item = document.querySelector(`[data-itemid="${id}"]`);
+  item.parentElement.removeChild(item);
+};
+```
+
+- Note the usage of data attribute with css attribute (`[data-itemid="${id}"]`)
