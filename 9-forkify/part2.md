@@ -741,3 +741,51 @@ export const updateServingsIngredients = (recipe) => {
   });
 };
 ```
+
+## Building the Shopping List Model:
+
+### Content:
+
+- How and why to create unique IDs using an external package
+- Difference between Array.slice and Array.splice
+- More use cases for Array, findIndex and Array.find
+
+## Building the Shopping List Model:
+
+### Content:
+
+- How and why to create uniquye IDs using an external packages;
+- Difference between `Array.slice` and `Array.splice`
+- More uses cases for `Array.findIndex` and `Array.find`
+
+### Model Design:
+
+- We are not passing any argument to the constructor, we` are just initializing the a property which is an array
+
+```js
+import uniqid from "uniqid";
+
+export default class List {
+  constructor() {
+    this.items = [];
+  }
+
+  addItem(count, unit, ingredient) {
+    const item = {
+      id: uniqid(),
+      count,
+      unit,
+      ingredient,
+    };
+  }
+}
+```
+
+#### Adding unique ID:
+
+`npm install uniqid`
+
+- Third party package
+- Create a new ID based on current time, process and machine name.
+
+### Delete an item:
