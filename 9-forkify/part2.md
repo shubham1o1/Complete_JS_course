@@ -746,14 +746,6 @@ export const updateServingsIngredients = (recipe) => {
 
 ### Content:
 
-- How and why to create unique IDs using an external package
-- Difference between Array.slice and Array.splice
-- More use cases for Array, findIndex and Array.find
-
-## Building the Shopping List Model:
-
-### Content:
-
 - How and why to create uniquye IDs using an external packages;
 - Difference between `Array.slice` and `Array.splice`
 - More uses cases for `Array.findIndex` and `Array.find`
@@ -789,3 +781,66 @@ export default class List {
 - Create a new ID based on current time, process and machine name.
 
 ### Delete an item:
+
+- In `splice()` method we pass in start index and how many positions we want to take. It will then return these elements and delete them from the original array. It mutates the original one
+- `slice()` accepts start and end position and return the portion of the array. It does not mutate the original array. Excludes the last index.
+
+```js
+  deleteItem(id) {
+    const index = this.items.findIndex((el) => el.id === id);
+    this.items.splice(index, 1);
+  }
+```
+
+- findIndex finds the index of the element
+- We splice the the item at the index
+
+### Updating Items:
+
+```js
+  updateCount(id, newCount) {
+    this.items.find((el) => el.id === id).count = newCount;
+  }
+```
+
+- We loop through all the elements and select the one that has the id equal to the id that we passed into the function. We get an object and then update the count property on it.
+
+### Importing in the controller:
+
+```js
+import List from "./models/List";
+
+window.l = new List();
+
+// console codes
+
+// Adding
+> l.addItem(2,'tbsp','salt');
+> {id: "kdg6dx0a", count: 2, unit: "tbsp", ingredient: "salt"}
+> l.addItem(2,'tbsp','salt');
+{id: "kdg6dx0a", count: 2, unit: "tbsp", ingredient: "salt"}
+> l.addItem(2,'cup','oliveoil');
+{id: "kdg6ggm1", count: 2, unit: "cup", ingredient: "oliveoil"}
+
+// deleting
+> l.deleteItem("kdg6dx0a");
+undefined
+> l
+> List {items: Array(1)}
+> items: Array(1)
+> 0: {id: "kdg6ggm1", count: 2, unit: "cup", ingredient: "oliveoil"}
+> length: 1
+> __proto__: Array(0)
+> __proto__: Object
+
+// Updating:
+> l.updateCount("kdg6ggm1", 10);
+undefined
+> l
+> List {items: Array(1)}
+> items: Array(1)
+> 0: {id: "kdg6ggm1", count: 10, unit: "cup", ingredient: "oliveoil"}
+> length: 1
+> __proto__: Array(0)
+> __proto__: Object
+```
