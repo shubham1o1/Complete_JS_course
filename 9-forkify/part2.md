@@ -891,3 +891,87 @@ export const deleteItem = (id) => {
 ```
 
 - Note the usage of data attribute with css attribute (`[data-itemid="${id}"]`)
+
+## BUILDING THE SHOPPING LIST CONTROLLER:
+
+```js
+// index.js
+import * as listView from "./views/listView";
+
+
+////////////////////////////////////
+/// List CONTROLLER
+const controlList = () => {
+  // Create a new list if there is none yet
+  if (!state.list) state.list = new List();
+
+  // Add each ingredients to the list and UI
+  state.recipe.ingredients.forEach((el) => {
+    const item = state.list.addItem(el.count, el.unit, el.ingredient);
+    listView.renderItem(item);
+  });
+};
+
+
+
+// handling recipe button clicks:
+elements.recipe.addEventListener("click", (e) => {
+  if (e.target.matches(".btn-decrease, .btn-decrease *")) {
+    ...................................
+  } else if (e.target.matches(".recipe__btn--add, .recipe__btn--add *")) {
+    controlList();
+  }
+});
+```
+
+- We use the event delegation since they are not in the list initially.
+- We add `e.target.matches(".recipe__btn--add, .recipe__btn--add *")` to listener to the add to shopping list button(and all of its child's) click event
+- On the firing of this event, we call the `controlList()` function. Where we create an object if the list is empty else add the item to the state list
+- Then we call the `renderItem()` function which displays the shopping list to the UI one by one following the `forEach()` loop.
+
+### The Delete List Button:
+
+- We select the following data attribute: `<li class="shopping__item" data-itemid=${item.id}>`
+- We'll use the closest method.
+- The `closest()` method traverses the Element and its parents (heading toward the document root) until it finds a node that matches the provided selector string. Will return itself or the matching ancestor. If no such element exists, it returns null.
+- Using closest with data attribute: `const id = e.target.closest(".shopping__item").dataset.itemid;`
+- We are selecting the shopping\_\_item event delegation since the buttons are not present originally.
+- Then we use the matches method to select the shopping\_\_delete element and its child and on the event trigerred case we delete an item from state and UI
+
+```js
+// index.js
+
+// Handle Delete and update list item event
+elements.shopping.addEventListener("click", (e) => {
+  const id = e.target.closest(".shopping__item").dataset.itemid;
+
+  // Handle the delete button
+  if (e.target.matches(".shopping__delete, .shopping__delete *")) {
+    // Delete from state
+    state.list.deleteItem(id);
+
+    // Delete from UI
+    listView.deleteItem(id);
+  }
+});
+```
+
+### Handling the update:
+
+```js
+// Handle Delete and update list item event
+elements.shopping.addEventListener("click", (e) => {
+  const id = e.target.closest(".shopping__item").dataset.itemid;
+
+  ...............................
+
+  // Handle the count update
+  else if (e.target.matches(".shopping__count-value")) {
+    const val = parseFloat(e.target.value);
+    state.list.updateCount(id, val);
+  }
+});
+```
+
+- The target event property returns the element that triggered the event.
+- When we click on the input value the event is trigerred and it's value is assigned to `val` and the list is updated.
