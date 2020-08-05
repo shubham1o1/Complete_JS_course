@@ -1075,3 +1075,194 @@ const controlLike = () => {
 - We read the event delegated (opened item) id and check if it is in the liked list
 - If the recipe isn't in the liked list then we add its id, title, author and img using `addLike()` method
 - If the recipe is in the liked list then we delete the item from the liked list using `deleteLike()` method.
+
+## BUILDING THE LIKES VIEW:
+
+- We'll handle the UI for likes
+
+### Toggle functionality
+
+- import the elements
+- define a function that takes isLiked argument
+- Define a iconString which gets assined a value according to the isLiked's value
+- Set the attribute of the recipe\_\_love's element's use child.
+
+```js
+import { elements } from "./base";
+
+export const toggleLikeBtn = (isLiked) => {
+  const iconString = isLiked ? "icon-heart" : "icon-heart-outlined";
+  document
+    .querySelector(".recipe__love use")
+    .setAttribute("href", `img/icons.svg#${iconString}`);
+  // <use href="img/icons.svg#icon-heart-outlined"></use>
+};
+```
+
+#### Putting into practice:
+
+```js
+// index.js
+
+////////////////////////////////////
+/// LIKES CONTROLLER
+const controlLike = () => {
+  if (!state.likes) state.likes = new Likes();
+  const currentID = state.recipe.id;
+
+  // user has not yet liked current recipe
+  if (!state.likes.isLiked(currentID)) {
+.....
+    // Toggle the like button
+    likesView.toggleLikeBtn(true);
+
+....
+  }
+  // use has liked the current recipe
+  else {
+....
+
+    // Toggle the like button
+    likesView.toggleLikeBtn(false);
+....
+  }
+};
+
+```
+
+### Updating the RecipeView to read the state and decide whether to display the item as liked or not:
+
+```js
+export const renderRecipe = (recipe, isLiked) => {
+  const markUp = `
+  <figure class="recipe__fig">
+..............................................
+
+      </div>
+      <button class="recipe__love">
+          <svg class="header__likes">
+              <use href="img/icons.svg#icon-heart${
+                isLiked ? "" : "-outlined"
+              }"></use>
+          </svg>
+      </button>
+  </div>
+............................
+```
+
+- We pass the isLiked argument and display the icon accordingly.
+- We also call from the controller:
+
+```js
+// index.js > recipe controller
+
+const controlRecipe = async () => {
+  // Get ID from URL
+  const id = window.location.hash.replace("#", "");
+
+  if (id) {
+....
+
+      // Render the Recipe
+      clearLoader();
+      recipeView.renderRecipe(state.recipe, state.likes.isLiked(id));
+    } catch (error) {
+      console.log(error);
+      alert("Error Processing Recipe");
+    }
+  }
+};
+```
+
+### Displaying a Likes menu:
+
+```js
+//listView.js
+
+export const toggleLikeMenu = (numLikes) => {
+  // list of like at the top
+  elements.likesMenu.getElementsByClassName.visibility =
+    numLikes > 0 ? "visible" : "hidden";
+};
+```
+
+- We read the number of likes and decide whether to make the menu visible or hidden.
+
+```js
+// index.js > controlLike()
+
+likesView.toggleLikeMenu(state.likes.getNumLikes());
+```
+
+### Render likes into the menu:
+
+```js
+// likeViews.js
+
+import { elements } from "./base";
+import { limitRecipeTitle } from "./searchView";
+
+export const renderLike = (like) => {
+  const markup = `
+  <li>
+    <a class="likes__link" href="#${like.id}">
+        <figure class="likes__fig">
+            <img src="${like.img}" alt="${like.title}">
+        </figure>
+        <div class="likes__data">
+            <h4 class="likes__name">${limitRecipeTitle(like.title)}</h4>
+            <p class="likes__author">${like.author}</p>
+        </div>
+    </a>
+  </li>
+  `;
+  elements.likesList.insertAdjacentHTML("beforeend", markup);
+};
+```
+
+### Delete Likes:
+
+- Selecting the link that are likes: `.likes__link[href="#${id}"]`
+
+```js
+export const deleteLike = (id) => {
+  const el = document.querySelector(`.likes__link[href="#${id}"]`)
+    .parentElement;
+  if (el) el.parentElement.removeChild(el);
+};
+```
+
+### Putting into practice (Render + Delete):
+
+```js
+// index.js > controlLike()
+
+const controlLike = () => {
+  if (!state.likes) state.likes = new Likes();
+  const currentID = state.recipe.id;
+
+  // user has not yet liked current recipe
+  if (!state.likes.isLiked(currentID)) {
+    // Add like to the state
+    const newLike = state.likes.addLike(
+      currentID,
+      state.recipe.title,
+      state.recipe.author,
+      state.recipe.img
+    );
+...
+
+    // Add Like to the UI list
+    likesView.renderLike(newLike);
+  }
+
+  // use has liked the current recipe
+  else {
+...
+
+    // Remove like from the UI list
+    likesView.deleteLike(currentID);
+  }
+...
+};
+```

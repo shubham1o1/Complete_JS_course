@@ -11,7 +11,7 @@ export const clearResults = () => {
   elements.searchResPages.innerHTML = "";
 };
 
-const limitRecipeTitle = (title, limit = 17) => {
+export const limitRecipeTitle = (title, limit = 17) => {
   /** Algorithm
    * - Split the title into its word
    * - Use the reduce method on the resulting array
@@ -35,7 +35,7 @@ export const highlightSelected = (id) => {
   const resultsArr = Array.from(document.querySelectorAll(".results__link"));
   resultsArr.forEach((el) => el.classList.remove("results__link--active"));
   document
-    .querySelector(`a[href="#${id}"]`)
+    .querySelector(`.results__link[href="#${id}"]`)
     .classList.add("results__link--active");
 };
 
