@@ -975,3 +975,41 @@ elements.shopping.addEventListener("click", (e) => {
 
 - The target event property returns the element that triggered the event.
 - When we click on the input value the event is trigerred and it's value is assigned to `val` and the list is updated.
+
+## BUILDING THE LIKES MODEL:
+
+- You click the heart, it gets selected and it is added to the liked list above.
+
+```js
+export default class Likes {
+  constructor() {
+    this.likes = [];
+  }
+
+  addLike(id, title, author, img) {
+    const like = { id, title, author, img };
+    this.likes.push(like);
+    return like;
+  }
+
+  deleteItem(id) {
+    const index = this.likes.findIndex((el) => el.id === id);
+    this.likes.splice(index, 1);
+  }
+
+  isLiked(id) {
+    return this.likes.findIndex((el) => el.id === id) !== -1;
+  }
+
+  getNumLikes() {
+    return this.likes.length;
+  }
+}
+```
+
+- Constructor is without argument, we just initialize the likes array
+- We Like list with recipe's id, title, author and image
+- we delete the likes by passing an id and splicing the array
+- We implemented isliked method to find where the item is liked or not so that we can decide whether to highlight the liked heart.
+- We implemented the isLiked() by returning true or false based on whether we find the index of the item in the likes array
+- For the number of like we simply return the length.
