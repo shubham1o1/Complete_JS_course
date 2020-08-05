@@ -992,7 +992,7 @@ export default class Likes {
     return like;
   }
 
-  deleteItem(id) {
+  deleteLike(id) {
     const index = this.likes.findIndex((el) => el.id === id);
     this.likes.splice(index, 1);
   }
@@ -1013,3 +1013,65 @@ export default class Likes {
 - We implemented isliked method to find where the item is liked or not so that we can decide whether to highlight the liked heart.
 - We implemented the isLiked() by returning true or false based on whether we find the index of the item in the likes array
 - For the number of like we simply return the length.
+
+## BUILDING THE LIKES CONTROLLER:
+
+- When we click on the like button there are two possible scenario:
+  1. We have to un-highlight the button if it is already liked and remove from the list
+  2. We have to highlight the button and add to the list if it is not yet liked.
+
+### We first add the event delegation as follows:
+
+```js
+// handling recipe button clicks:
+elements.recipe.addEventListener("click", (e) => {
+.......................................
+  } else if (e.target.matches(".recipe__love, .recipe__love *")) {
+    // Like Controller
+    controlLike();
+  }
+});
+```
+
+### Coding the controller:
+
+```js
+////////////////////////////////////
+/// LIKES CONTROLLER
+const controlLike = () => {
+  if (!state.likes) state.likes = new Likes();
+  const currentID = state.recipe.id;
+
+  // user has not yet liked current recipe
+  if (!state.likes.isLiked(currentID)) {
+    // Add like to the state
+    const newLike = state.likes.addLike(
+      currentID,
+      state.recipe.title,
+      state.recipe.author,
+      state.recipe.img
+    );
+
+    // Toggle the like button
+
+    // Add Like to the UI list
+    console.log(state.likes);
+  }
+
+  // use has liked the current recipe
+  else {
+    // remove like from the state
+    state.likes.deleteLike(currentID);
+
+    // Toggle the like button
+
+    // Remove like from the UI list
+    console.log(state.likes);
+  }
+};
+```
+
+- We create a new array if it isn't already present else we append to existing
+- We read the event delegated (opened item) id and check if it is in the liked list
+- If the recipe isn't in the liked list then we add its id, title, author and img using `addLike()` method
+- If the recipe is in the liked list then we delete the item from the liked list using `deleteLike()` method.
