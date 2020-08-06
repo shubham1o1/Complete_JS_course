@@ -1266,3 +1266,115 @@ const controlLike = () => {
 ...
 };
 ```
+
+## Implementing Persistent Data With LocalStorage:
+
+- Liked recipes are kept even after we reload the page.
+
+### Content:
+
+- How to use the `localStorage` API
+- How to set, get and delete items from local storage
+
+### Intro:
+
+- Webstorage API allows us to save the key value pairs right in the browser. This data will remain intact even after the page reloads.
+
+#### Putting into practice:
+
+- Console codes:
+
+```js
+> localStorage.setItem('id','sdfkg');
+> undefined
+> localStorage.getItem('id');
+> "sdfkg"
+> localStorage.length
+2
+> localStorage.removeItem('id');
+> localStorage.length
+1
+```
+
+- **id** is key and **sdfkg** is value and both of them are strings(mandatory)
+- There are `setItem`, `getItem`, `removeItem` methods and length property of `localStorage`
+- Looking inside `localStorage`
+
+```js
+> localStorage
+>   Storage {loglevel:webpack-dev-server: "INFO", id: "sdfkg", length: 2}
+>     id: "sdfkg"
+>     length: 2
+>     loglevel:webpack-dev-server: "INFO"
+>     __proto__: Storage
+```
+
+### Likes model:
+
+- We store the data in the locastorage's like property by stringfying the data and call the function from `addLike()` and `deleteLike()`
+- We read the localstorage by parse the string into json.
+
+```js
+export default class Likes {
+  constructor() {
+    this.likes = [];
+  }
+  addLike(id, title, author, img) {
+.............
+
+    //persist data in localStorage
+    this.persistData();
+
+    return like;
+  }
+
+  deleteLike(id) {
+.....
+
+    // Persist data in localstorage
+    this.persistData();
+  }
+  persistData() {
+    localStorage.setItem("likes", JSON.stringify(this.likes));
+  }
+
+  readStorage() {
+    // read json like data from string
+    const storage = JSON.parse(localStorage.getItem("likes"));
+
+    // Restore likes from the localStorage
+    if (storage) this.likes = storage;
+  }
+}
+```
+
+```js
+localStorage
+Storage {likes: "[{"id":"47025","title":"Pasta with Pesto Cream Sau…forkify-api.herokuapp.com/images/pestoa0e7.jpg"}]", loglevel:webpack-dev-server: "INFO", length: 2}
+
+localStorage.likes
+"[{"id":"47746","title":"Best Pizza Dough Ever","author":"101 Cookbooks","img":"http://forkify-api.herokuapp.com/images/best_pizza_dough_recipe1b20.jpg"},{"id":"35478","title":"Pizza Quesadillas (aka Pizzadillas)","author":"Closet Cooking","img":"http://forkify-api.herokuapp.com/images/Pizza2BQuesadillas2B2528aka2BPizzadillas25292B5002B834037bf306b.jpg"},{"id":"41470","title":"Cauliflower Pizza Crust (with BBQ Chicken Pizza)","author":"Closet Cooking","img":"http://forkify-api.herokuapp.com/images/BBQChickenPizzawithCauliflowerCrust5004699695624ce.jpg"}]"
+```
+
+### Restoring the likes
+
+- We use the window object's load event to restore the likes
+- We create new object, read the local storage, toggle the menu button and render the like list in the menu item.
+
+```js
+// index.js
+
+// restore liked recipes on page load
+window.addEventListener("load", () => {
+  state.likes = new Likes();
+
+  // Restore Likes
+  state.likes.readStorage();
+
+  // Toggle The menu butoton
+  likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+  // render the existing likes
+  state.likes.likes.forEach((like) => likesView.renderLike(like));
+});
+```
