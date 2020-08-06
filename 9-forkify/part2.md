@@ -1378,3 +1378,7 @@ window.addEventListener("load", () => {
   state.likes.likes.forEach((like) => likesView.renderLike(like));
 });
 ```
+
+## WRAPPING UP FINAL CONSIDERATIONS:
+
+- Build process:
