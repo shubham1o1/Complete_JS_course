@@ -54,7 +54,7 @@ multi line comments
 
 #### Rules:
 
-- Var name cant start with numbers or symbols except underscore or dollar sign
+- Variable name cant start with numbers or symbols except underscore or dollar sign
 - Cannot use reserved keywords for var name
 
 ### Variable mutation and type coercion:
@@ -69,7 +69,8 @@ var age = 28;
 console.log(firstName + " " + age);
 ```
 
-JS automatically converts types as needed this is known as type coercion. Even undefined and boolean is coerced into string if you try it out as:
+- JS automatically converts types as needed this is known as type coercion. Even undefined and boolean is coerced into string if you try it out as:
+
 `console.log(firstName + ' is a ' + age + ' year old? ' + isMarried);`
 
 #### Variable Mutation:
@@ -272,7 +273,7 @@ if is statement
 undefined
 ```
 
-- if doesnot produce immediate result, above line gives undefined result in console which also implies that it is a statement.
+- `if` does not produce immediate result, above line gives undefined result in console which also implies that it is a statement.
 
 ## ARRAYS:
 
@@ -328,7 +329,7 @@ console.log(isDesigner);
 
 - Access element by name instead of index
 - Define key value pair, each value has keys
-- Can be used to together different variable that belong together but have no order
+- Can be used to group different variable that belong together but have no order
 - In array order matters but not in objects
 
 ```js

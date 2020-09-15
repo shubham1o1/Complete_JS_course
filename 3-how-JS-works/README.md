@@ -27,15 +27,15 @@ lastName === window.lastName;
 ## Execution Contexts in Detail (Creation and Execution Phases and Hoisting):
 
 - Execution context object contains three properties:
-  - Variable Objects(VO): Function arguments, Inner Variable Declaration, Function Declaration
-  - Scope Chain: Current Variable Objects as well as the VO of all its parents
-  - "this" variable
+  - **Variable Objects(VO)**: Function arguments, Inner Variable Declaration, Function Declaration
+  - **Scope Chain**: Current Variable Objects as well as the VO of all its parents
+  - **"this"** variable
 - The execution context in detail:
-  - When function is call new execution object is placed on top of the execution stack in two phases:
+  - When function is called, new execution object is placed on top of the execution stack in two phases:
   - Creation Phase:
     - Creation of Variable Object (VO)
     - Creation of the scope chain
-    - Determine value of the this variable
+    - Determine value of the `this` variable
   - Execution Phase
     - The code of the function that generated the current execution context is ran line by line.
 
@@ -97,12 +97,11 @@ console.log(age); //23 from global execution context's age
 ## The 'this' KEYWORD:
 
 - Variable that each and every execution context gets. It is stored in execution context object.
-- In a Regular functon call the this keyword points at the global object,
+- In a Regular functon call the `this` keyword points at the global object,
   (the window object, in the browser).
-- In a Method call the this variable points to the object that is calling
+- In a **Method** call the `this` variable points to the object that is calling
   the method.
-- The this keyword is not assigned a value until a function where it is
-  defined is actually called. Even though this variable is assigned to a object it is assigned a value only when a function of that object is called.
+- The `this` keyword is not assigned a value until a function where it is defined is actually called. Even though `this` variable is assigned to a object it is assigned a value only when a function of that object is called.
 
 ## The 'this' keyword in practice:
 
