@@ -29,9 +29,9 @@
   ```
 
 - In css we write rules to style a webpage
-- .classname{} is defined in css and specified in html
-- type selector, body{}
-- - {} universal selector.
+- `.classname{}` is defined in css and specified in html
+- type selector, `body{}`
+- `{}` universal selector.
 
 ## DOM Access and Manipulation:
 
@@ -59,8 +59,8 @@ Math.floor(Math.random() * 6) + 1; // generates number between 1 and 6
 
 - document object gives access to the DOM. so we are doing `document.methodCall()`
 - `document.querySelector()` lets us select stuff exactly like CSS but it only selects the first element that it finds
-- `document.querySelector('#current-0').textContent = dice;` textcontent method lets us change the text in the selected element.
-- `document.querySelector('#current-'+activePlayer).textContent = dice;` Here, instead of setting `current-0` id, we can set dynamic number, which is stored in `activeplayer` variable.
+- `document.querySelector('#current-0').textContent = dice;` - Here `textcontent()` method lets us change the text in the selected element.
+- `document.querySelector('#current-'+ activePlayer).textContent = dice;` Here, instead of setting `current-0` id, we can set dynamic number, which is stored in `activeplayer` variable.
 - textContent changes the content of the HTML element, but to change the content of the selection there are two ways: Putting Plain text and Putting HTML.
 - To put HTML content we use inner HTML methods.
 - `document.querySelector('#current-'+activePlayer).innerHTML = '<em>' + dice + '</em>';` Assign the string value to interpret it as HTML code else the parser will think it is a JS code. Now the text is emphasized, i.e. italicized. If textcontent was used every string would be sent as it is.
@@ -69,7 +69,7 @@ Math.floor(Math.random() * 6) + 1; // generates number between 1 and 6
 
 ## Events and Event Handling:
 
-- **Events**: Notifications that are sent to notify the code that something happended on the webpage.
+- **Events**: Notifications that are sent to notify the code that something happened on the webpage.
 - Events are triggerred by things like clicking a button, resizing a window, scrolling down or pressing a key
 - **Event Listener**: A function that performs an action based on a certain event. It waits for a specific event to happen.
 - Action may be responses such as showing animation, pop up window, so on.
@@ -86,7 +86,7 @@ Math.floor(Math.random() * 6) + 1; // generates number between 1 and 6
 - What a callback function is
 - What an anonymous function is
 - Another way to select elements by ID
-- How to change the image in an <img> element
+- How to change the image in an `<img>` element
 
 #### Setting Up an event Handler
 
@@ -100,7 +100,7 @@ document.querySelector(".btn-roll").addEventListener("click", btn);
 - Here we have specified the class of the element (roll dice button in our case)
 - we have used addEventListener function to specify type of event , 'click' and the **callback function** name, 'btn'
 - [Events Reference MDN](https://developer.mozilla.org/en-US/docs/Web/Events). Click event is a mouse event.
-- Usually we call the function as btn(); but here we are passing function name as argument. This function that we pass is called **callback function** and it is invoked once the event is triggerred by adEventListener function. In a nutshell callback function is not directly invoked. It is a function that is supplied to a function and that function invokes them.
+- Usually we call the function as `btn();` but here we are passing function name as argument. This function that we pass is called **callback function** and it is invoked once the event is triggerred by `adEventListener` function. In a nutshell callback function is not directly invoked. It is a function that is supplied to a function and that function invokes them.
 
 #### Anonymous Function:
 
