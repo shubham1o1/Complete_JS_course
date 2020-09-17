@@ -67,7 +67,7 @@ console.log(rates); // (5) [187, 171, -1, -1, 192]
 
 ## First Class Functions Returning Functions:
 
-- We are going to create a function that creates different sets of questio for different jobs.
+- We are going to create a function that creates different sets of question for different jobs.
 - For each job we'll return a function that builds string using the person's name as an input.
 
 ```js
@@ -105,7 +105,7 @@ interviewQuestion("teacher")("Mark"); //What subject do you teach Mark ?
 ```
 
 - this works because it is evaluated from left to right.
-- interviewQuestion creates An anonymous function for teacher and it is called with an argument of mark
+- interviewQuestion creates an anonymous function for teacher and it is called with an argument of "mark"
 
 ## Immediately Invoked Function Expressioins (IIFE):
 
@@ -115,7 +115,7 @@ interviewQuestion("teacher")("Mark"); //What subject do you teach Mark ?
 
 - win : random score (0-9) > 5, else lose
 - Hide the score
-- Typicaly a simple function would do the trick
+- Typically a simple function would do the trick
 - But just for the sake of private data (scoped data), we shouldn't always go to functions.
 - That is where IIFE comes in.
 
@@ -300,10 +300,10 @@ john.presentation("formal", "morning"); // Good morning, Ladies and gentlemen! I
 john.presentation.call(emily, "friendly", "afternoon"); // Hey! What's up? I'm Emily, I'm a designer and I'm 35 years old. Have a nice afternoon.
 ```
 
-- SO now the this variable in presentation function will point to emily and the this.job in presentation will be the value of emily's job and not john's job.
+- So, now the `this` variable in `presentation` function will point to `emily` and the `this.job` in `presentation` will be the value of emily's job and not john's job.
 
 - **This is called method borrowing**, we borrowed john's method and set the this variable of presentation function to point to the emily object.
-- When you again call the method, this is switched to john:
+- When you again `call` the method, `this` is switched to `john`:
 
 ```js
 john.presentation("formal", "evening"); // Good evening, Ladies and gentlemen! I'm John, I'm a teacher and I'm 28 years old.
@@ -311,8 +311,8 @@ john.presentation("formal", "evening"); // Good evening, Ladies and gentlemen! I
 
 ### The apply method:
 
-- Accepts Argument as an array, otherwise similar to call method.
-- there are only two arguments : this and array(of arguments)
+- Accepts Argument as an array, otherwise similar to `call` method.
+- there are only two arguments : `this` and `array`(of **arguments**)
 
 ```js
 john.presentation.apply(emily, ["friendly", "afternoon"]); // Hey! What's up? I'm Emily, I'm a designer and I'm 35 years old. Have a nice afternoon.

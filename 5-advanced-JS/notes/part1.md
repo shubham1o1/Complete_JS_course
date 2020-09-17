@@ -61,7 +61,7 @@ var jane = {
 ### Inheritance in Javascript: Prototypes and Prototype Chains:
 
 - Each and every JS object has a prototype property which is essential for inheritance
-- If John is an instance of Person it inherits some of its property and methods. But for that to have we must add person's p&m inside it's prototype property.
+- If John is an instance of Person it inherits some of its property and methods. But for that to happen we must add person's p&m inside it's prototype property.
 - Person's prototype belongs to all the Person's instances not to plain person constructor.
 - Person Constructor inherits the Object Constructor which has a bunch of methods in its prototype property.
 - This is called the prototype chain:
@@ -73,7 +73,7 @@ var jane = {
 - Every JS object has a prototype property, which makes inheritance possible in JS;
 - The prototype property of an object is where we put methods and properties that we want other objects to inherit;
 - The Constructor’s prototype property is NOT the prototype of the Constructor itself, it’s the prototype of ALL instances that are created through it;
-- When a certain method (or property) is called, the search starts in the object itself, and if it cannot be found, the search moves on to the object’s prototype. This con&nues un&l the method is found: prototype chain.
+- When a certain method (or property) is called, the search starts in the object itself, and if it cannot be found, the search moves on to the object’s prototype. This continues until the method is found: prototype chain.
 
 ## Creating Objects Function Constructors:
 
