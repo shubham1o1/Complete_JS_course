@@ -47,9 +47,9 @@
 - Use the module pattern
 - All we need to know are the concepts of closures and IIFEs.
 
-#### A moodule that handles out budget data(budgetcontroller):
+#### A module that handles our budget data(budgetcontroller):
 
-- We create a variable holding an object return by IIFEs (Immediately Invoked Function Expression) inside `app.js`
+- We create a variable holding an object returned by IIFEs (Immediately Invoked Function Expression) inside `app.js`
 - IFFE gives data privacy because it creates a new scope that is not visible from the outside scope.
 
 #### IIFE returning an object:
@@ -226,8 +226,8 @@ var controller = (function (budgetCtrl, UICtrl) {
 })(budgetController, UIController);
 ```
 
-- Instead of anonymous function we passed the ctrlAddItem in `add\_\_btn` querySelector
-- And the same function is called from the keypress event listener's anonymous function
+- Instead of anonymous function we passed the `ctrlAddItem` in `add__btn` querySelector
+- And the same function is called from the keypress event listener's callback function
 
 ## Reading Input Data:
 
@@ -251,11 +251,11 @@ var controller = (function (budgetCtrl, UICtrl) {
 ```js
 var UIController = (function () {
   return {
-    // Method for returnig all of the inputs from UI
+    // Method for returning all of the inputs from UI
     getinput: function () {
       return {
         type: document.querySelector(".add__type").value,
-        // + for inc, - for ex
+        // + for income, - for expense
 
         description: document.querySelector(".add__description").value,
         value: document.querySelector(".add__value").value,
@@ -286,7 +286,7 @@ var controller = (function (budgetCtrl, UICtrl) {
 })(budgetController, UIController);
 ```
 
-- Now we have each of the modules talking to one another by calling each other's methods.
+- Now we have the `controller` and the `UIController` modules are talking to one another where `controller` is calling `UIController's` method.
 
 ### Passing String Literal as querySelector is a bad idea:
 
