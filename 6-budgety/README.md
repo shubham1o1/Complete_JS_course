@@ -834,7 +834,7 @@ clearFields: function () {
 - How to convert field inputs to numbers
 - How to prevent false inputs
 
-### Converting String to FLoat:
+### Converting String to Float:
 
 ```js
 value: parseFloat(document.querySelector(DOMstrings.inputValue).value),
@@ -943,7 +943,7 @@ calculateBudget: function () {
 
 ### Returning the calculated budget via another public function
 
-- We define another public method: getBudget for this and pass an object of data
+- We define another public method: `getBudget` for this and pass an object of data
 
 ```js
   getBudget: function () {
@@ -984,8 +984,8 @@ calculateBudget: function () {
 ### Updating the UI:
 
 - Declare the DOM Strings Variables
-- Then Make a public function to set these variables
-- Then Validate for percentage sign to display --- instead of -1 and for percentage < 0
+- Then make a public function to set these variables
+- Then validate for percentage sign to display --- instead of -1 and for percentage < 0
 
 ```js
 // UI Controller
