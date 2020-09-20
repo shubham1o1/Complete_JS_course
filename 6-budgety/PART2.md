@@ -1,7 +1,5 @@
 # Part 2
 
-- Note about the Part 2 of the App begins here
-
 ## Project Planning and Architecture (Step-2)
 
 ### The structure of our app:
@@ -55,7 +53,7 @@ Event Delegation is not adding event handler to the target element but to the pa
 
 - How to use event delegation in practice using the concept of event bubbling and target element
 - How to use IDs in HTML to connect the UI with the data model
-- How to use the parentNode property for DOM traversing
+- How to use the `parentNode` property for DOM traversing
 
 ### Setting Event Handler in the Parent Element:
 
@@ -169,22 +167,22 @@ var ctrlDeleteItem = function (event) {
 </div>
 ```
 
-- But all we need is an id as it is an unique identifier that can remove this component. SO we could write:
+- But all we need is an id as it is an unique identifier that can remove this component. So, we could write:
 
 ```js
 console.log(event.target.parentNode.parentNode.parentNode.parentNode.id);
 // Output when adding items:
 // income-0
 // income-1
-// expense-o
+// expense-0
 ..............
 ```
 
 ### Differentiating the types:
 
 - we can read the inc-1 or exp-30 from the DOM but we'll have to recognize them as income or expense.
-- They are a string and we can use `split()` method of a string.
-- But string is a primitive as still it has a method.
+- They are stringss and we can use the `split()` method of a string.
+- But string is a primitive, still it has methods.
 - This is due to the fact that JS, wraps the primitive into a wrapper and converts it into an object `String` with bunch of its own methods.
 - Same thing can happen to `numbers`
 
@@ -226,7 +224,7 @@ splitted = p.split("-");
 document.querySelector(DOM.container).addEventListener("click", ctrlDeleteItem);
 ```
 
-- Then we defined the call back function where we read the event object and read the item type and id:
+- Then we defined the callback function where we read the event object and read the item type and id:
 
 ```js
 // Delete Item Callback Function
@@ -620,7 +618,7 @@ var updatePercentages = function () {
 
 ## Formatting Our Budget Numbers String Manipulation
 
-- We'll take care of giveing the number a proper formatting.
+- We'll take care of giving the number a proper formatting.
 - Better look and easier to read
 
 ### Content:
