@@ -111,7 +111,7 @@ driverLicence6(true);
 
 ### Declaring and Defining Constant :
 
-- Uncaught SyntaxError: Missing initializer in const declaration
+- `Uncaught SyntaxError: Missing initializer in const declaration`
 
 ```js
 
@@ -180,6 +180,43 @@ driverLicence6(true);
 - Although variables are hoisted we still cannot accessed them before they are declared.
 - We can only use a variable after we declared and define them.
 
+#### `var` demo: 
+
+```js
+function test_scope(){
+  console.log(kamila);
+}
+
+var kamila = "abx";
+test_scope(); // abx
+```
+
+```js
+function test_scope(){
+  console.log(kamila);
+}
+
+test_scope(); //undefined
+var kamila = "abx";
+
+```
+
+#### `let` demo:
+```js
+function test_scope(){
+  console.log(kamila);
+}
+
+test_scope(); // abx
+let kamila = "abx";
+
+/*
+script.js:803 Uncaught ReferenceError: Cannot access 'kamila' before initialization
+    at test_scope (script.js:803)
+    at script.js:806
+*/
+```
+
 ### The i conundrum: (Self Made term):
 
 - `i` outside `for` and inside `for` are two completely different VARIABLES.
@@ -242,7 +279,7 @@ console.log(i);
 //  5
 ```
 
-- `i` is not block scoped with var
+- `i` is not block scoped with `var`
 
 ## Blocks and IIFEs:
 
@@ -263,7 +300,7 @@ console.log(a + b);
 
 - Somewhat like IIFEs
 
-### With var though :
+### With `var` though :
 
 ```js
 {
@@ -310,7 +347,7 @@ console.log(
 // This is john Smith. He was born in 1990. Today, he is 30 years old.
 ```
 
-### New Methods:
+### New Methods (of Strings):
 
 ```js
 const n = `${firstName} ${lastName}`;
@@ -323,7 +360,8 @@ console.log(`${firstName} `.repeat(5)); // John John John John John
 
 ## Arrow Function:
 
-An arrow function expression is a syntactically compact alternative to a regular function expression, although without its own bindings to the `this`, `arguments`, `super`, or `new.target` keywords. Arrow function expressions are ill suited as methods, and they cannot be used as constructors.
+- The arrow function expression is a syntactically compact alternative to a regular function expression, although without its own bindings to the **`this`, `arguments`, `super`, or `new.target`** keywords. 
+- Arrow function expressions are ill suited as methods, and they cannot be used as constructors.
 
 ```js
 const years = [1990, 1965, 1982, 1937];
@@ -362,12 +400,12 @@ singleParam => { statements }
 
 ### Arrow functions variations:
 
-- **One argument**, **a line of code** (parenthesis not needed surroundning an argument)
-- `const ages6 = years.map((el) => 2020 - el);` here, `el` is the argument and `2020 - el` is the **return** expression.
+- **One argument**, **a line of code** (parenthesis not needed surrounding an argument)
+- `const ages6 = years.map(el => 2020 - el);` here, `el` is the argument and `2020 - el` is the **return** expression.
 
 ```js
 //ES6:
-const ages6 = years.map((el) => 2020 - el);
+const ages6 = years.map(el => 2020 - el);
 console.log(ages6);
 /*
 Array(4)
@@ -417,7 +455,7 @@ __proto__: Array(0)
 */
 ```
 
-## Arrow Function Lexical 'this' Keyword:
+## Arrow Function Lexical '`this`' Keyword:
 
 - The biggest advantage of using the arrow function might be that they share the surrounding `this` keyword.
 - Unlike normal functions, arrow functions don't get their `this` keyword.
@@ -762,9 +800,9 @@ The `findIndex()` method returns the index of the first element in the array tha
 
 `arr.findIndex(callback( element[, index[, array]] )[, thisArg])`
 
-**Parameters**
+#### Parameters
 
-_callback_
+**callback**
 
 A function to execute on each value in the array until the function returns true, indicating that the satisfying element was found.
 
@@ -857,7 +895,7 @@ Array.from(all).forEach((curr) => (curr.style.color = "purple"));
 - We're going to talk about function parameters
 - Rest Parameters allow us to pass an arbitrary number of arguments into a function and use these arguments in that function.
 - Use the same notation as the spread operator but are in fact an exact opposite thing.
-- While the spread operator transform arrays into single value, the rest parameter transforms collections of values into an array when we call the function with multilpe parameters.
+- While the spread operator transform arrays into single value for each elements of an array, the rest parameter transforms collections of values into an array when we call the function with multilpe parameters.
 - The rest parameter syntax allows us to represent an indefinite number of arguments as an array.
 
 ### Syntax
@@ -870,9 +908,8 @@ function f(a, b, ...theArgs) {
 
 ### Description
 
-A function's last parameter can be prefixed with `...` which will cause all remaining (user supplied) arguments to be placed within a "standard" JavaScript array.
-
-Only the last parameter can be a **"rest parameter"**.
+- A function's last parameter can be prefixed with `...` which will cause all remaining (user supplied) arguments to be placed within a "standard" JavaScript array.
+- Only the last parameter can be a **"rest parameter"**.
 
 ```js
 function myFun(a, b, ...manyMoreArgs) {
@@ -1096,8 +1133,8 @@ console.log(emily);
 
 ### Setting value in map
 
-- We use the set method
-- We define Map with new keyword
+- We use the `set` method
+- We define `Map` with the `new` keyword
 
 ```js
 const question = new Map();
@@ -1424,11 +1461,11 @@ console.log(tp.triple());
 
 ### Inheritance in ES5:
 
-- We have two function constructor; `Athlete5`(Subclass) is inheriting from `Person5` (SUperclass)
+- We have two function constructor; `Athlete5`(Subclass) is inheriting from `Person5` (Superclass)
 - Before we were implementing inheritance by instance from constructor prototype, this is the first time we are implementing this.
 - `Athlete5` constructor has all the data passed on to it and declared when defined.
-- We create a `Person5.call()` method inside `Athlete5` and this is also passsed .
-- `this` is passed so that when new operator creates the Athlete5 object, it starts by creating an empty object with its `this` variable pointing to Athlete5.
+- We create a `Person5.call()` method inside `Athlete5` and the `this` variable is also passsed.
+- `this` is passed so that when `new` operator creates the `Athlete5` object, it starts by creating an empty object with its `this` variable pointing to `Athlete5`.
 - It is the same `this` variable that is passed to call so that the assignment of properties of `Person5` will be referenced to `Athlete5`
 
 - Now we'll set the prototype manually by using `Object.create()`

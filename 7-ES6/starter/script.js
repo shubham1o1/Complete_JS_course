@@ -797,3 +797,5 @@ for (let [key, value] of streets) {
 for (let [key, value] of streets) {
   console.log(`${value.name} is of ${value.size} size`);
 }
+
+
