@@ -26,21 +26,23 @@
 </script>
 ```
 
-- The setTimeout() is an async function, it doesn't run sequentially.
+- The `setTimeout()` is an async function, it doesn't run sequentially.
 - Here is the output of above code:
 
 ```js
+
 Hey There!
 The End
 Async Hey there
+
 ```
 
-- Although we would expect "Async Hey There" to appear before the "The End", it doesn't work that way in async programming.
+- Although we would expect "**Async Hey There**" to appear before the "**The End**", it doesn't work that way in async programming.
 
-## Understanding Asynchronous JavaScript The Event Loop:
+## Understanding Asynchronous JavaScript -- "The Event Loop":
 
-- Synchronous: Sequential, one instruction after another.
-- Asynchronous: Doesn't wait for line to execute to go to next line.
+- **Synchronous:** Sequential, one instruction after another.
+- **Asynchronous:** Doesn't wait for line to execute to go to next line.
 
 ### Main Idea behind async:
 

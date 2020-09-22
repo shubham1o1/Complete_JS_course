@@ -1466,7 +1466,7 @@ console.log(tp.triple());
 - `Athlete5` constructor has all the data passed on to it and declared when defined.
 - We create a `Person5.call()` method inside `Athlete5` and the `this` variable is also passsed.
 - `this` is passed so that when `new` operator creates the `Athlete5` object, it starts by creating an empty object with its `this` variable pointing to `Athlete5`.
-- It is the same `this` variable that is passed to call so that the assignment of properties of `Person5` will be referenced to `Athlete5`
+- It is the same `this` variable that is passed to `call` so that the assignment of properties of `Person5` will be referenced to `Athlete5`
 
 - Now we'll set the prototype manually by using `Object.create()`
 - We want the prototype of `Athlete5` to be the prototype of the `Person5` so that they become connected
