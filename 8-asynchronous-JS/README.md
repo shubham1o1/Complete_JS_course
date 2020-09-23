@@ -84,20 +84,20 @@ processLargeImage(image, () => {
 </script>
 ```
 
-- In this code, when first() is called, it gets its execution stack.
-- Then inside first() console.log() is called and it also gets its Execution Stack. Then text is logged to console, then function returns then it pops from the stack.
-- Then execution context is created by second() function. Inside which setTimeout() is called. Which also gets its execution stack.
-- setTimeout() function comes from the web apis which lives separate from JS engine.
-- web apis: stuffs like DOM manipulation methods, setTimeout(), httprequest for ajax, geo location, local storage live outside of JS engine and we can access them because they are part of a runtime. This is exactly where the timer will keep running without being blocked.
-- When we call setTimeout function, timer is created together with callback function inside the web apis environment. It sits there until it finishes its work. Call back function is not called until the timer finishes.
+- In this code, when `first()` is called, it gets its execution stack.
+- Then inside `first()`, `console.log()` is called and it also gets its Execution Stack. Then text is logged to console, then function returns, then it pops from the stack.
+- Then execution context is created by `second()` function. Inside which `setTimeout()` is called. Which also gets its execution stack.
+- `setTimeout()` function comes from the web apis which lives separate from JS engine.
+- **Web apis**: stuffs like DOM manipulation methods, `setTimeout()`, `httprequest` for ajax, geo location, local storage live outside of JS engine and we can access them because they are part of a runtime. This is exactly where the timer will keep running without being blocked.
+- When we call setTimeout function, timer is created together with callback function inside the web apis environment. It sits there until it finishes its work. *Callback function is not called until the timer finishes*.
 - Since the timer keeps working in the background, we dont have to wait and keep on executing our code.
 
 ![setTimeout context](notes-images/settimeoutcontext.png)
 
-- The setTimeout() function returns, pops up the stack, and so does the execution context of the second function.
+- The `setTimeout()` function returns, pops froms the stack, and so does the execution context of the second function.
 - It reaches the log with "The End" which it prints on console after being added to stack and pop the console's stack
-- The first() function returns and we are back to original state
-- Now the timer has passed then the callback function moves to message queue
+- The `first()` function returns and we are back to original state
+- Now the timer has passed then the callback function moves to **message queue**
 
 ![callback in queue](notes-images/callbackqueue.png)
 
@@ -158,11 +158,21 @@ function getRecipe() {
 }
 
 getRecipe();
+
+/*
+o/p
+
+undefined
+(4) [523, 883, 432, 974]
+432 : French Tomata Pasta
+{title: "Italian Pizza", publisher: "Jonas"}
+
+*/
 ```
 
 - What we implemented here was similar to a three chained ajax call
 - There is setTimeout inside setTimeout, but after a while it will get quite tedious as the chain increases.
-- There are calbacks inside of other callbacks. This is often called the callback hell in javascript.
+- There are callbacks inside of other callbacks. This is often called the **callback hell** in javascript.
 - To overcome the **callback hell**, **promises** were introduced in ES6.
 
 ## From Callback Hell to Promises:
@@ -173,7 +183,7 @@ getRecipe();
 
 - Object that keeps track about whether a certain event(_asynchronous_) has happened already or not.
 - Determines what happens after the event(_asynchronous_) has happened
-- Implements the concept of a future value that we're expecting. (EG: We Ask to Get data from server in the background, promise the promises us to get that data, we can handle it in the future.)
+- Implements the concept of a future value that we're expecting. (EG: We Ask to Get data from server in the background, promise promises us to get that data, we can handle it in the future.)
 
 ### Promise States:
 
@@ -195,7 +205,9 @@ getRecipe();
 
 ---
 
-We can produce and consume promises. When we produce a promise we create a new promise and send a result using that promise. When we consume it, we can use the callback function for fulfillment/rejection of promise.
+- We can **produce** and **consume** promises. 
+- When we produce a promise we create a new promise and send a result using that promise. 
+- When we consume it, we can use the callback function for fulfillment/rejection of promise.
 
 ### Code Sandbox:
 
@@ -217,7 +229,7 @@ getIDs.then((IDs) => {
 
 #### Executor Function
 
-- We created a Promise() object with a executor function inside of it.
+- We created a `Promise()` object with a executor function inside of it.
 - Executor function takes two arguments: `resolve` and `reject` functions
 - Executor function informs the promise whether the event it is handling was successful or not. If it was successful we call `resolve()` else we call `reject()`
 - Executor function is immediately called once the Promise is created.
@@ -319,8 +331,8 @@ getIDs
 
 ## From Promises to AsyncAwait:
 
-- Introduced in ES8
-- Purpose is to consume Promises they do not produce them
+- Introduced in **ES8**
+- Purpose is to consume Promises, they do not produce them
 - Method of Producing promises is same as before
 
 ### Process:
@@ -382,7 +394,7 @@ Jonas: Italian Pizza
 */
 ```
 
-- Cannot return synchronously, when the rec = getRecipesAW() is executed the async function is not yet complete. So, it doesn't reach to the return statement. But it does return a promise pending object
+- Cannot return synchronously, when the `rec = getRecipesAW()` is executed the async function is not yet complete. So, it doesn't reach to the return statement. But it does return a promise pending object
 - An async function always automatically returns a promise.
 - Returning something will resolve the promise with returned value.
 
@@ -393,7 +405,7 @@ getRecipesAW().then((result) => {
 });
 ```
 
-- Sinc the function returns a promise we can consume the returned value as resolved value.
+- Since the function returns a promise we can consume the returned value as resolved value.
 
 ## AJAX and APIS:
 
@@ -405,8 +417,8 @@ getRecipesAW().then((result) => {
 
 ## Making AJAX Calls with Fetch and Promises:
 
-- We are going to make a ajax call to request some weather data from a real weather API.
-- We are going to use a modern web API called fetch.
+- We are going to make an ajax call to request some weather data from a real weather API.
+- We are going to use a modern web API called **fetch**.
 - Web API are available in the browser and they are not part of the JS language itself.
 - We used to do this using a rather complex XML HTTPRequest Interface. It has a better browser support and is older than fetch. But fetch is more modern and it works for our case
 - JSON: Similar to JS object but it is just a single string and not an entire js object.
@@ -431,7 +443,7 @@ asynchronous.html:1 Uncaught (in promise) TypeError: Failed to fetch
 - Right now we dont have any domain and we are trying to access the api from the metaweather domain.
 - Because of the origin policy we cannot access the API.
 - CORS was developed to allow developer to share resources. Where the developers of the API that we are requesting from, they need to implement CORS on their server.
-- We can proxy the request through our own server like doing th AJAX requests on our own server where the same origin policy doesn't exist and then send the data to the browser. We cannot do that here because we dont have our own server.
+- We can proxy the request through our own server like doing the AJAX requests on our own server where the same origin policy doesn't exist and then send the data to the browser. We cannot do that here because we dont have our own server.
 - We can use the proxy service provided by cors-anywhere.herokuapp.com
 
 ```js
@@ -445,7 +457,6 @@ fetch(
 - This promise can either return the data that we want or return an error if it couldn't somehow find the data that we requested.
 - So, we can use the `then` and `catch` method on this promise
 - we are only consuming the promise as fetch already creates and returns one for us.
--
 
 ```js
 fetch(
