@@ -473,7 +473,7 @@ module.exports = {
 
 ### Default Exports:
 
-- Used only when we wabt to export one thing from a module.
+- Used only when we want to export one thing from a module.
 - Exporting:
 
 ```js
