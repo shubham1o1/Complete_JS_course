@@ -1,0 +1,28 @@
+# NPM Tutorials
+
+ref: https://www.youtube.com/watch?v=r0CJwuCP2ck&list=PLC3y8-rFHvwhgWwm5J3KqzX47n7dwWNrq&index=5
+
+- Package manager
+- Package - reusable code
+- Needs nodejs from nodejs.org
+
+### Package.json
+- Dependencies and Scripts
+- ```npm init``` creates these files with few questions.
+- `npm init --yes` creates with default value without questions.
+
+### Default values:
+
+- `npm config set init-author-name "Shubham"` to set the default author name
+- `npm set licence "MIT"` to set default licence. 
+- These default values will be set when `npm init --yes` is executed.
+- To read the set default value : `npm config get init-author-name`
+- Deleting default value: `npm config delete init-author-name`
+
+### Installing local package:
+
+- `npm install moment` in the computer
+- `npm install moment --save` in the project and entry on **package.json** in dependencies keyword.
+- Installing packages for Development purposes only: `npm install lodash --save-dev`, devDependencies entry in package.json
+
+ 
