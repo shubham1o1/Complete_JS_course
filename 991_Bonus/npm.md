@@ -25,4 +25,21 @@ ref: https://www.youtube.com/watch?v=r0CJwuCP2ck&list=PLC3y8-rFHvwhgWwm5J3KqzX47
 - `npm install moment --save` in the project and entry on **package.json** in dependencies keyword.
 - Installing packages for Development purposes only: `npm install lodash --save-dev`, devDependencies entry in package.json
 
- 
+### Uninstalling and removing from entry:
+- `npm uninstall moment --save` - remove from dependencies
+- `npm uninstall moment --save-dev` - remove from dev dependencies
+
+### Install/uninstalling globally:
+
+- `npm install moment -g`
+- `npm uninstall moment -g` - remove, rm, un = unistall 
+
+### Listing packages
+
+- `npm list` - packages and their dependencies are listed
+- `npm list --depth 1` - packages and their 1 level dependencies are listed
+- `npm list --depth 0` - only packages are listed.
+
+- global packages list : `npm list --global true --depth 0`
+
+
