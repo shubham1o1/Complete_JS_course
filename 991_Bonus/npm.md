@@ -78,3 +78,11 @@ ref: https://www.youtube.com/watch?v=r0CJwuCP2ck&list=PLC3y8-rFHvwhgWwm5J3KqzX47
 
 - `npm list --depth0` lists the extraneous package. 
 - `npm prune` removes the extraneous packages from the **node_modules** folder
+
+### Shortcuts:
+
+- `npm init -y` - Creates package.json with default value, -y is short for --yes
+-  `npm i loadash` - Installs loadash locally in node_modules
+- `npm i loadash -S` - Save in dependencies
+- `npm i moment -D` - Save in dev dependencies
+- --global -g, --version to -v
