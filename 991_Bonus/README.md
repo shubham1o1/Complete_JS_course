@@ -5,7 +5,7 @@
 ## Webpack:
 
 - Start with docs : https://webpack.js.org/concepts/
-- From designcourse's YT : https://www.youtube.com/watch?v=TzdEpgONurw
+- From Colt's YT : https://www.youtube.com/watch?v=3On5Z0gjf4U&list=PLblA84xge2_zwxh3XJqy6UVxS60YdusY8
 
 ## Babel:
 
