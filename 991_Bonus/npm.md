@@ -42,4 +42,17 @@ ref: https://www.youtube.com/watch?v=r0CJwuCP2ck&list=PLC3y8-rFHvwhgWwm5J3KqzX47
 
 - global packages list : `npm list --global true --depth 0`
 
+### npm versioning:
+
+- `npm install <package>` install the LTS of the package
+- **^4.16.1** -> 4 is major version number, 16 is minor version number and 1 is patch version number
+- Bug fix/performance increase -> patch no increase
+- Feature addition without breaking current functionality -> minor version increases 
+- Feature addition that breaks current functionalities -> major version increases 
+- Installing specific version:
+
+- `npm install loadash@3.3.0` - use the @ symbol
+- `npm install loadash @4.14 --save` - latest patch version is installed for given version
+
+
 
