@@ -55,4 +55,26 @@ ref: https://www.youtube.com/watch?v=r0CJwuCP2ck&list=PLC3y8-rFHvwhgWwm5J3KqzX47
 - `npm install loadash @4.14 --save` - latest patch version is installed for given version
 
 
+### installing from package.json:
 
+- `npm install`
+- ^ in **^4.16.1**  implies install the latest minor and patch version
+- **~4.16.1** install latest **patch** version 
+- specific version number: **4.16.1** 
+- ***4.16.1** latest version
+
+
+###  Updating Packages:
+
+- `npm update loadash --save`
+- `npm update moment --dev --save-dev`
+- `npm update` - update all dependencies
+- `npm update -g` - update all global packages.
+- `npm update -g gulp` - updates specific global packages.
+- `npm install npm@latest -g` - update to latest npm. Requires administrative privileges
+
+
+### npm prune:
+
+- `npm list --depth0` lists the extraneous package. 
+- `npm prune` removes the extraneous packages from the **node_modules** folder
