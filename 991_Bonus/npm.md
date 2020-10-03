@@ -86,3 +86,15 @@ ref: https://www.youtube.com/watch?v=r0CJwuCP2ck&list=PLC3y8-rFHvwhgWwm5J3KqzX47
 - `npm i loadash -S` - Save in dependencies
 - `npm i moment -D` - Save in dev dependencies
 - --global -g, --version to -v
+
+### npm Scripts:
+
+```json
+// package.json
+
+"scripts": {
+    "start": "node app.js"
+}
+```
+
+- `npm start` will implement the start script
