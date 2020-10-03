@@ -52,3 +52,37 @@ ref_video : https://www.youtube.com/watch?v=3On5Z0gjf4U&list=PLblA84xge2_zwxh3XJ
 - Use ES6 imports exports.
 - Only importing main.js in index.html is sufficient 
 - Put the main program execution code in index.js
+
+## Configuring Webpack:
+
+- To change default webpack behavior such as running index.js, creating main.js in dist, specifying loaders and plugins and so on, we need a config file to tell it what to do. 
+- Config file : one for development, one for production
+
+```js
+//webpack.config.js
+
+const path = require("path");
+
+module.exports = {
+    // Output is readable and not minified
+    mode:"development",
+
+    // to remove eval in output and make
+    // the code more readable:
+    devtool : "none",
+
+    // First file to execute
+    entry: "./src/index.js",
+
+
+    output: {
+        // Specify filename
+        filename: "main.js",
+
+        // Specify output's folder.
+        path: path.resolve(__dirname, "dist")
+    }
+};
+```
+
+- Webpack manages the import with webpack_require. 
