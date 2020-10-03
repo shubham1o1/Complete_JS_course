@@ -147,4 +147,28 @@ rules: [
 ### SASS :
 
 - first install bootstrap locally: `npm install --save-dev bootstrap`
-- 
+- create main.scss
+- import bootstrap as :
+
+```scss
+@import "~bootstrap/scss/bootstrap";
+```
+
+- we'll use the sass-loader
+- installing sass-loader with required dependencies: 
+- `npm install --save-dev sass-loader node-sass `
+- config:
+```js
+...
+rules: [
+    {
+        test: /\.scss$/, 
+        use: [
+            'style-loader', // 3rd inject the css into dom.
+            'css-loader', //2nd turns css into common js
+            'sass-loader' // 1st turns scss into css
+        ],
+    }
+]
+```
+- Import the main.scss in index.js
