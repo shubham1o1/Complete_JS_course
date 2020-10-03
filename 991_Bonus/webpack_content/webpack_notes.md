@@ -86,3 +86,65 @@ module.exports = {
 ```
 
 - Webpack manages the import with webpack_require. 
+
+## Loaders, CSS, & SASS:
+
+### Loaders:
+
+ref: https://webpack.js.org/loaders/
+
+- Dictate how certain files must be pre-processed.
+- At a high level, loaders have two properties in your webpack configuration:
+- The **test property** identifies which file or files should be transformed.
+- The **use property** indicates which loader should be used to do the transforming.
+- Styling loaders:
+    - **style-loader** Add exports of a module as style to DOM
+    - **css-loader** Loads CSS file with resolved imports and returns CSS code
+
+```js
+// webpack.config.js
+
+const path = require('path');
+
+module.exports = {
+......
+  module: {
+    rules: [
+        {
+            test: /\.css$/, 
+            use: ['style-loader', 'css-loader'],
+        }
+    ]
+  }
+};
+```
+
+-  This tells webpack's compiler the following:
+
+``` "Hey webpack compiler, when you come across a path that resolves to a '.css' file inside of a require()/import statement, use the style-loader and css-loader to transform it before you add it to the bundle." ```
+
+- Installing the loaders : ` npm install --save-dev style-loader css-loader `
+- Import the css file in index.js
+
+- running npm start will show that the Loader converts css into js code this is the work of css loader. 
+- Still the style is not applied, for which we need style loaders. 
+- style-loaders will take the js (converted css) and inject it into the DOM.
+- The use array has an order:
+
+```js
+...
+rules: [
+    {
+        test: /\.css$/, 
+        use: ['style-loader','css-loader',],
+```
+
+- We put in reverse order, css-loader is loaded before the style-loader but it is written after. 
+- running `npm start` puts the main.css style. But the style is not imported in html file. 
+- style-loader injected style element as a css in the `<head>` section which can be seen if we inspect from the browser.
+
+
+### SASS :
+
+- first install bootstrap locally: `npm install --save-dev bootstrap`
+- 
