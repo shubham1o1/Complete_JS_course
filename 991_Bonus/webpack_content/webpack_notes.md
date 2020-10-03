@@ -47,4 +47,8 @@ ref_video : https://www.youtube.com/watch?v=3On5Z0gjf4U&list=PLblA84xge2_zwxh3XJ
 
 - Added dist directory to gitignore
 
+## Imports, Exports, & Webpack Modules:
 
+- Use ES6 imports exports.
+- Only importing main.js in index.html is sufficient 
+- Put the main program execution code in index.js
