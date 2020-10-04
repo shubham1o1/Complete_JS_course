@@ -172,3 +172,68 @@ rules: [
 ]
 ```
 - Import the main.scss in index.js
+
+
+### Cache Busting and Plugins:
+
+- How to protect assets such as main.js and css bundle
+- How to command browsers to not cache certain files. 
+- Hashing is done, where everytime a code is changed a new filename is given to that file. 
+
+```js
+//webpack.config.js
+...
+
+output: {
+    // Specify filename
+    filename: "main.[contentHash].js",
+
+    // Specify output's folder.
+    path: path.resolve(__dirname, "dist")
+},
+...
+```
+
+- Note the `[contenthash]` that is placed in output filename
+- Each time something is changed, the new compiled file is present in the dist folder.
+- Index.html is importing main.js but the filename is changing.
+- Webpack will build html files by using plugins. 
+
+### Plugins:
+
+- While loaders are used to transform certain types of modules, plugins can be leveraged to perform a wider range of tasks like bundle optimization, asset management and injection of environment variables.
+- In order to use a plugin, you need to require() it and add it to the plugins array. 
+- Most plugins are customizable through options. Since you can use a plugin multiple times in a configuration for different purposes, you need to create an instance of it by calling it with the new operator.
+
+```js
+//webpack.config.js example
+
+const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
+
+module.exports = {
+....
+  plugins: [
+    new HtmlWebpackPlugin({template: './src/index.html'})
+  ],
+...
+};
+```
+
+- In the example above, the html-webpack-plugin generates an HTML file for your application by injecting automatically all your generated bundles.
+
+### HtmlWebpackPlugin
+- The HtmlWebpackPlugin simplifies creation of HTML files to serve your webpack bundles. 
+- This is especially useful for webpack bundles that include a hash in the filename which changes every compilation. 
+- You can either let the plugin generate an HTML file for you, supply your own template using lodash templates, or use your own loader.
+
+#### Installation
+```bash
+npm install --save-dev html-webpack-plugin
+```
+- on `npm start` the bundles are imported as : 
+
+```html
+<script src="main.ee67164b267a5ed33206.js"></script>
+```
+
+- new index.html is created in dist with all the bundles imported. 

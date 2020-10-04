@@ -1,4 +1,5 @@
 const path = require("path");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     // Output is readable and not minified
@@ -14,12 +15,18 @@ module.exports = {
 
     output: {
         // Specify filename
-        filename: "main.js",
+        filename: "main.[contentHash].js",
 
         // Specify output's folder.
         path: path.resolve(__dirname, "dist")
     },
-
+    plugins: [
+        new HtmlWebpackPlugin(
+            {
+                template: './src/template.html'
+            }
+        )
+    ],
     module : {
         rules: [
             {
