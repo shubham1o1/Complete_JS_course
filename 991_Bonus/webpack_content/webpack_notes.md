@@ -237,3 +237,50 @@ npm install --save-dev html-webpack-plugin
 ```
 
 - new index.html is created in dist with all the bundles imported. 
+
+## 7. Splitting Dev and Production:
+
+- Three config files : 1 common, 1 prod, 1 dev 
+- `npm start` for running live server and `npm run build` for prod's dist files compilation. 
+- `npm install --save-dev webpack-merge` will install a package that will merge common with prod and dev webpack config file.
+- package.json:
+
+```js
+  "scripts": {
+    "start": "webpack --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
+  },
+```
+
+- importing merge and using it in webpack.prod and webpack.dev:
+
+```js
+...
+const common = require("./webpack.common");
+const {merge} = require("webpack-merge");
+
+module.exports = merge(common, {
+    // Output is readable and not minified
+    mode:"development",
+    ...
+
+```
+
+- run `npm start` and you'll see main.js being imported in dist's index.html. 
+- running `npm run build` creates minified index.html with contenthash main.js's import
+
+### Setting up a dev server:
+
+- `npm install --save-dev webpack-dev-server` to install
+- Configuring package.json:
+
+```json
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.dev.js --open",
+    "build": "webpack --config webpack.prod.js"
+  },
+```
+
+- run npm start and then the server open, now you dont have to refresh and build every time
+- Delete dist and `npm start`, no dist is created. It is created in the memory of webpack live server.
+- Run `npm run build` and dist folder appears. 
