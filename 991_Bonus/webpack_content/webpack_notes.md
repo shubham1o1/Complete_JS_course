@@ -337,3 +337,19 @@ module.exports = merge(common, {
 - and in options we supply name format as name, hash and extension which is used to name the copy of the assets while compiling
 - output is where assests will be placed
 - Running `npm run build` we can see a img directory in dist. And there is a svg file there which is imported in the compiled version of the index
+
+### Clean-webpack plugin:
+
+- To delete old dist directory and add a new one. 
+- installation : `npm install --save-dev clean-webpack-plugin`
+- config:
+
+```js
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+...
+    plugins: [
+        new CleanWebpackPlugin(),
+    ]
+...
+```
+- This cleans the dist folder 
