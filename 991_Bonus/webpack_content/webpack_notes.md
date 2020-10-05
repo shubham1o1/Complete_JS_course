@@ -284,3 +284,56 @@ module.exports = merge(common, {
 - run npm start and then the server open, now you dont have to refresh and build every time
 - Delete dist and `npm start`, no dist is created. It is created in the memory of webpack live server.
 - Run `npm run build` and dist folder appears. 
+
+## Html-loader, File-loader, & Clean-webpack
+
+- We want to copy assets into dist and import assets from index.html in the dist as "./assests/....."
+- Each import of images, logos and such assets are now going to be inspected by these loaders and they import these files using ES6's require. 
+- installing : `npm install --save-dev html-loader`
+- config:
+
+```js
+// webpack.common.js
+
+......
+    module : {
+        rules: [
+            {
+                test: /\.scss$/, 
+                use: [
+                    'style-loader',
+                    'css-loader', 
+                    'sass-loader'
+                ],
+            },
+            {
+                test: /\.html$/,
+                use: ["html-loader"]
+            }
+        ]
+.......
+```
+
+- we need file-loader to handle the import of these images
+- installation : `npm install --save-dev file-loader`
+- config:
+
+```js
+..........
+{
+    test: /\.(png|svg|jpg|gif)$/,
+    use: {
+        loader: "file-loader",
+        options: {
+            name: "[name].[hash].[ext]",
+            outputPath: "imgs"  
+        }
+    }
+}
+.............
+```
+
+- Here use is an object, where we place the name of the file-loader
+- and in options we supply name format as name, hash and extension which is used to name the copy of the assets while compiling
+- output is where assests will be placed
+- Running `npm run build` we can see a img directory in dist. And there is a svg file there which is imported in the compiled version of the index
