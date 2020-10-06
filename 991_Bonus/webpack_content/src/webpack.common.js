@@ -8,7 +8,10 @@ module.exports = {
     devtool : "none",
 
     // First file to execute
-    entry: "./src/index.js",
+    entry: {
+        main : "./src/index.js",
+        vendor : "./src/vendor.js",
+    },
     plugins: [
         new HtmlWebpackPlugin(
             {

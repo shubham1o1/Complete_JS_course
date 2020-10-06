@@ -15,7 +15,7 @@ module.exports = merge(common, {
 
     output: {
         // Specify filename
-        filename: "main.[contentHash].js",
+        filename: "[name].[contentHash].bundle.js",
 
         // Specify output's folder.
         path: path.resolve(__dirname, "dist")

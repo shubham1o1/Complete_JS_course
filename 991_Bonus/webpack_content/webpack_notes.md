@@ -353,3 +353,27 @@ const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 ...
 ```
 - This cleans the dist folder 
+
+## Multiple Entrypoints & Vendor.js
+
+- We might want to separate the app code from the vendor code.
+- Bootstrap JS, Jquery and such libs and content wont change and we place them in vendor.js which will be upgradable
+- Config:
+
+```js
+
+//prod
+    output: {
+        // Specify filename
+        filename: "[name].[contentHash].bundle.js",
+```
+
+- common:
+
+```js
+
+    entry: {
+        main : "./src/index.js",
+        vendor : "./src/vendor.js",
+    },
+```

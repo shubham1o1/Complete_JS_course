@@ -13,7 +13,7 @@ module.exports = merge(common, {
 
     output: {
         // Specify filename
-        filename: "main.js",
+        filename: "[name].bundle.js",
 
         // Specify output's folder.
         path: path.resolve(__dirname, "dist")
