@@ -377,3 +377,16 @@ const {CleanWebpackPlugin} = require("clean-webpack-plugin");
         vendor : "./src/vendor.js",
     },
 ```
+
+- run `npm start` and inspect and go to source, you'll see main.bundle and vendor.bundle.
+
+### Running Bootstrap:
+
+- install popper and jquery: `npm install --save-dev jquery popper.js`
+- import bootstrap in vendor.js : `import "bootstrap";`
+- place the bootstrap code in template.html.
+- and now on `npm start` bootstap code will function normally.
+- on `npm run build` we'll see bootstrap js code in vendor.js with jquery and pooper.js
+- app code is in main.js and the css code is also there coming from import on scss. 
+
+This pattern could be followed for other libraries too. 
