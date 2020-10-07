@@ -18,4 +18,17 @@ module.exports = merge(common, {
         // Specify output's folder.
         path: path.resolve(__dirname, "dist")
     },
+
+    module:{
+        rules: [
+            {
+                test: /\.scss$/, 
+                use: [
+                    'style-loader', // 3rd inject the css into dom.
+                    'css-loader', //2nd turns css into common js
+                    'sass-loader' // 1st turns scss into css
+                ],
+            }
+        ]
+    }
 });

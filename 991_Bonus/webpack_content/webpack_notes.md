@@ -390,3 +390,32 @@ const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 - app code is in main.js and the css code is also there coming from import on scss. 
 
 This pattern could be followed for other libraries too. 
+
+## Extract CSS and Minify HTL/CSS/JS:
+
+- Right now everything is being loaded through JS.
+- In main.js there is a giant string bundle of css which is injected into dom as a style tag. 
+- Everytime the page is reloaded there is a flash of unstyle html content. 
+- This is a performance issue due to the absence of stylesheet. Since, js is inject the css. 
+- Suitable idea to have separate css file in prod, and not in dev since every change would be bundled and that is time consuming during development. 
+- One way to do this is to use the mini-css-extract-plugin. 
+- Installation : `npm install --save-dev mini-css-extract-plugin`. 
+- Config for prod:
+
+```js
+//webpack.prod.js
+    module:{
+        rules: [
+            {
+                test: /\.scss$/, 
+                use: [
+                    'MiniCssExtractPlugin.loader', //new 3rd: Extract Separate CSS file. 
+                    // 'style-loader', // 3rd inject the css into dom.
+                    'css-loader', //2nd turns css into common js
+                    'sass-loader' // 1st turns scss into css
+                ],
+            }
+        ]
+    }
+```
+- We'll use style-loader in dev but MiniCssExtractPlugin loader in  prod.
