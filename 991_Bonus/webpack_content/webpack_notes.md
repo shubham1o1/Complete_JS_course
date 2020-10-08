@@ -419,3 +419,94 @@ This pattern could be followed for other libraries too.
     }
 ```
 - We'll use style-loader in dev but MiniCssExtractPlugin loader in  prod.
+
+### Minification:
+
+- By default `MiniCssExtractPlugin` does the minification.
+- But if you just want to minify then you could use the **optimize-css-assets-webpack-plugin**
+- installation : `npm install --save-dev optimize-css-assets-webpack-plugin`
+- config(prod):
+
+```js
+....
+
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'); 
+
+...
+    optimization: {
+        minimizer : [
+            new OptimizeCssAssetsPlugin()
+        ]
+    },
+...
+
+```
+
+- Since the mode is set to prod, the js file will be minified by default minifier. But the optimize-css-.... plugin override the default minimizer. So, while running `npm run build` the main.js and other js files are no longer minified. 
+
+- TerserWebpackPlugin is used, which uses terser to minify your JavaScript.
+- installation : `npm install --save-dev terser-webpack-plugin`
+- config(prod):
+
+```js
+const TerserPlugin = require('terser-webpack-plugin');
+
+...
+    optimization: {
+        minimizer : [new OptimizeCssAssetsPlugin(), new TerserPlugin()]
+    },
+...
+```
+
+- Now on `npm run build` js files are minified.
+
+### Minifying HTML:
+
+- We can use the HtmlWebpackPlugin 
+- config(prod):
+
+```js
+...
+    optimization: {
+        minimizer : [
+            new OptimizeCssAssetsPlugin(), 
+            new TerserPlugin(),
+            new HtmlWebpackPlugin(
+                {
+                    template: './src/template.html',
+                    minify: {
+                        removeAttributeQuotes: true,
+                        collapseWhitespace: true,
+                        removeComments: true
+                    }
+                }
+            )
+        ]
+    },
+    ...
+
+```
+
+- config(dev)
+
+```js
+    plugins: [
+        new HtmlWebpackPlugin(
+            {
+                template: './src/template.html'
+            }
+        )
+    ],
+```
+
+- `npm run build` and check index.html, which is minified. 
+
+### Closing statements:
+
+- Config files dont change much
+- Get used to certain sets of loaders and plugins. 
+- Setting up is the only the headache, you wont be coding in webpack
+- There are lots of things that webpack can do. Just explore. 
+- Take a bunch of different files such as html, css, svg, js, jpg, scc and combine them and spit out into bundles, which are minified, hashed, and so on. 
+- We set different modes, dev, prod. 
+- Extract Css, minify/not, use the optimize and in the end still join the content together. 
