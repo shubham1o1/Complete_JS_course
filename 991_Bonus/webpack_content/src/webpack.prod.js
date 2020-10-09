@@ -9,14 +9,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 module.exports = merge(common, {
-    // Output is readable and not minified
+    // Output is not readable and minified
     mode:"production",
-
-    // to remove eval in output and make
-    // the code more readable:
-    devtool : "none",
-
-
 
     output: {
         // Specify filename

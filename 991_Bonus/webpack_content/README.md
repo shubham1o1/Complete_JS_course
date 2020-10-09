@@ -9,7 +9,7 @@ ref_video : https://www.youtube.com/watch?v=3On5Z0gjf4U&list=PLblA84xge2_zwxh3XJ
 
 - Import the script(js) also import all of the file's dependencies in index.js
 
-```js
+```html
   <script src="./src/app/alert.service.js"></script>
   <script src="./src/app/component.service.js"></script>
   <script src="./src/app/utils/inputs-are-valid.js"></script>
@@ -395,8 +395,8 @@ This pattern could be followed for other libraries too.
 
 - Right now everything is being loaded through JS.
 - In main.js there is a giant string bundle of css which is injected into dom as a style tag. 
-- Everytime the page is reloaded there is a flash of unstyle html content. 
-- This is a performance issue due to the absence of stylesheet. Since, js is inject the css. 
+- Everytime the page is reloaded there is a flash of unstyled html content. 
+- This is a performance issue due to the absence of stylesheet. Since, js injects the css. 
 - Suitable idea to have separate css file in prod, and not in dev since every change would be bundled and that is time consuming during development. 
 - One way to do this is to use the mini-css-extract-plugin. 
 - Installation : `npm install --save-dev mini-css-extract-plugin`. 
